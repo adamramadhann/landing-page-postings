@@ -1,0 +1,219 @@
+---
+// src/pages/[lang]/case-studies.astro
+// Page Composer - Case Studies Page
+import BaseLayout from '../../components/layouts/BaseLayout.astro';
+import { type Locale } from '../../lib/i18n-data';
+import CaseStudiesHero from '../../components/sections/CaseStudiesHero.astro';
+import CaseStudiesGrid from '../../components/sections/CaseStudiesGrid.astro';
+import ImpactStats from '../../components/sections/ImpactStats.astro';
+import ClientLogos from '../../components/sections/ClientLogos.astro';
+import CTA from '../../components/sections/CTA.astro';
+
+interface Props {
+  lang: Locale;
+}
+
+// Generate static paths
+export function getStaticPaths() {
+  return [
+    { params: { lang: 'id' } },
+    { params: { lang: 'en' } },
+  ];
+}
+
+const { lang } = Astro.params;
+const locale = lang as Locale;
+
+const contactUrl = locale === 'en' ? '/en/contact' : '/kontak';
+
+// Page Data - KEEP ONLY DATA, NO MARKUP
+const caseStudiesData = {
+  id: {
+    title: 'Studi Kasus - Posthinks Elevate',
+    description: 'Lihat bagaimana campaign kami menghasilkan impact nyata',
+    hero: {
+      badge: 'Case Studies',
+      title: 'Real Results for',
+      subtitle: 'Industry Leaders',
+      description: 'Lihat bagaimana strategi kami menghasilkan impact nyata dan measurable untuk brand-brand terkemuka di Indonesia.'
+    },
+    stats: [
+      { value: '500+', label: { id: 'Projects Completed', en: 'Projects Completed' } },
+      { value: '98%', label: { id: 'Client Satisfaction', en: 'Client Satisfaction' } },
+      { value: '150M+', label: { id: 'Reach Generated', en: 'Reach Generated' } }
+    ],
+    gridTitle: 'Studi Kasus',
+    gridSubtitle: 'Hasil nyata dari brand yang sudah kami bantu',
+    impactTitle: 'Impact by Numbers',
+    impactStats: [
+      { metric: '50M+', label: { id: 'Total Reach', en: 'Total Reach' }, description: { id: 'Semua campaign 2024', en: 'All campaigns 2024' } },
+      { metric: '320%', label: { id: 'Average ROI', en: 'Average ROI' }, description: { id: 'Lebih dari 3x investasi', en: 'More than 3x investment' } },
+      { metric: '98%', label: { id: 'Client Satisfaction', en: 'Client Satisfaction' }, description: { id: 'Klien yang continue partnership', en: 'Clients continuing partnership' } },
+      { metric: '15+', label: { id: 'Industries', en: 'Industries' }, description: { id: 'Berbagai industri yang kami layani', en: 'Various industries we serve' } },
+      { metric: '24/7', label: { id: 'Support', en: 'Support' }, description: { id: 'Tim standby untuk krisis', en: 'Team on standby for crisis' } }
+    ],
+    clientLogosTitle: 'Dipercaya oleh Industry Leaders',
+    cta: {
+      title: 'Ingin Hasil Serupa?',
+      description: 'Diskusikan kebutuhan campaign Anda dengan tim expert kami dan capai impact yang nyata.',
+      button: 'Mulai Sekarang'
+    }
+  },
+  en: {
+    title: 'Case Studies - Posthinks Elevate',
+    description: 'See how our campaigns deliver real impact',
+    hero: {
+      badge: 'Case Studies',
+      title: 'Real Results for',
+      subtitle: 'Industry Leaders',
+      description: 'See how our strategies deliver real, measurable impact for leading brands in Indonesia.'
+    },
+    stats: [
+      { value: '500+', label: { id: 'Projects Completed', en: 'Projects Completed' } },
+      { value: '98%', label: { id: 'Client Satisfaction', en: 'Client Satisfaction' } },
+      { value: '150M+', label: { id: 'Reach Generated', en: 'Reach Generated' } }
+    ],
+    gridTitle: 'Case Studies',
+    gridSubtitle: 'Real results from brands we\'ve helped',
+    impactTitle: 'Impact by Numbers',
+    impactStats: [
+      { metric: '50M+', label: { id: 'Total Reach', en: 'Total Reach' }, description: { id: 'Semua campaign 2024', en: 'All campaigns 2024' } },
+      { metric: '320%', label: { id: 'Average ROI', en: 'Average ROI' }, description: { id: 'Lebih dari 3x investasi', en: 'More than 3x investment' } },
+      { metric: '98%', label: { id: 'Client Satisfaction', en: 'Client Satisfaction' }, description: { id: 'Klien yang continue partnership', en: 'Clients continuing partnership' } },
+      { metric: '15+', label: { id: 'Industries', en: 'Industries' }, description: { id: 'Berbagai industri yang kami layani', en: 'Various industries we serve' } },
+      { metric: '24/7', label: { id: 'Support', en: 'Support' }, description: { id: 'Tim standby untuk krisis', en: 'Team on standby for crisis' } }
+    ],
+    clientLogosTitle: 'Trusted by Industry Leaders',
+    cta: {
+      title: 'Want Similar Results?',
+      description: 'Discuss your campaign needs with our expert team and achieve real impact.',
+      button: 'Get Started'
+    }
+  }
+};
+
+const data = caseStudiesData[locale];
+
+// Extended case studies data
+const caseStudies = [
+  {
+    id: 'unilever',
+    brand: 'Unilever',
+    product: 'Multi-Brand Campaign',
+    logo: 'U',
+    category: 'FMCG',
+    industry: 'FMCG',
+    year: '2024',
+    image: 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800&q=80',
+    featured: true,
+    color: 'from-blue-600 to-cyan-500',
+    tags: ['Cross-brand Activation', 'Discussion Content', 'KOL Integration'],
+    challenge: {
+      id: 'Target 20,000 comments/bulan dengan cross-brand activation antar produk Unilever',
+      en: 'Target 20,000 comments/month with cross-brand activation between Unilever products'
+    },
+    solution: {
+      id: 'Cross-brand activation antar produk, Konten pemicu perdebatan ringan, Integrasi KOL untuk reach boost',
+      en: 'Cross-brand activation between products, Discussion-triggering content, KOL integration for reach boost'
+    },
+    results: [
+      { metric: '500K+', label: { id: 'Engagement', en: 'Engagement' } },
+      { metric: '+10-15%', label: { id: 'ER Growth', en: 'ER Growth' } },
+      { metric: '3 Months', label: { id: 'Duration', en: 'Duration' } }
+    ],
+    testimonial: {
+      id: 'Strategi cross-brand dan konten diskusi dari Posthinks sangat efektif meningkatkan engagement kami.',
+      en: 'Posthinks cross-brand strategy and discussion content were very effective in increasing our engagement.'
+    }
+  },
+  {
+    id: 'suzuki',
+    brand: 'Suzuki',
+    product: 'Community Engagement',
+    logo: 'S',
+    category: 'Automotive',
+    industry: 'Automotive',
+    year: '2024',
+    image: 'https://images.unsplash.com/photo-1552519507-da3b142c6e3d?w=800&q=80',
+    featured: false,
+    color: 'from-red-600 to-orange-500',
+    tags: ['Interactive Content', 'Active Response', 'Community Collaboration'],
+    challenge: {
+      id: 'Target 10,000 comments/bulan dengan aktivasi konten interaktif',
+      en: 'Target 10,000 comments/month with interactive content activation'
+    },
+    solution: {
+      id: 'Aktivasi konten interaktif (polling/quiz), Respon aktif di kolom komentar, Kolaborasi komunitas otomotif',
+      en: 'Interactive content activation (polling/quiz), Active response in comments, Automotive community collaboration'
+    },
+    results: [
+      { metric: '300K+', label: { id: 'Reach', en: 'Reach' } },
+      { metric: '+8-12%', label: { id: 'ER Growth', en: 'ER Growth' } },
+      { metric: '2 Months', label: { id: 'Duration', en: 'Duration' } }
+    ],
+    testimonial: {
+      id: 'Respon aktif dan kolaborasi komunitas sangat membantu meningkatkan engagement Suzuki.',
+      en: 'Active responses and community collaboration greatly helped increase Suzuki engagement.'
+    }
+  },
+  {
+    id: 'bri',
+    brand: 'Bank BRI',
+    product: 'Financial Education',
+    logo: 'B',
+    category: 'Banking',
+    industry: 'Finance',
+    year: '2024',
+    image: 'https://images.unsplash.com/photo-1559526324-4b87b5e36e44?w=800&q=80',
+    featured: false,
+    color: 'from-blue-600 to-indigo-600',
+    tags: ['Financial Education', 'Moment Campaign', 'UGC Challenge'],
+    challenge: {
+      id: 'Target 5,000 comments/bulan dengan edukasi finansial format pendek',
+      en: 'Target 5,000 comments/month with short-format financial education'
+    },
+    solution: {
+      id: 'Edukasi finansial format pendek, Campaign relevan momen (Payday, gajian), UGC melalui challenge berhadiah',
+      en: 'Short-format financial education, Moment-relevant campaigns (Payday), UGC through challenge with prizes'
+    },
+    results: [
+      { metric: '150K+', label: { id: 'New Followers', en: 'New Followers' } },
+      { metric: '+5-8%', label: { id: 'ER Growth', en: 'ER Growth' } }
+    ],
+    testimonial: {
+      id: 'Pendekatan edukasi yang relevan dengan momen gajian sangat efektif untuk audience kami.',
+      en: 'Educational approach relevant to payday moments was very effective for our audience.'
+    }
+  }
+];
+
+const industries = [...new Set(caseStudies.map(cs => cs.industry))];
+const categories = [...new Set(caseStudies.map(cs => cs.category))];
+
+// Get featured case for hero
+const featuredCase = caseStudies.find(cs => cs.featured) || caseStudies[0];
+
+const clientBrands = ['Unilever', 'Suzuki', 'Bank BRI', 'Pertamina', 'Telkom', 'AIA', 'ASTRA', 'Nutriclub'];
+---
+
+<BaseLayout title={data.title} description={data.description} lang={locale}>
+  <!-- Hero Section -->
+  <CaseStudiesHero
+    locale={locale}
+    data={data.hero}
+    featuredCase={featuredCase}
+    stats={data.stats}
+  />
+
+  <!-- Case Studies Grid -->
+  <CaseStudiesGrid
+    locale={locale}
+    title={data.gridTitle}
+    subtitle={data.gridSubtitle}
+    caseStudies={caseStudies}
+    industries={industries}
+  />
+
+  <!-- CTA Section -->
+  <CTA locale={locale} cta={data.cta} contactUrl={contactUrl} />
+</BaseLayout>

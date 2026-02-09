@@ -1,0 +1,300 @@
+---
+// src/components/ui/AnimateOnScroll.astro
+// Global Animation Helper - Accessible & Performant
+// Usage: <AnimateOnScroll animation="fade-up" delay={100}>content</AnimateOnScroll>
+
+interface Props {
+  animation?: 'fade-up' | 'fade-in' | 'fade-left' | 'fade-right' | 'scale-up' | 'slide-up' | 'slide-down' | 'none';
+  delay?: number;
+  duration?: number;
+  threshold?: number;
+  once?: boolean;
+  as?: 'div' | 'section' | 'article' | 'aside';
+  class?: string;
+  id?: string;
+  [key: string]: any;
+}
+
+const {
+  animation = 'fade-up',
+  delay = 0,
+  duration = 800,
+  threshold = 0.1,
+  once = true,
+  as: Tag = 'div',
+  class: className = '',
+  id,
+  ...rest
+} = Astro.props;
+
+// Generate unique ID if not provided
+const elementId = id || `animate-${Math.random().toString(36).substr(2, 9)}`;
+
+// Animation configurations
+const animations = {
+  'fade-up': {
+    from: 'opacity-0 transform translateY(40px)',
+    to: 'opacity-1 transform translateY(0)'
+  },
+  'fade-in': {
+    from: 'opacity-0 transform scale(0.95)',
+    to: 'opacity-1 transform scale(1)'
+  },
+  'fade-left': {
+    from: 'opacity-0 transform translateX(-40px)',
+    to: 'opacity-1 transform translateX(0)'
+  },
+  'fade-right': {
+    from: 'opacity-0 transform translateX(40px)',
+    to: 'opacity-1 transform translateX(0)'
+  },
+  'scale-up': {
+    from: 'opacity-0 transform scale(0.8)',
+    to: 'opacity-1 transform scale(1)'
+  },
+  'slide-up': {
+    from: 'opacity-0 transform translateY(20px)',
+    to: 'opacity-1 transform translateY(0)'
+  },
+  'slide-down': {
+    from: 'opacity-0 transform translateY(-20px)',
+    to: 'opacity-1 transform translateY(0)'
+  },
+  'none': {
+    from: '',
+    to: ''
+  }
+};
+
+const selectedAnimation = animations[animation] || animations['fade-up'];
+---
+
+<Tag
+  id={elementId}
+  class={className}
+  data-animate={animation}
+  data-delay={delay}
+  data-duration={duration}
+  data-threshold={threshold}
+  data-once={once}
+  data-astro-transition-scope={elementId}
+  {...rest}
+>
+  <slot />
+</Tag>
+
+<!-- Accessibility & Performance Script -->
+<script>
+  // Global Animation Manager - Accessible & Performant
+  (function() {
+    'use strict';
+
+    // Check for reduced motion preference
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let animationObserver = null;
+    const animationTimings = new Map(); // Store cleanup functions
+
+    // Skip animations if user prefers reduced motion
+    function handleReducedMotion() {
+      document.querySelectorAll('[data-animate]').forEach(el => {
+        el.style.opacity = '1';
+        el.style.transform = 'none';
+        el.style.transition = 'opacity 0.3s ease';
+      });
+    }
+
+    if (prefersReducedMotion) {
+      handleReducedMotion();
+      return;
+    }
+
+    // Animation trigger function
+    function triggerAnimation(element, type, duration) {
+      const configs = {
+        'fade-up': {
+          keyframes: [
+            { opacity: 0, transform: 'translateY(40px)' },
+            { opacity: 1, transform: 'translateY(0)' }
+          ]
+        },
+        'fade-in': {
+          keyframes: [
+            { opacity: 0, transform: 'scale(0.95)' },
+            { opacity: 1, transform: 'scale(1)' }
+          ]
+        },
+        'fade-left': {
+          keyframes: [
+            { opacity: 0, transform: 'translateX(-40px)' },
+            { opacity: 1, transform: 'translateX(0)' }
+          ]
+        },
+        'fade-right': {
+          keyframes: [
+            { opacity: 0, transform: 'translateX(40px)' },
+            { opacity: 1, transform: 'translateX(0)' }
+          ]
+        },
+        'scale-up': {
+          keyframes: [
+            { opacity: 0, transform: 'scale(0.8)' },
+            { opacity: 1, transform: 'scale(1)' }
+          ]
+        },
+        'slide-up': {
+          keyframes: [
+            { opacity: 0, transform: 'translateY(20px)' },
+            { opacity: 1, transform: 'translateY(0)' }
+          ]
+        },
+        'slide-down': {
+          keyframes: [
+            { opacity: 0, transform: 'translateY(-20px)' },
+            { opacity: 1, transform: 'translateY(0)' }
+          ]
+        }
+      };
+
+      const config = configs[type] || configs['fade-up'];
+
+      // Apply animation with Web Animations API (more performant than CSS)
+      const animation = element.animate(config.keyframes, {
+        duration: duration,
+        easing: 'cubic-bezier(0.16, 1, 0.3, 1)',
+        fill: 'forwards'
+      });
+
+      // Store animation for cleanup
+      animationTimings.set(element, animation);
+    }
+
+    // Initialize animations
+    function initAnimations() {
+      // Reset any previously animated elements
+      document.querySelectorAll('[data-animate]').forEach(el => {
+        el.classList.remove('animated');
+        el.style.opacity = '';
+        el.style.transform = '';
+      });
+
+      // IntersectionObserver for scroll-triggered animations
+      const observerOptions = {
+        root: null,
+        rootMargin: '0px 0px -50px 0px', // Trigger slightly before visible
+        threshold: 0.1
+      };
+
+      animationObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          const el = entry.target;
+          const animType = el.dataset.animate;
+          const delay = parseInt(el.dataset.delay) || 0;
+          const duration = parseInt(el.dataset.duration) || 800;
+          const once = el.dataset.once === 'true';
+
+          if (entry.isIntersecting) {
+            // Trigger animation
+            requestAnimationFrame(() => {
+              setTimeout(() => {
+                triggerAnimation(el, animType, duration);
+                el.classList.add('animated');
+              }, delay);
+            });
+
+            // Unobserve if animation should only run once
+            if (once) {
+              animationObserver.unobserve(el);
+            }
+          }
+        });
+      }, observerOptions);
+
+      // Observe all animated elements
+      const animatedElements = document.querySelectorAll('[data-animate]');
+      animatedElements.forEach(el => {
+        animationObserver.observe(el);
+      });
+    }
+
+    // Run on initial load
+    initAnimations();
+
+    // Cleanup function
+    function cleanup() {
+      if (animationObserver) {
+        animationObserver.disconnect();
+      }
+      animationTimings.forEach((animation) => {
+        animation.cancel();
+      });
+      animationTimings.clear();
+    }
+
+    // Re-initialize after Astro view transitions
+    document.addEventListener('astro:after-swap', () => {
+      cleanup();
+      // Small delay to ensure DOM is ready
+      setTimeout(initAnimations, 50);
+    });
+
+    // Also listen for page load for full refreshes
+    document.addEventListener('astro:page-load', () => {
+      initAnimations();
+    });
+
+    // Cleanup on page navigation
+    window.addEventListener('beforeunload', cleanup);
+
+    // Listen for reduced motion changes
+    const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+    mediaQuery.addEventListener('change', () => {
+      if (mediaQuery.matches) {
+        handleReducedMotion();
+      } else {
+        initAnimations();
+      }
+    });
+
+  })();
+</script>
+
+<style>
+  /* Initial state - hidden */
+  [data-animate]:not(.animated) {
+    opacity: 0;
+    will-change: opacity, transform;
+  }
+
+  /* Improved performance - only animate when needed */
+  [data-animate].animating {
+    /* Animation in progress */
+  }
+
+  [data-animate].animated {
+    opacity: 1;
+    will-change: auto;
+  }
+
+  /* Reduced motion support */
+  @media (prefers-reduced-motion: reduce) {
+    [data-animate] {
+      opacity: 1 !important;
+      transform: none !important;
+      transition: opacity 0.3s ease !important;
+    }
+
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+
+  /* Focus visible for accessibility */
+  [data-animate]:focus-visible {
+    outline: 2px solid currentColor;
+    outline-offset: 2px;
+  }
+</style>

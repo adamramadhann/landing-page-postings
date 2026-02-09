@@ -1,0 +1,284 @@
+---
+import AnimateOnScroll from '../ui/AnimateOnScroll.astro';
+
+interface Props {
+  currentLang: 'id' | 'en';
+}
+
+const { currentLang: lang } = Astro.props;
+
+const contactUrl = lang === 'en' ? '/en/contact' : '/kontak';
+
+const processData = {
+  id: {
+    title: 'How We Work',
+    subtitle: 'Our proven process for delivering social media success',
+    badge: 'Our Process',
+    steps: [
+      {
+        number: '01',
+        title: 'Discovery & Research',
+        description: 'Kami mempelajari brand Anda, audiens, dan competitive landscape untuk menciptakan pondasi yang solid untuk kesuksesan.',
+        color: 'from-cyan-500 to-cyan-600',
+        features: ['Brand Analysis', 'Audience Research', 'Competitor Benchmarking', 'Goal Setting']
+      },
+      {
+        number: '02',
+        title: 'Strategy Development',
+        description: 'Berdasarkan insights, kami merancang strategi social media yang tailored dengan objectives, KPIs, dan execution roadmap yang jelas.',
+        color: 'from-cyan-600 to-teal-500',
+        features: ['Channel Selection', 'Content Pillars Definition', 'Campaign Planning', 'Resource Allocation']
+      },
+      {
+        number: '03',
+        title: 'Content Creation',
+        description: 'Tim creative kami memproduksi konten yang engaging dan align dengan brand voice Anda, serta resonates dengan audiens.',
+        color: 'from-teal-500 to-teal-600',
+        features: ['Graphic Design', 'Copywriting', 'Video Production', 'Content Scheduling']
+      },
+      {
+        number: '04',
+        title: 'Execution & Launch',
+        description: 'Kami mengeksekusi campaigns dengan precision, memantau performa secara real-time, dan mengoptimalkan untuk maximum impact.',
+        color: 'from-teal-600 to-blue-500',
+        features: ['Campaign Setup', 'Multi-Channel Posting', 'Community Engagement', 'Live Monitoring']
+      },
+      {
+        number: '05',
+        title: 'Analysis & Optimization',
+        description: 'Kami menganalisis hasil, gather insights, dan terus mengoptimalkan strategi untuk drive sustained growth.',
+        color: 'from-blue-500 to-cyan-500',
+        features: ['Performance Review', 'Data Analysis', 'Strategy Refinement', 'Scale Successful Tactics']
+      }
+    ]
+  },
+  en: {
+    title: 'How We Work',
+    subtitle: 'Our proven process for delivering social media success',
+    badge: 'Our Process',
+    steps: [
+      {
+        number: '01',
+        title: 'Discovery & Research',
+        description: 'We dive deep into understanding your brand, audience, and competitive landscape to create a solid foundation for success.',
+        color: 'from-cyan-500 to-cyan-600',
+        features: ['Brand Analysis', 'Audience Research', 'Competitor Benchmarking', 'Goal Setting']
+      },
+      {
+        number: '02',
+        title: 'Strategy Development',
+        description: 'Based on insights, we craft a tailored social media strategy with clear objectives, KPIs, and execution roadmap.',
+        color: 'from-cyan-600 to-teal-500',
+        features: ['Channel Selection', 'Content Pillars Definition', 'Campaign Planning', 'Resource Allocation']
+      },
+      {
+        number: '03',
+        title: 'Content Creation',
+        description: 'Our creative team produces engaging content that aligns with your brand voice and resonates with your audience.',
+        color: 'from-teal-500 to-teal-600',
+        features: ['Graphic Design', 'Copywriting', 'Video Production', 'Content Scheduling']
+      },
+      {
+        number: '04',
+        title: 'Execution & Launch',
+        description: 'We execute campaigns with precision, monitoring performance in real-time and optimizing for maximum impact.',
+        color: 'from-teal-600 to-blue-500',
+        features: ['Campaign Setup', 'Multi-Channel Posting', 'Community Engagement', 'Live Monitoring']
+      },
+      {
+        number: '05',
+        title: 'Analysis & Optimization',
+        description: 'We analyze results, gather insights, and continuously optimize strategies to drive sustained growth.',
+        color: 'from-blue-500 to-cyan-500',
+        features: ['Performance Review', 'Data Analysis', 'Strategy Refinement', 'Scale Successful Tactics']
+      }
+    ]
+  }
+};
+
+const data = processData[lang];
+
+// Define icons for each step - LARGER & CLEARER
+const icons = {
+  search: `<svg xmlns="http://www.w3.org/2000/svg" class="w-12 h-12" fill="none" viewBox="0 0 24 24" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="11" cy="11" r="8"></circle>
+    <path d="m21 21-4.35-4.35"></path>
+  </svg>`,
+  clipboard: `<svg xmlns="http://www.w3.org/2000/svg" class="w-12 h-12" fill="none" viewBox="0 0 24 24" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path>
+    <rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect>
+  </svg>`,
+  rocket: `<svg xmlns="http://www.w3.org/2000/svg" class="w-12 h-12" fill="none" viewBox="0 0 24 24" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"></path>
+    <path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"></path>
+    <path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"></path>
+    <path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"></path>
+  </svg>`,
+  chart: `<svg xmlns="http://www.w3.org/2000/svg" class="w-12 h-12" fill="none" viewBox="0 0 24 24" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M3 3v18h18"></path>
+    <path d="m19 9-5 5-4-4-3 3"></path>
+  </svg>`,
+  analytics: `<svg xmlns="http://www.w3.org/2000/svg" class="w-12 h-12" fill="none" viewBox="0 0 24 24" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M3 3v18h18"></path>
+    <path d="M18 17V9"></path>
+    <path d="M13 17V5"></path>
+    <path d="M8 17v-3"></path>
+  </svg>`
+};
+---
+
+<section class="relative py-20 md:py-24 lg:py-32 overflow-hidden bg-white dark:bg-gray-900">
+  <!-- Background Effects - CYAN/TEAL CONSISTENT -->
+  <div class="absolute inset-0 opacity-[0.02] pointer-events-none">
+    <div class="absolute inset-0" style="background-image: linear-gradient(#0891b2 1px, transparent 1px), linear-gradient(90deg, #0891b2 1px, transparent 1px); background-size: 50px 50px;"></div>
+  </div>
+
+  <!-- Gradient Orbs - Cyan/Teal Only -->
+  <div class="absolute top-20 right-0 w-[500px] h-[500px] bg-cyan-500/5 rounded-full blur-3xl animate-float pointer-events-none"></div>
+  <div class="absolute bottom-20 left-0 w-[400px] h-[400px] bg-teal-500/5 rounded-full blur-3xl animate-float pointer-events-none" style="animation-delay: -3s;"></div>
+
+  <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <!-- Section Header -->
+    <div class="text-center mb-24 scroll-reveal" data-delay="0">
+      <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-cyan-50 dark:bg-cyan-950/20 border border-cyan-200 dark:border-cyan-800 mb-6">
+        <span class="w-2 h-2 rounded-full bg-cyan-500 animate-pulse"></span>
+        <span class="text-sm font-semibold text-cyan-600 dark:text-cyan-400 uppercase tracking-wider">{data.badge}</span>
+      </div>
+      <h2 class="text-5xl md:text-6xl lg:text-7xl font-black text-gray-900 dark:text-white mb-6 leading-tight">
+        {data.title}
+      </h2>
+      <p class="text-xl md:text-2xl text-gray-600 dark:text-gray-400 max-w-4xl mx-auto leading-relaxed">
+        {data.subtitle}
+      </p>
+    </div>
+
+    <!-- Process Timeline -->
+    <div class="relative">
+      <!-- Connecting Line - IMPROVED: Cyan/Teal Gradient with Glow -->
+      <div class="absolute left-1/2 top-0 bottom-0 w-2 hidden lg:block -translate-x-1/2 z-0">
+        <!-- Background Line -->
+        <div class="absolute inset-0 bg-gray-200 dark:bg-gray-700 rounded-full"></div>
+
+        <!-- Animated Gradient Line -->
+        <div class="absolute inset-0 bg-gradient-to-b from-cyan-400 via-teal-500 to-blue-500 rounded-full opacity-60"></div>
+
+        <!-- Glow Effect -->
+        <div class="absolute inset-0 bg-gradient-to-b from-cyan-400 via-teal-500 to-blue-500 rounded-full blur-sm opacity-30"></div>
+      </div>
+
+      <div class="space-y-16 lg:space-y-24">
+        {data.steps.map((step, index) => (
+          <AnimateOnScroll
+            key={step.number}
+            animation={index % 2 === 0 ? "fade-left" : "fade-right"}
+            delay={index * 150}
+            duration={800}
+            class="relative"
+          >
+            <div class={`flex flex-col ${index % 2 === 0 ? 'lg:flex-row' : 'lg:flex-row-reverse'} items-center gap-8 lg:gap-16`}>
+              {/* Number Badge - IMPROVED: Better Shadow & Border */}
+              <div class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-24 h-24 lg:w-28 lg:h-28 rounded-2xl bg-gradient-to-br {step.color} flex items-center justify-center text-white font-black text-3xl lg:text-4xl shadow-2xl shadow-cyan-500/40 z-20 border-4 border-white dark:border-gray-900">
+                {step.number}
+              </div>
+
+              {/* Content Card */}
+              <div class={`flex-1 ${index % 2 === 0 ? 'lg:pr-28' : 'lg:pl-28'}`}>
+              <div class="relative bg-white dark:bg-gray-800 rounded-[2rem] p-10 lg:p-12 border-2 border-gray-200 dark:border-gray-700 shadow-xl hover:shadow-2xl hover:border-cyan-300 dark:hover:border-cyan-700 transition-all duration-300">
+                <!-- Background Gradient -->
+                <div class="absolute inset-0 bg-gradient-to-br {step.color} opacity-[0.03] rounded-[2rem] pointer-events-none"></div>
+
+                <!-- Icon Container - IMPROVED: Larger & Clearer -->
+                <div class="relative w-28 h-28 lg:w-32 lg:h-32 rounded-3xl bg-gradient-to-br {step.color} flex items-center justify-center mb-8 shadow-2xl shadow-cyan-500/30 transform hover:scale-105 transition-transform duration-300">
+                  {index === 0 && <Fragment set:html={icons.search} />}
+                  {index === 1 && <Fragment set:html={icons.clipboard} />}
+                  {index === 2 && <Fragment set:html={icons.rocket} />}
+                  {index === 3 && <Fragment set:html={icons.chart} />}
+                  {index === 4 && <Fragment set:html={icons.analytics} />}
+                </div>
+
+                <!-- Content -->
+                <h3 class="text-2xl lg:text-3xl font-bold text-gray-900 dark:text-white mb-4">
+                  {step.title}
+                </h3>
+
+                <!-- Underline -->
+                <div class="h-2 w-28 bg-gradient-to-r {step.color} rounded-full mb-6"></div>
+
+                <p class="text-gray-600 dark:text-gray-400 text-base md:text-lg leading-relaxed mb-8">
+                  {step.description}
+                </p>
+
+                <!-- Features - IMPROVED: Better Pills -->
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 md:gap-4">
+                  {step.features.map((feature) => (
+                    <div class="flex items-center gap-2 md:gap-3 px-3 py-2 sm:px-4 sm:py-3 rounded-xl bg-gradient-to-r {step.color} bg-opacity-10 border border-current opacity-20 text-xs sm:text-sm font-semibold text-gray-700 dark:text-gray-300">
+                      <span class="w-7 h-7 rounded-full bg-gradient-to-br {step.color} flex items-center justify-center flex-shrink-0 shadow-md">
+                        <svg class="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3">
+                          <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                        </svg>
+                      </span>
+                      {feature}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+              <!-- Empty Space for Centered Badge -->
+              <div class="flex-1 hidden lg:block"></div>
+            </div>
+          </AnimateOnScroll>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  @keyframes float {
+    0%, 100% {
+      transform: translateY(0px) scale(1);
+    }
+    50% {
+      transform: translateY(-20px) scale(1.05);
+    }
+  }
+
+  @keyframes line-pulse {
+    0%, 100% {
+      opacity: 0.6;
+    }
+    50% {
+      opacity: 1;
+    }
+  }
+
+  @keyframes line-glow {
+    0%, 100% {
+      box-shadow: 0 0 10px rgba(6, 182, 212, 0.3);
+    }
+    50% {
+      box-shadow: 0 0 20px rgba(6, 182, 212, 0.6), 0 0 30px rgba(20, 184, 166, 0.3);
+    }
+  }
+
+  .animate-float {
+    animation: float 6s ease-in-out infinite;
+  }
+
+  /* Connecting line animations */
+  .absolute.left-1\/2.w-2 {
+    animation: line-pulse 3s ease-in-out infinite;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+</style>
+

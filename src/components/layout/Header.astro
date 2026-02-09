@@ -1,0 +1,363 @@
+---
+// src/components/layout/Header.astro
+// Modern Navbar with Cyan/Teal Theme
+import { getTranslations, getAlternateUrl, type Locale } from '../../lib/i18n-data';
+
+interface Props {
+  currentLang: Locale;
+}
+
+const { currentLang } = Astro.props;
+
+// Load translations
+const t = await getTranslations(currentLang);
+
+// Build navigation links with correct paths
+const navLinks = [
+  { href: currentLang === 'id' ? '/' : '/en', label: t.nav.home },
+  { href: currentLang === 'id' ? '/solutions' : '/en/solutions', label: t.nav.solutions },
+  { href: currentLang === 'id' ? '/community' : '/en/community', label: t.nav.community },
+  { href: currentLang === 'id' ? '/case-studies' : '/en/case-studies', label: t.nav.caseStudies },
+  { href: currentLang === 'id' ? '/contact' : '/en/contact', label: t.nav.contact },
+];
+
+// Language switcher URLs
+const currentPath = Astro.url.pathname;
+const idUrl = getAlternateUrl(currentPath, 'id');
+const enUrl = getAlternateUrl(currentPath, 'en');
+const contactUrl = currentLang === 'id' ? '/contact' : '/en/contact';
+
+// Determine active link
+const getIsActive = (href: string) => {
+  const pathWithoutLocale = currentPath.replace(/^\/(en|id)/, '') || '/';
+  const hrefWithoutLocale = href.replace(/^\/(en|id)/, '') || '/';
+  return pathWithoutLocale === hrefWithoutLocale;
+};
+---
+
+<!-- Header dengan Cyan/Teal Theme -->
+<header id="navbar" class="sticky top-0 z-50 w-full border-b border-cyan-100/50 dark:border-cyan-900/30 bg-white/80 dark:bg-gray-900/80 backdrop-blur-xl supports-[backdrop-filter]:bg-white/60 dark:supports-[backdrop-filter]:bg-gray-900/60 transition-all duration-300">
+  <nav class="container mx-auto px-4 sm:px-6 lg:px-8" aria-label="Main navigation">
+    <div class="flex h-20 items-center justify-between">
+      <!-- Logo -->
+      <a href={currentLang === 'id' ? '/' : '/en'} class="flex items-center space-x-3 group">
+        <!-- Logo Container with Gradient -->
+        <div class="relative w-10 h-10 rounded-xl bg-gradient-to-br from-cyan-500 to-teal-500 flex items-center justify-center shadow-lg transform group-hover:scale-110 transition-transform duration-300">
+          <svg
+            class="h-6 w-6 text-white"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path d="M12 2L2 7l10 5 10-5-10-5z" />
+            <path d="M2 17l10 5 10-5" />
+            <path d="M2 12l10 5 10-5" />
+          </svg>
+
+          <!-- Glow Effect on Hover -->
+          <div class="absolute inset-0 rounded-xl bg-gradient-to-br from-cyan-500 to-teal-500 opacity-0 group-hover:opacity-50 blur-lg transition-opacity duration-300"></div>
+        </div>
+
+        <span class="font-bold text-xl text-gray-900 dark:text-white group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-cyan-500 group-hover:to-teal-500 transition-all duration-300">
+          {t.common.siteName}
+        </span>
+      </a>
+
+      <!-- Desktop Navigation -->
+      <div class="hidden md:flex md:items-center md:space-x-1">
+        {
+          navLinks.map((link) => {
+            const isActive = getIsActive(link.href);
+            return (
+              <a
+                href={link.href}
+                class={`relative px-4 py-2 text-sm font-medium rounded-lg transition-all duration-300
+                  ${isActive
+                    ? 'text-cyan-600 dark:text-cyan-400 bg-cyan-50 dark:bg-cyan-950/30'
+                    : 'text-gray-600 dark:text-gray-300 hover:text-cyan-600 dark:hover:text-cyan-400 hover:bg-cyan-50 dark:hover:bg-cyan-950/30'
+                  }
+                  animate-fade-in`}
+                style={`animation-delay: ${navLinks.indexOf(link) * 50}ms`}
+                aria-current={isActive ? 'page' : undefined}
+              >
+                {link.label}
+
+                <!-- Active Indicator -->
+                {isActive && (
+                  <span class="absolute bottom-1 left-1/2 transform -translate-x-1/2 w-8 h-0.5 bg-gradient-to-r from-cyan-500 to-teal-500 rounded-full"></span>
+                )}
+              </a>
+            );
+          })
+        }
+
+        <!-- Language Switcher -->
+        <div class="flex items-center space-x-1 border-l border-gray-300 dark:border-gray-700 pl-6 ml-2">
+          <a
+            href={idUrl}
+            class={`relative px-3 py-1.5 text-sm font-semibold rounded-lg transition-all duration-300 flex items-center gap-1.5
+              ${currentLang === 'id'
+                ? 'bg-gradient-to-r from-cyan-500 to-teal-500 text-white shadow-md shadow-cyan-500/20'
+                : 'text-gray-600 dark:text-gray-400 hover:text-cyan-600 dark:hover:text-cyan-400 hover:bg-cyan-50 dark:hover:bg-cyan-950/30'
+              }`}
+            aria-label="Switch to Indonesian"
+            title="Bahasa Indonesia"
+          >
+            <span class="text-base">🇮🇩</span>
+            <span>ID</span>
+          </a>
+          <a
+            href={enUrl}
+            class={`relative px-3 py-1.5 text-sm font-semibold rounded-lg transition-all duration-300 flex items-center gap-1.5
+              ${currentLang === 'en'
+                ? 'bg-gradient-to-r from-cyan-500 to-teal-500 text-white shadow-md shadow-cyan-500/20'
+                : 'text-gray-600 dark:text-gray-400 hover:text-cyan-600 dark:hover:text-cyan-400 hover:bg-cyan-50 dark:hover:bg-cyan-950/30'
+              }`}
+            aria-label="Switch to English"
+            title="English"
+          >
+            <span class="text-base">🇬🇧</span>
+            <span>EN</span>
+          </a>
+        </div>
+
+        <!-- CTA Button -->
+        <a
+          href={contactUrl}
+          class="group relative inline-flex items-center justify-center rounded-xl
+                 px-6 py-2.5 text-sm font-bold
+                 bg-gradient-to-r from-cyan-500 via-teal-500 to-blue-500
+                 text-white shadow-lg shadow-cyan-500/25
+                 transition-all duration-300
+                 hover:shadow-xl hover:shadow-cyan-500/40 hover:scale-105
+                 overflow-hidden
+                 animate-fade-in ml-4"
+          style="animation-delay: 250ms"
+        >
+          <!-- Background Animation on Hover -->
+          <div class="absolute inset-0 bg-gradient-to-r from-cyan-600 via-teal-600 to-blue-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+
+          <!-- Shimmer Effect -->
+          <div class="absolute inset-0 -translate-x-full group-hover:animate-shimmer bg-gradient-to-r from-transparent via-white/20 to-transparent"></div>
+
+          <span class="relative z-10 flex items-center gap-2">
+            {t.nav.consultation}
+            <svg class="w-4 h-4 transform group-hover:translate-x-0.5 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+            </svg>
+          </span>
+        </a>
+      </div>
+
+      <!-- Mobile Menu Button -->
+      <button
+        class="md:hidden inline-flex items-center justify-center rounded-xl p-2.5
+               text-gray-600 dark:text-gray-300
+               bg-gray-100 dark:bg-gray-800
+               hover:bg-cyan-50 dark:hover:bg-cyan-950/30
+               hover:text-cyan-600 dark:hover:text-cyan-400
+               transition-all duration-300
+               focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-500 focus-visible:ring-offset-2
+        aria-expanded="false"
+        aria-label="Toggle menu"
+        id="mobile-menu-button"
+      >
+        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+        </svg>
+      </button>
+    </div>
+
+    <!-- Mobile Navigation -->
+    <div
+      class="md:hidden hidden"
+      id="mobile-menu"
+      role="menu"
+      aria-orientation="vertical"
+      aria-labelledby="mobile-menu-button"
+    >
+      <div class="space-y-2 pb-6 pt-4">
+        {
+          navLinks.map((link) => {
+            const isActive = getIsActive(link.href);
+            return (
+              <a
+                href={link.href}
+                class={`block rounded-xl px-4 py-3 text-base font-medium transition-all duration-300
+                  ${isActive
+                    ? 'text-cyan-600 dark:text-cyan-400 bg-gradient-to-r from-cyan-50 to-teal-50 dark:from-cyan-950/30 dark:to-teal-950/30 border-cyan-200 dark:border-cyan-800'
+                    : 'text-gray-700 dark:text-gray-300 bg-gray-50/50 dark:bg-gray-800/50 hover:bg-gradient-to-r hover:from-cyan-50 hover:to-teal-50 dark:hover:from-cyan-950/30 dark:hover:to-teal-950/30 hover:text-cyan-600 dark:hover:text-cyan-400 border border-transparent hover:border-cyan-200 dark:hover:border-cyan-800'
+                  }
+                  role="menuitem`}
+                aria-current={isActive ? 'page' : undefined}
+              >
+                <div class="flex items-center justify-between">
+                  <span>{link.label}</span>
+                  {isActive && (
+                    <svg class="w-5 h-5 text-cyan-500" fill="currentColor" viewBox="0 0 20 20">
+                      <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                    </svg>
+                  )}
+                </div>
+              </a>
+            );
+          })
+        }
+
+        <!-- Mobile Language Switcher -->
+        <div class="flex items-center space-x-3 border-t border-gray-200 dark:border-gray-700 px-4 pt-6 mt-4">
+          <a
+            href={idUrl}
+            class={`flex-1 flex items-center justify-center gap-2 px-4 py-3 rounded-xl text-base font-semibold transition-all duration-300
+              ${currentLang === 'id'
+                ? 'bg-gradient-to-r from-cyan-500 to-teal-500 text-white shadow-md'
+                : 'text-gray-600 dark:text-gray-400 hover:bg-cyan-50 dark:hover:bg-cyan-950/30'
+              }`}
+            aria-label="Switch to Indonesian"
+          >
+            <span class="text-lg">🇮🇩</span>
+            <span>Bahasa Indonesia</span>
+          </a>
+          <a
+            href={enUrl}
+            class={`flex-1 flex items-center justify-center gap-2 px-4 py-3 rounded-xl text-base font-semibold transition-all duration-300
+              ${currentLang === 'en'
+                ? 'bg-gradient-to-r from-cyan-500 to-teal-500 text-white shadow-md'
+                : 'text-gray-600 dark:text-gray-400 hover:bg-cyan-50 dark:hover:bg-cyan-950/30'
+              }`}
+            aria-label="Switch to English"
+          >
+            <span class="text-lg">🇬🇧</span>
+            <span>English</span>
+          </a>
+        </div>
+
+        <!-- Mobile CTA -->
+        <div class="px-4 mt-4">
+          <a
+            href={contactUrl}
+            class="group relative w-full inline-flex items-center justify-center rounded-xl
+                   px-6 py-3 text-base font-bold
+                   bg-gradient-to-r from-cyan-500 via-teal-500 to-blue-500
+                   text-white shadow-lg shadow-cyan-500/25
+                   transition-all duration-300
+                   hover:shadow-xl hover:scale-105
+                   overflow-hidden"
+          >
+            <div class="absolute inset-0 bg-gradient-to-r from-cyan-600 via-teal-600 to-blue-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+
+            <span class="relative z-10 flex items-center justify-center gap-2">
+              {t.nav.consultation}
+              <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+              </svg>
+            </span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </nav>
+</header>
+
+<style>
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .animate-fade-in {
+    animation: fade-in 0.5s ease-out forwards;
+    opacity: 0;
+  }
+
+  @keyframes shimmer {
+    100% {
+      transform: translateX(100%);
+    }
+  }
+
+  .animate-shimmer {
+    animation: shimmer 2s infinite;
+  }
+
+  /* Scroll Effect - Add shadow when scrolled */
+  #navbar.scrolled {
+    box-shadow: 0 4px 20px rgba(6, 182, 212, 0.1);
+  }
+</style>
+
+<!-- Enhanced Mobile Menu Toggle Script with Scroll Effect -->
+<script>
+  // Mobile menu toggle
+  const mobileMenuButton = document.getElementById('mobile-menu-button');
+  const mobileMenu = document.getElementById('mobile-menu');
+  const navbar = document.getElementById('navbar');
+
+  mobileMenuButton?.addEventListener('click', () => {
+    const isExpanded = mobileMenuButton?.getAttribute('aria-expanded') === 'true';
+    mobileMenuButton?.setAttribute('aria-expanded', String(!isExpanded));
+    mobileMenu?.classList.toggle('hidden');
+
+    // Animate hamburger to X
+    const svg = mobileMenuButton?.querySelector('svg');
+    if (svg && !isExpanded) {
+      svg.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />';
+    } else {
+      svg.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />';
+    }
+  });
+
+  // Add scroll effect to navbar
+  let lastScroll = 0;
+  window.addEventListener('scroll', () => {
+    const currentScroll = window.pageYOffset;
+
+    if (currentScroll > 50) {
+      navbar?.classList.add('scrolled');
+    } else {
+      navbar?.classList.remove('scrolled');
+    }
+
+    lastScroll = currentScroll;
+  });
+
+  // Close mobile menu when clicking outside
+  document.addEventListener('click', (e) => {
+    if (!mobileMenuButton?.contains(e.target) && !mobileMenu?.contains(e.target)) {
+      const isExpanded = mobileMenuButton?.getAttribute('aria-expanded') === 'true';
+      if (isExpanded) {
+        mobileMenuButton?.setAttribute('aria-expanded', 'false');
+        mobileMenu?.classList.add('hidden');
+
+        // Reset hamburger icon
+        const svg = mobileMenuButton?.querySelector('svg');
+        if (svg) {
+          svg.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />';
+        }
+      }
+    }
+  });
+
+  // Close mobile menu on window resize
+  window.addEventListener('resize', () => {
+    if (window.innerWidth >= 768) {
+      mobileMenu?.classList.add('hidden');
+      mobileMenuButton?.setAttribute('aria-expanded', 'false');
+
+      // Reset hamburger icon
+      const svg = mobileMenuButton?.querySelector('svg');
+      if (svg) {
+        svg.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />';
+      }
+    }
+  });
+</script>

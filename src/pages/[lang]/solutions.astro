@@ -1,0 +1,522 @@
+---
+// src/pages/[lang]/solutions.astro
+// Page Composer - Solutions Page
+import BaseLayout from '../../components/layouts/BaseLayout.astro';
+import { type Locale } from '../../lib/i18n-data';
+import Hero from '../../components/sections/Hero.astro';
+import Solutions from '../../components/sections/Solutions.astro';
+import Industries from '../../components/sections/Industries.astro';
+import Pricing from '../../components/sections/Pricing.astro';
+import FAQ from '../../components/sections/FAQ.astro';
+import CTA from '../../components/sections/CTA.astro';
+
+interface Props {
+  lang: Locale;
+}
+
+// Generate static paths
+export function getStaticPaths() {
+  return [
+    { params: { lang: 'id' } },
+    { params: { lang: 'en' } },
+  ];
+}
+
+const { lang } = Astro.params;
+const locale = lang as Locale;
+
+// Image URLs from Unsplash
+const images = {
+  buzz: 'https://images.unsplash.com/photo-1611162617474-5b21e879e113?w=1200&q=80',
+  media: 'https://images.unsplash.com/photo-1497366216548-37526070297c?w=1200&q=80',
+  seo: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=1200&q=80',
+  viral: 'https://images.unsplash.com/photo-1611162616305-c69b3fa7fbe0?w=1200&q=80',
+  tech: 'https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=1200&q=80',
+  ecommerce: 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=1200&q=80',
+  fmcg: 'https://images.unsplash.com/photo-1556740758-90de374c12ad?w=1200&q=80',
+  healthcare: 'https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=1200&q=80',
+  finance: 'https://images.unsplash.com/photo-1559526324-4b87b5e36e44?w=1200&q=80',
+  entertainment: 'https://images.unsplash.com/photo-1478720568477-152d9b164e26?w=1200&q=80'
+};
+
+// Page Data - KEEP ONLY DATA, NO MARKUP
+const solusiData = {
+  id: {
+    title: 'Solusi Digital - Posthinks Elevate',
+    description: 'Solusi digital 360° untuk dominasi pasar dan pertumbuhan bisnis yang berkelanjutan',
+    hero: {
+      badge: 'Solusi Komprehensif',
+      title: 'Solusi Digital 360° untuk Dominasi Pasar',
+      subtitle: 'Dari Buzz Marketing hingga SEO Technical, kami menyediakan semua yang Anda need untuk win di digital landscape.',
+      cta: 'Konsultasi Gratis'
+    },
+    solutions: [
+      {
+        id: 'buzz-marketing',
+        title: 'Buzz Marketing & Influencer',
+        subtitle: 'Gerakkan 100.000+ Talent untuk Memicu Diskusi Organik',
+        description: 'First Hand Buzzer - Menggerakkan lebih dari 100.000 talent pilihan untuk memicu diskusi organik yang membangun opini publik dan brand awareness.',
+        features: [
+          '100K+ Active Talents',
+          'Tier System: Micro, Macro, Mega Influencers',
+          'Real-time Buzz Monitoring',
+          'Sentiment Analysis & Management',
+          'Viral Content Strategy',
+          'KOL & Celebrity Management'
+        ],
+        benefits: [
+          { label: 'Brand Awareness', value: '85%', color: 'from-purple-500 to-pink-500' },
+          { label: 'Engagement Rate', value: '12x', color: 'from-pink-500 to-rose-500' },
+          { label: 'Conversation Volume', value: '500%', color: 'from-rose-500 to-red-500' }
+        ],
+        icon: '💬',
+        color: 'from-purple-500 via-pink-500 to-violet-600',
+        bgImage: images.buzz
+      },
+      {
+        id: 'media-relations',
+        title: 'Media Relations & PR',
+        subtitle: 'Akses 10.000+ Jaringan Media Nasional dan Lokal',
+        description: 'National Media Network - Akses ke 10.000+ jaringan media nasional dan lokal untuk kredibilitas dan jangkauan luas di seluruh Indonesia.',
+        features: [
+          '10K+ Media Outlets Coverage',
+          'Press Release Distribution',
+          'Media Monitoring & Analytics',
+          'Crisis Communication',
+          'Editorial Coverage',
+          'Media Event Management'
+        ],
+        benefits: [
+          { label: 'Media Coverage', value: '92%', color: 'from-blue-500 to-cyan-500' },
+          { label: 'Brand Credibility', value: '78%', color: 'from-cyan-500 to-teal-500' },
+          { label: 'Reach Expansion', value: '10K+', color: 'from-teal-500 to-emerald-500' }
+        ],
+        icon: '📡',
+        color: 'from-blue-500 via-cyan-400 to-teal-500',
+        bgImage: images.media
+      },
+      {
+        id: 'seo-performance',
+        title: 'SEO & Performance Marketing',
+        subtitle: 'Top 3 Search Authority dengan Technical SEO & CRO',
+        description: 'High Impact SEO - Strategi Technical SEO dan CRO untuk menempatkan brand di Top 3 hasil pencarian dan mengubah trafik menjadi konversi.',
+        features: [
+          'Technical SEO Audit & Optimization',
+          'Content Strategy & Optimization',
+          'Conversion Rate Optimization (CRO)',
+          'Analytics & Performance Tracking',
+          'Local & Global SEO',
+          'E-commerce SEO'
+        ],
+        benefits: [
+          { label: 'Search Ranking', value: 'Top 3', color: 'from-emerald-400 to-green-400' },
+          { label: 'Organic Traffic', value: '340%', color: 'from-green-400 to-teal-500' },
+          { label: 'Conversion Rate', value: '156%', color: 'from-teal-500 to-cyan-500' }
+        ],
+        icon: '🚀',
+        color: 'from-emerald-400 via-green-400 to-teal-500',
+        bgImage: images.seo
+      },
+      {
+        id: 'viral-content',
+        title: 'Viral Content Strategy',
+        subtitle: '500+ Akun Clipper untuk Video Singkat Viral',
+        description: 'Viral Clipper Strategy - 500+ akun clipper profesional yang ahli dalam algoritma video singkat untuk memastikan konten viral secara organik.',
+        features: [
+          '500+ Specialized Clipper Accounts',
+          'TikTok, Reels, Shorts Optimization',
+          'Viral Trend Analysis',
+          'Content Repurposing Strategy',
+          'Algorithm Optimization',
+          'Performance Analytics'
+        ],
+        benefits: [
+          { label: 'Viral Rate', value: '67%', color: 'from-rose-500 to-orange-500' },
+          { label: 'Video Views', value: '50M+', color: 'from-orange-500 to-amber-500' },
+          { label: 'Engagement', value: '8.5%', color: 'from-amber-500 to-yellow-500' }
+        ],
+        icon: '🎬',
+        color: 'from-rose-500 via-orange-400 to-red-500',
+        bgImage: images.viral
+      }
+    ],
+    industries: {
+      title: 'Industries Kami Layani',
+      subtitle: 'Berpengalaman across berbagai sektor industri',
+      items: [
+        {
+          name: 'Tech & SaaS',
+          icon: '💻',
+          image: images.tech,
+          color: 'from-blue-500 to-cyan-500',
+          benefits: ['User Acquisition', 'Product Launches', 'Thought Leadership']
+        },
+        {
+          name: 'E-commerce',
+          icon: '🛒',
+          image: images.ecommerce,
+          color: 'from-orange-500 to-red-500',
+          benefits: ['Sales Campaigns', 'Flash Sale Hype', 'Customer Engagement']
+        },
+        {
+          name: 'FMCG',
+          icon: '📦',
+          image: images.fmcg,
+          color: 'from-green-500 to-emerald-500',
+          benefits: ['Brand Awareness', 'Product Launches', 'Regional Expansion']
+        },
+        {
+          name: 'Healthcare',
+          icon: '🏥',
+          image: images.healthcare,
+          color: 'from-rose-500 to-pink-500',
+          benefits: ['Patient Education', 'Trust Building', 'Service Promotion']
+        },
+        {
+          name: 'Finance',
+          icon: '💰',
+          image: images.finance,
+          color: 'from-violet-500 to-purple-500',
+          benefits: ['Brand Credibility', 'Lead Generation', 'Thought Leadership']
+        },
+        {
+          name: 'Entertainment',
+          icon: '🎬',
+          image: images.entertainment,
+          color: 'from-yellow-500 to-orange-500',
+          benefits: ['Viral Campaigns', 'Audience Engagement', 'Trend Riding']
+        }
+      ]
+    },
+    pricing: {
+      title: 'Paket Solusi',
+      subtitle: 'Pilih paket yang sesuai dengan kebutuhan bisnis Anda',
+      tiers: [
+        {
+          name: 'Starter',
+          description: 'Untuk bisnis yang baru mulai di digital',
+          price: 'Custom',
+          features: [
+            'Basic Buzz Marketing',
+            'Local Media Coverage (1K+ outlets)',
+            'SEO Audit & Basic Optimization',
+            'Monthly Performance Report',
+            'Email Support'
+          ],
+          cta: 'Diskusi Starter',
+          popular: false
+        },
+        {
+          name: 'Growth',
+          description: 'Untuk bisnis yang siap scale up',
+          price: 'Custom',
+          features: [
+            'Full Buzz Marketing Campaign',
+            'National Media Coverage (5K+ outlets)',
+            'Advanced SEO & Content Strategy',
+            'Viral Content Strategy (100+ clippers)',
+            'Bi-weekly Strategy Calls',
+            'Priority Support',
+            'Quarterly Review'
+          ],
+          cta: 'Diskusi Growth',
+          popular: true
+        },
+        {
+          name: 'Enterprise',
+          description: 'Untuk large-scale campaigns',
+          price: 'Custom',
+          features: [
+            'All Growth Features',
+            'Full 100K+ Talent Network',
+            'Full 10K+ Media Network',
+            'Dedicated Account Manager',
+            'Custom Strategy Development',
+            'Real-time Analytics Dashboard',
+            'Crisis Management',
+            'Unlimited Support'
+          ],
+          cta: 'Diskusi Enterprise',
+          popular: false
+        }
+      ]
+    },
+    faq: {
+      title: 'Pertanyaan Umum',
+      items: [
+        {
+          q: 'Berapa lama waktu yang dibutuhkan untuk melihat hasil?',
+          a: 'Tergantung pada campaign objectives. Untuk Buzz Marketing, biasanya terlihat dalam 1-2 minggu. Untuk SEO, biasanya 3-6 bulan untuk significant results.'
+        },
+        {
+          q: 'Apakah ada minimum commitment period?',
+          a: 'Kami fleksibel. Untuk campaign tertentu seperti SEO, kami recommend minimal 3-6 bulan untuk optimal results. Untuk Buzz Marketing, bisa project-based.'
+        },
+        {
+          q: 'Bagaimana cara mengukur success?',
+          a: 'Kami menggunakan comprehensive analytics dashboard yang tracks KPIs sesuai objectives Anda: brand awareness, engagement, conversions, revenue impact, dll.'
+        },
+        {
+          q: 'Apakah Anda bekerja dengan startups?',
+          a: 'Ya! Kami memiliki specialized packages untuk startups dan SMEs. Fokus kami adalah helping you scale dengan budget-efficient strategies.'
+        }
+      ]
+    },
+    cta: {
+      title: 'Siap untuk Dominasi Digital?',
+      description: 'Mari diskusikan bagaimana solusi kami bisa membantu bisnis Anda mencapai goals.',
+      button: 'Schedule Consultation'
+    }
+  },
+  en: {
+    title: 'Digital Solutions - Posthinks Elevate',
+    description: '360° digital solutions for market dominance and sustainable business growth',
+    hero: {
+      badge: 'Comprehensive Solutions',
+      title: '360° Digital Solutions for Market Dominance',
+      subtitle: 'From Buzz Marketing to Technical SEO, we provide everything you need to win in the digital landscape.',
+      cta: 'Free Consultation'
+    },
+    solutions: [
+      {
+        id: 'buzz-marketing',
+        title: 'Buzz Marketing & Influencer',
+        subtitle: 'Mobilize 100,000+ Talents for Organic Conversations',
+        description: 'First Hand Buzzer - Mobilizing over 100,000 selected talents to spark organic discussions that build public opinion and brand awareness.',
+        features: [
+          '100K+ Active Talents',
+          'Tier System: Micro, Macro, Mega Influencers',
+          'Real-time Buzz Monitoring',
+          'Sentiment Analysis & Management',
+          'Viral Content Strategy',
+          'KOL & Celebrity Management'
+        ],
+        benefits: [
+          { label: 'Brand Awareness', value: '85%', color: 'from-purple-500 to-pink-500' },
+          { label: 'Engagement Rate', value: '12x', color: 'from-pink-500 to-rose-500' },
+          { label: 'Conversation Volume', value: '500%', color: 'from-rose-500 to-red-500' }
+        ],
+        icon: '💬',
+        color: 'from-purple-500 via-pink-500 to-violet-600',
+        bgImage: images.buzz
+      },
+      {
+        id: 'media-relations',
+        title: 'Media Relations & PR',
+        subtitle: 'Access to 10,000+ National & Local Media Networks',
+        description: 'National Media Network - Access to 10,000+ national and local media networks for credibility and nationwide reach.',
+        features: [
+          '10K+ Media Outlets Coverage',
+          'Press Release Distribution',
+          'Media Monitoring & Analytics',
+          'Crisis Communication',
+          'Editorial Coverage',
+          'Media Event Management'
+        ],
+        benefits: [
+          { label: 'Media Coverage', value: '92%', color: 'from-blue-500 to-cyan-500' },
+          { label: 'Brand Credibility', value: '78%', color: 'from-cyan-500 to-teal-500' },
+          { label: 'Reach Expansion', value: '10K+', color: 'from-teal-500 to-emerald-500' }
+        ],
+        icon: '📡',
+        color: 'from-blue-500 via-cyan-400 to-teal-500',
+        bgImage: images.media
+      },
+      {
+        id: 'seo-performance',
+        title: 'SEO & Performance Marketing',
+        subtitle: 'Top 3 Search Authority with Technical SEO & CRO',
+        description: 'High Impact SEO - Technical SEO and CRO strategies to place your brand in Top 3 search results and convert traffic into revenue.',
+        features: [
+          'Technical SEO Audit & Optimization',
+          'Content Strategy & Optimization',
+          'Conversion Rate Optimization (CRO)',
+          'Analytics & Performance Tracking',
+          'Local & Global SEO',
+          'E-commerce SEO'
+        ],
+        benefits: [
+          { label: 'Search Ranking', value: 'Top 3', color: 'from-emerald-400 to-green-400' },
+          { label: 'Organic Traffic', value: '340%', color: 'from-green-400 to-teal-500' },
+          { label: 'Conversion Rate', value: '156%', color: 'from-teal-500 to-cyan-500' }
+        ],
+        icon: '🚀',
+        color: 'from-emerald-400 via-green-400 to-teal-500',
+        bgImage: images.seo
+      },
+      {
+        id: 'viral-content',
+        title: 'Viral Content Strategy',
+        subtitle: '500+ Clipper Accounts for Viral Short Videos',
+        description: 'Viral Clipper Strategy - 500+ professional clipper accounts specialized in short video algorithms to ensure organic viral content.',
+        features: [
+          '500+ Specialized Clipper Accounts',
+          'TikTok, Reels, Shorts Optimization',
+          'Viral Trend Analysis',
+          'Content Repurposing Strategy',
+          'Algorithm Optimization',
+          'Performance Analytics'
+        ],
+        benefits: [
+          { label: 'Viral Rate', value: '67%', color: 'from-rose-500 to-orange-500' },
+          { label: 'Video Views', value: '50M+', color: 'from-orange-500 to-amber-500' },
+          { label: 'Engagement', value: '8.5%', color: 'from-amber-500 to-yellow-500' }
+        ],
+        icon: '🎬',
+        color: 'from-rose-500 via-orange-400 to-red-500',
+        bgImage: images.viral
+      }
+    ],
+    industries: {
+      title: 'Industries We Serve',
+      subtitle: 'Experienced across various industry sectors',
+      items: [
+        {
+          name: 'Tech & SaaS',
+          icon: '💻',
+          image: images.tech,
+          color: 'from-blue-500 to-cyan-500',
+          benefits: ['User Acquisition', 'Product Launches', 'Thought Leadership']
+        },
+        {
+          name: 'E-commerce',
+          icon: '🛒',
+          image: images.ecommerce,
+          color: 'from-orange-500 to-red-500',
+          benefits: ['Sales Campaigns', 'Flash Sale Hype', 'Customer Engagement']
+        },
+        {
+          name: 'FMCG',
+          icon: '📦',
+          image: images.fmcg,
+          color: 'from-green-500 to-emerald-500',
+          benefits: ['Brand Awareness', 'Product Launches', 'Regional Expansion']
+        },
+        {
+          name: 'Healthcare',
+          icon: '🏥',
+          image: images.healthcare,
+          color: 'from-rose-500 to-pink-500',
+          benefits: ['Patient Education', 'Trust Building', 'Service Promotion']
+        },
+        {
+          name: 'Finance',
+          icon: '💰',
+          image: images.finance,
+          color: 'from-violet-500 to-purple-500',
+          benefits: ['Brand Credibility', 'Lead Generation', 'Thought Leadership']
+        },
+        {
+          name: 'Entertainment',
+          icon: '🎬',
+          image: images.entertainment,
+          color: 'from-yellow-500 to-orange-500',
+          benefits: ['Viral Campaigns', 'Audience Engagement', 'Trend Riding']
+        }
+      ]
+    },
+    pricing: {
+      title: 'Solution Packages',
+      subtitle: 'Choose the package that fits your business needs',
+      tiers: [
+        {
+          name: 'Starter',
+          description: 'For businesses new to digital',
+          price: 'Custom',
+          features: [
+            'Basic Buzz Marketing',
+            'Local Media Coverage (1K+ outlets)',
+            'SEO Audit & Basic Optimization',
+            'Monthly Performance Report',
+            'Email Support'
+          ],
+          cta: 'Discuss Starter',
+          popular: false
+        },
+        {
+          name: 'Growth',
+          description: 'For businesses ready to scale',
+          price: 'Custom',
+          features: [
+            'Full Buzz Marketing Campaign',
+            'National Media Coverage (5K+ outlets)',
+            'Advanced SEO & Content Strategy',
+            'Viral Content Strategy (100+ clippers)',
+            'Bi-weekly Strategy Calls',
+            'Priority Support',
+            'Quarterly Review'
+          ],
+          cta: 'Discuss Growth',
+          popular: true
+        },
+        {
+          name: 'Enterprise',
+          description: 'For large-scale campaigns',
+          price: 'Custom',
+          features: [
+            'All Growth Features',
+            'Full 100K+ Talent Network',
+            'Full 10K+ Media Network',
+            'Dedicated Account Manager',
+            'Custom Strategy Development',
+            'Real-time Analytics Dashboard',
+            'Crisis Management',
+            'Unlimited Support'
+          ],
+          cta: 'Discuss Enterprise',
+          popular: false
+        }
+      ]
+    },
+    faq: {
+      title: 'Frequently Asked Questions',
+      items: [
+        {
+          q: 'How long does it take to see results?',
+          a: 'Depends on campaign objectives. For Buzz Marketing, typically 1-2 weeks. For SEO, usually 3-6 months for significant results.'
+        },
+        {
+          q: 'Is there a minimum commitment period?',
+          a: 'We\'re flexible. For certain campaigns like SEO, we recommend minimum 3-6 months for optimal results. For Buzz Marketing, can be project-based.'
+        },
+        {
+          q: 'How do you measure success?',
+          a: 'We use comprehensive analytics dashboard tracking KPIs based on your objectives: brand awareness, engagement, conversions, revenue impact, etc.'
+        },
+        {
+          q: 'Do you work with startups?',
+          a: 'Yes! We have specialized packages for startups and SMEs. Our focus is helping you scale with budget-efficient strategies.'
+        }
+      ]
+    },
+    cta: {
+      title: 'Ready for Digital Dominance?',
+      description: 'Let\'s discuss how our solutions can help your business achieve its goals.',
+      button: 'Schedule Consultation'
+    }
+  }
+};
+
+const data = solusiData[locale];
+const contactUrl = locale === 'en' ? '/en/contact' : '/kontak';
+---
+
+<BaseLayout title={data.title} description={data.description} lang={locale}>
+  <!-- Hero Section -->
+  <Hero locale={locale} data={data.hero} contactUrl={contactUrl} />
+
+  <!-- Solutions Section -->
+  <Solutions locale={locale} solutions={data.solutions} contactUrl={contactUrl} />
+
+  <!-- Industries Section -->
+  <Industries locale={locale} industries={data.industries} contactUrl={contactUrl} />
+
+  <!-- Pricing Section -->
+  <Pricing locale={locale} pricing={data.pricing} contactUrl={contactUrl} />
+
+  <!-- FAQ Section -->
+  <FAQ locale={locale} faq={data.faq} />
+
+  <!-- CTA Section -->
+  <CTA locale={locale} cta={data.cta} contactUrl={contactUrl} />
+</BaseLayout>

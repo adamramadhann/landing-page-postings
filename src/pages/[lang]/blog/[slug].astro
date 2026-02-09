@@ -1,0 +1,308 @@
+---
+// src/pages/[lang]/blog/[...slug].astro
+// Dynamic blog detail page dengan Astro 5 Content Layer API
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../../components/layouts/BaseLayout.astro';
+import BlogMeta from '../../../components/blog/BlogMeta.astro';
+import { SITE } from '../../../lib/utils';
+import { formatDate, calculateReadingTime, slugify } from '../../../lib/utils';
+import { getRelatedPosts } from '../../../lib/blog';
+import type { Locale } from '../../../lib/i18n-data';
+
+interface Props {
+  lang: Locale;
+}
+
+export async function getStaticPaths({ paginate }) {
+  const allPosts = await getCollection('blog');
+
+  // Group posts by language
+  const postsByLang = {
+    id: allPosts.filter(post => post.data.lang === 'id'),
+    en: allPosts.filter(post => post.data.lang === 'en'),
+  };
+
+  // Generate paths for each language
+  const paths = [];
+
+  for (const [lang, posts] of Object.entries(postsByLang)) {
+    for (const post of posts) {
+      // Skip draft posts
+      if (post.data.draft) continue;
+
+      paths.push({
+        params: {
+          lang: lang as Locale,
+          slug: post.slug,
+        },
+        props: {
+          lang: lang as Locale,
+          post,
+        },
+      });
+    }
+  }
+
+  return paths;
+}
+
+const { lang, post } = Astro.props;
+
+// Get related posts
+const relatedPosts = await getRelatedPosts(post, 3);
+
+// SEO
+const title = post.data.seoTitle || post.data.title;
+const description = post.data.seoDescription || post.data.description;
+const image = post.data.heroImage?.src || SITE.ogImage;
+const canonicalUrl = new URL(
+  `${lang === 'en' ? '/en' : ''}/blog/${post.slug}`,
+  SITE.url
+);
+
+// Reading time
+const content = post.render()?.template || '';
+const readTime = calculateReadingTime(content, lang);
+
+// Structured data for SEO
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'BlogPosting',
+  headline: post.data.title,
+  description: post.data.description,
+  image: image,
+  datePublished: post.data.pubDate.toISOString(),
+  dateModified: post.data.pubDate.toISOString(),
+  author: {
+    '@type': 'Person',
+    name: post.data.author || SITE.author,
+  },
+  publisher: {
+    '@type': 'Organization',
+    name: SITE.name,
+    url: SITE.url,
+  },
+  mainEntityOfPage: {
+    '@type': 'WebPage',
+    '@id': canonicalUrl.toString(),
+  },
+};
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  image={image}
+  lang={lang}
+>
+  <!-- Structured Data -->
+  <script set:html={JSON.stringify(structuredData)} type="application/ld+json" />
+
+  <!-- Breadcrumb Navigation -->
+  <nav class="container mx-auto px-4 py-4" aria-label="Breadcrumb">
+    <ol class="flex items-center space-x-2 text-sm text-muted-foreground">
+      <li>
+        <a
+          href={lang === 'en' ? '/en' : '/'}
+          class="transition-colors hover:text-primary"
+        >
+          {lang === 'id' ? 'Beranda' : 'Home'}
+        </a>
+      </li>
+      <li class="text-muted-foreground">/</li>
+      <li>
+        <a
+          href={`${lang === 'en' ? '/en' : ''}/blog`}
+          class="transition-colors hover:text-primary"
+        >
+          Blog
+        </a>
+      </li>
+      <li class="text-muted-foreground">/</li>
+      <li class="text-foreground font-medium">{post.data.title}</li>
+    </ol>
+  </nav>
+
+  <!-- Article Header -->
+  <article class="container mx-auto px-4 py-8">
+    <header class="mx-auto max-w-3xl">
+      <!-- Category -->
+      {post.data.category && (
+        <a
+          href={`${lang === 'en' ? '/en' : ''}/blog?category=${slugify(post.data.category)}`}
+          class="inline-block rounded-full bg-primary/10 px-3 py-1 text-sm font-medium
+                 text-primary transition-colors hover:bg-primary/20"
+        >
+          {post.data.category}
+        </a>
+      )}
+
+      <!-- Title -->
+      <h1
+        class="mt-4 text-4xl font-bold tracking-tight sm:text-5xl
+               animate-fade-in"
+      >
+        {post.data.title}
+      </h1>
+
+      <!-- Description -->
+      {post.data.description && (
+        <p class="mt-4 text-lg text-muted-foreground animate-fade-in">
+          {post.data.description}
+        </p>
+      )}
+
+      <!-- Hero Image -->
+      {post.data.heroImage && (
+        <div class="mt-8 overflow-hidden rounded-lg animate-fade-in">
+          <img
+            src={post.data.heroImage.src}
+            alt={post.data.heroImage.alt || post.data.title}
+            class="h-auto w-full object-cover"
+            loading="eager"
+            decoding="async"
+          />
+        </div>
+      )}
+
+      <!-- Meta Information -->
+      <BlogMeta
+        author={post.data.author}
+        authorTitle={post.data.authorTitle}
+        date={post.data.pubDate}
+        readTime={readTime}
+        lang={lang}
+      />
+
+      <!-- Tags -->
+      {post.data.tags && post.data.tags.length > 0 && (
+        <div class="mt-4 flex flex-wrap gap-2">
+          {post.data.tags.map(tag => (
+            <a
+              href={`${lang === 'en' ? '/en' : ''}/blog?tag=${slugify(tag)}`}
+              class="rounded-md bg-muted px-3 py-1 text-sm transition-colors
+                     hover:bg-muted/80"
+            >
+              #{tag}
+            </a>
+          ))}
+        </div>
+      )}
+    </header>
+
+    <!-- Article Content -->
+    <div
+      class="prose prose-gray mx-auto mt-8 max-w-3xl dark:prose-invert
+             prose-headings:font-semibold prose-headings:tracking-tight
+             prose-h2:mt-8 prose-h2:text-3xl prose-h3:mt-6 prose-h3:text-2xl
+             prose-p:text-base prose-p:leading-7
+             prose-a:text-primary prose-a:no-underline hover:prose-a:underline
+             prose-strong:font-semibold prose-img:rounded-lg
+             prose-pre:rounded-lg prose-pre:bg-muted prose-pre:shadow-sm"
+      set:html={post.render().html}
+    />
+
+    <!-- Share Section -->
+    <div class="mx-auto mt-12 max-w-3xl border-t pt-8">
+      <h2 class="mb-4 text-lg font-semibold">
+        {lang === 'id' ? 'Bagikan artikel ini' : 'Share this article'}
+      </h2>
+      <div class="flex gap-4">
+        <!-- Twitter/X -->
+        <a
+          href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(post.data.title)}&url=${encodeURIComponent(canonicalUrl.toString())}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-flex items-center justify-center rounded-md bg-muted
+                 px-4 py-2 text-sm font-medium transition-colors hover:bg-muted/80"
+          aria-label="Share on Twitter"
+        >
+          <svg class="mr-2 h-4 w-4" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"/>
+          </svg>
+          Twitter
+        </a>
+
+        <!-- LinkedIn -->
+        <a
+          href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(canonicalUrl.toString())}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-flex items-center justify-center rounded-md bg-muted
+                 px-4 py-2 text-sm font-medium transition-colors hover:bg-muted/80"
+          aria-label="Share on LinkedIn"
+        >
+          <svg class="mr-2 h-4 w-4" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
+          </svg>
+          LinkedIn
+        </a>
+
+        <!-- Copy Link -->
+        <button
+          id="copy-link"
+          class="inline-flex items-center justify-center rounded-md bg-muted
+                 px-4 py-2 text-sm font-medium transition-colors hover:bg-muted/80"
+          aria-label="Copy link"
+        >
+          <svg class="mr-2 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/>
+          </svg>
+          {lang === 'id' ? 'Salin Tautan' : 'Copy Link'}
+        </button>
+      </div>
+    </div>
+
+    <!-- Related Posts -->
+    {relatedPosts.length > 0 && (
+      <div class="mx-auto mt-12 max-w-3xl border-t pt-8">
+        <h2 class="mb-6 text-2xl font-bold">
+          {lang === 'id' ? 'Postingan Terkait' : 'Related Posts'}
+        </h2>
+        <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          {
+            relatedPosts.map((relatedPost) => (
+              <a
+                href={`${lang === 'en' ? '/en' : ''}/blog/${relatedPost.slug}`}
+                class="group rounded-lg border bg-card p-4 transition-all
+                       hover:shadow-lg hover:-translate-y-1"
+              >
+                <h3 class="font-semibold transition-colors group-hover:text-primary">
+                  {relatedPost.data.title}
+                </h3>
+                <p class="mt-2 text-sm text-muted-foreground line-clamp-2">
+                  {relatedPost.data.description}
+                </p>
+                <time class="mt-3 block text-xs text-muted-foreground">
+                  {formatDate(relatedPost.data.pubDate, lang)}
+                </time>
+              </a>
+            ))
+          }
+        </div>
+      </div>
+    )}
+  </article>
+</BaseLayout>
+
+<!-- Copy Link Script -->
+<script>
+  const copyLinkBtn = document.getElementById('copy-link');
+  copyLinkBtn?.addEventListener('click', async () => {
+    try {
+      await navigator.clipboard.writeText(window.location.href);
+      const originalText = copyLinkBtn.innerHTML;
+      copyLinkBtn.innerHTML = `
+        <svg class="mr-2 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+        </svg>
+        Copied!
+      `;
+      setTimeout(() => {
+        copyLinkBtn.innerHTML = originalText;
+      }, 2000);
+    } catch (err) {
+      console.error('Failed to copy:', err);
+    }
+  });
+</script>

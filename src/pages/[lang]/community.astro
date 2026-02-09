@@ -1,0 +1,1606 @@
+---
+// src/pages/[lang]/community.astro
+import BaseLayout from '../../components/layouts/BaseLayout.astro';
+import CTA from '../../components/sections/CTA.astro';
+import { type Locale } from '../../lib/i18n-data';
+
+interface Props {
+  lang: Locale;
+}
+
+// Generate static paths
+export function getStaticPaths() {
+  return [
+    { params: { lang: 'id' } },
+    { params: { lang: 'en' } },
+  ];
+}
+
+const { lang } = Astro.params;
+const locale = lang as Locale;
+
+// Image URLs from Unsplash (AI-selected high-quality images)
+const images = {
+  hero: 'https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=1200&q=80',
+  talents: 'https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=1200&q=80',
+  media: 'https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=1200&q=80',
+  brands: 'https://images.unsplash.com/photo-1557804506-669a67965ba0?w=1200&q=80',
+  event1: 'https://images.unsplash.com/photo-1544531586-fde5298cdd40?w=1200&q=80',
+  event2: 'https://images.unsplash.com/photo-1515187029135-18ee286d815b?w=1200&q=80',
+  event3: 'https://images.unsplash.com/photo-1517486808906-6ca8b3f04846?w=1200&q=80',
+  testimonial1: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?w=1200&q=80',
+  testimonial2: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=1200&q=80',
+  testimonial3: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=1200&q=80',
+  testimonial4: 'https://images.unsplash.com/photo-1560250097-0b93528c311a?w=1200&q=80',
+  testimonial5: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=1200&q=80'
+};
+
+// Page Data
+const communityData = {
+  id: {
+    title: 'Community - Posthinks Elevate',
+    description: 'Bergabung dengan ekosistem digital terbesar dan jadilah bagian dari pergerakan industri',
+    hero: {
+      badge: 'Bergabung Bersama Kami',
+      title: 'Ekosistem Digital Terbesar di Indonesia',
+      subtitle: '100K+ Talent, 10K+ Media Partners, dan ratusan brand yang telah bergabung untuk mendominasi landscape digital Indonesia.',
+      stats: [
+        { value: '100K+', label: 'Active Talents' },
+        { value: '10K+', label: 'Media Partners' },
+        { value: '500+', label: 'Brand Partners' }
+      ],
+      cta: {
+        primary: 'Daftar sebagai Talent',
+        secondary: 'Partner dengan Kami'
+      }
+    },
+    pillars: {
+      title: 'Jadilah Bagian dari Ekosistem Kami',
+      subtitle: 'Pilih peran Anda dan mulai perjalanan digital bersama kami',
+      roles: [
+        {
+          id: 'talents',
+          title: 'Untuk Talents & Influencers',
+          subtitle: 'Monetize Influence Anda',
+          description: 'Bergabung dengan 100K+ talent community dan akses 500+ brand campaigns per tahun dengan compensation structure yang competitive.',
+          benefits: [
+            'Akses ke 500+ brand campaigns per tahun',
+            'Competitive compensation structure',
+            'Professional development & training',
+            'Networking dengan top industry players',
+            'Portfolio building opportunities',
+            'Flexible working arrangements'
+          ],
+          stats: [
+            { value: '500+', label: 'Campaigns/year' },
+            { value: '85%', label: 'Satisfaction Rate' },
+            { value: '2-5x', label: 'Income Growth' }
+          ],
+          icon: '⭐',
+          color: 'from-purple-500 via-pink-500 to-violet-600',
+          bgImage: images.talents,
+          layout: 'featured'
+        },
+        {
+          id: 'media',
+          title: 'Untuk Media Partners',
+          subtitle: 'Perluas Reach & Monetize Audience',
+          description: 'Perluas reach dan monetize audience Anda melalui partnership dengan Posthinks. Akses premium brand campaigns dan content syndication opportunities.',
+          benefits: [
+            'Akses ke premium brand campaigns',
+            'Content syndication opportunities',
+            'Revenue sharing model yang attractive',
+            'Cross-promotion dengan media partners lain',
+            'Analytics & performance dashboard',
+            'Dedicated account manager'
+          ],
+          stats: [
+            { value: '3x', label: 'Audience Growth' },
+            { value: '40%', label: 'Revenue Increase' },
+            { value: '50+', label: 'Active Partners' }
+          ],
+          icon: '📡',
+          color: 'from-blue-500 via-cyan-400 to-teal-500',
+          bgImage: images.media,
+          layout: 'split'
+        },
+        {
+          id: 'brands',
+          title: 'Untuk Brands',
+          subtitle: 'Akses Full Ecosystem Kami',
+          description: 'Akses full ecosystem kami untuk accelerate digital growth brand Anda. 100K+ vetted talents dan 10K+ media network siap membantu.',
+          benefits: [
+            'Direct access to 100K+ vetted talents',
+            'Full 10K+ media network coverage',
+            'End-to-end campaign management',
+            'Real-time analytics & reporting',
+            'Flexible engagement models',
+            'Proven ROI tracking'
+          ],
+          stats: [
+            { value: '100K+', label: 'Talent Pool' },
+            { value: '10K+', label: 'Media Network' },
+            { value: '340%', label: 'Avg ROI' }
+          ],
+          icon: '🏢',
+          color: 'from-emerald-400 via-green-400 to-teal-500',
+          bgImage: images.brands,
+          layout: 'card'
+        }
+      ]
+    },
+    featured: {
+      title: 'Spotlight Komunitas',
+      subtitle: 'Kenali member-member luar biasa dari ekosistem kami',
+      members: [
+        {
+          name: 'Sarah Wijaya',
+          role: 'Lifestyle Creator',
+          category: 'Top Influencer',
+          image: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400&q=80',
+          stats: { followers: '1.2M', campaigns: '45+', rating: '4.9' },
+          quote: 'Bergabung dengan Posthinks mengubah career saya completely. Akses ke brand campaigns dan professional support luar biasa.',
+          achievements: ['Brand Ambassador', 'Top Creator 2024', '1M+ Followers']
+        },
+        {
+          name: 'Tech Daily Indonesia',
+          role: 'Tech Media',
+          category: 'Media Partner',
+          image: 'https://images.unsplash.com/photo-1497366216548-37526070297c?w=400&q=80',
+          stats: { reach: '5M+', articles: '2K+', partners: '100+' },
+          quote: 'Partnership dengan Posthinks membantu kami monetize content dan expand reach secara signifikan.',
+          achievements: ['Best Tech Media', '5M+ Reach', 'Premium Partner']
+        },
+        {
+          name: 'Andi Pratama',
+          role: 'Buzz Creator',
+          category: 'Rising Star',
+          image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&q=80',
+          stats: { engagement: '15%', reach: '500K', campaigns: '28+' },
+          quote: 'Dari micro-influencer ke top talent dalam 1 tahun. Posthinks memberikan platform dan exposure yang tepat.',
+          achievements: ['Rising Star 2024', '500K+ Reach', '28 Campaigns']
+        }
+      ]
+    },
+    events: {
+      title: 'Events & Programs',
+      subtitle: 'Upgrade skills dan expand network melalui events eksklusif kami',
+      upcoming: [
+        {
+          title: 'Creator Bootcamp 2025',
+          date: '15-17 Februari 2025',
+          location: 'Jakarta + Online',
+          description: '3-day intensive workshop untuk content creators dengan top industry mentors.',
+          tag: 'Workshop',
+          image: images.event1,
+          spots: 50
+        },
+        {
+          title: 'Digital Marketing Summit',
+          date: '8 Maret 2025',
+          location: 'Jakarta Convention Center',
+          description: 'Annual summit dengan 50+ speakers dan networking sessions.',
+          tag: 'Conference',
+          image: images.event2,
+          spots: 200
+        },
+        {
+          title: 'Influencer Meetup: Q1',
+          date: '22 Maret 2025',
+          location: 'Jakarta',
+          description: 'Monthly networking event untuk talents dan brands.',
+          tag: 'Networking',
+          image: images.event3,
+          spots: 100
+        }
+      ]
+    },
+    testimonials: {
+      title: 'Success Stories',
+      subtitle: 'Dengarkan langsung dari member komunitas kami',
+      stories: [
+        {
+          name: 'Rina Kusuma',
+          role: 'Fashion Influencer',
+          image: images.testimonial1,
+          result: '10x Income Increase',
+          content: 'Sejak bergabung 2 tahun lalu, saya telah bekerja dengan 50+ brand dan income saya meningkat 10x. Support dari tim Posthinks sangat luar biasa.',
+          metrics: [
+            { label: 'Campaigns', value: '50+' },
+            { label: 'Income Growth', value: '10x' },
+            { label: 'Brand Partners', value: '30+' }
+          ]
+        },
+        {
+          name: 'Media Nusantara',
+          role: 'Regional Publisher',
+          image: images.testimonial2,
+          result: '3x Audience Reach',
+          content: 'Partnership dengan Posthinks membuka doors ke new revenue streams. Kami sekarang reach 3x lebih banyak audience dengan content yang sama.',
+          metrics: [
+            { label: 'Reach Growth', value: '3x' },
+            { label: 'Revenue', value: '40%' },
+            { label: 'Brand Deals', value: '25+' }
+          ]
+        },
+        {
+          name: 'Dian Sastro',
+          role: 'Micro Creator',
+          image: images.testimonial3,
+          result: 'Full-time Creator',
+          content: 'Starting sebagai nobody di industry ini, Posthinks membantu saya build portfolio dan sekarang saya sudah full-time creator dengan sustainable income.',
+          metrics: [
+            { label: 'Followers', value: '100K+' },
+            { label: 'Engagement', value: '12%' },
+            { label: 'Monthly Income', value: '$5K+' }
+          ]
+        },
+        {
+          name: 'Budi Santoso',
+          role: 'Tech Reviewer',
+          image: images.testimonial4,
+          result: '500K Subscribers',
+          content: 'Dengan dukungan Posthinks, channel YouTube saya tumbuh dari 10K ke 500K subscribers dalam 18 bulan. Campaign management yang mereka berikan sangat professional.',
+          metrics: [
+            { label: 'Subscribers', value: '500K' },
+            { label: 'Growth', value: '4900%' },
+            { label: 'Brand Deals', value: '60+' }
+          ]
+        },
+        {
+          name: 'Citra Dewi',
+          role: 'Lifestyle Blogger',
+          image: images.testimonial5,
+          result: 'Brand Ambassador',
+          content: 'Posthinks tidak hanya memberikan campaigns tapi juga membantu saya personal branding. Sekarang saya menjadi brand ambassador untuk 5 major brands.',
+          metrics: [
+            { label: 'Ambassador', value: '5' },
+            { label: 'Engagement', value: '18%' },
+            { label: 'Monthly Income', value: '$8K+' }
+          ]
+        }
+      ]
+    },
+    cta: {
+      title: 'Siap Bergabung dengan Komunitas Kami?',
+      subtitle: 'Pilih peran Anda dan mulai perjalanan digital Anda hari ini',
+      primary: 'Daftar Sekarang',
+      secondary: 'Pelajari Lebih Lanjut'
+    }
+  },
+  en: {
+    title: 'Community - Posthinks Elevate',
+    description: 'Join the largest digital ecosystem and be part of the industry movement',
+    hero: {
+      badge: 'Join Us Today',
+      title: 'Indonesia\'s Largest Digital Ecosystem',
+      subtitle: '100K+ Talents, 10K+ Media Partners, and hundreds of brands that have joined to dominate Indonesia\'s digital landscape.',
+      stats: [
+        { value: '100K+', label: 'Active Talents' },
+        { value: '10K+', label: 'Media Partners' },
+        { value: '500+', label: 'Brand Partners' }
+      ],
+      cta: {
+        primary: 'Join as Talent',
+        secondary: 'Partner with Us'
+      }
+    },
+    pillars: {
+      title: 'Be Part of Our Ecosystem',
+      subtitle: 'Choose your role and start your digital journey with us',
+      roles: [
+        {
+          id: 'talents',
+          title: 'For Talents & Influencers',
+          subtitle: 'Monetize Your Influence',
+          description: 'Join our 100K+ talent community and access 500+ brand campaigns per year with competitive compensation structure.',
+          benefits: [
+            'Access to 500+ brand campaigns per year',
+            'Competitive compensation structure',
+            'Professional development & training',
+            'Networking with top industry players',
+            'Portfolio building opportunities',
+            'Flexible working arrangements'
+          ],
+          stats: [
+            { value: '500+', label: 'Campaigns/year' },
+            { value: '85%', label: 'Satisfaction Rate' },
+            { value: '2-5x', label: 'Income Growth' }
+          ],
+          icon: '⭐',
+          color: 'from-purple-500 via-pink-500 to-violet-600',
+          bgImage: images.talents,
+          layout: 'featured'
+        },
+        {
+          id: 'media',
+          title: 'For Media Partners',
+          subtitle: 'Expand Your Reach & Monetize',
+          description: 'Expand your reach and monetize your audience through partnership with Posthinks. Access premium brand campaigns and content syndication opportunities.',
+          benefits: [
+            'Access to premium brand campaigns',
+            'Content syndication opportunities',
+            'Attractive revenue sharing model',
+            'Cross-promotion with other media partners',
+            'Analytics & performance dashboard',
+            'Dedicated account manager'
+          ],
+          stats: [
+            { value: '3x', label: 'Audience Growth' },
+            { value: '40%', label: 'Revenue Increase' },
+            { value: '50+', label: 'Active Partners' }
+          ],
+          icon: '📡',
+          color: 'from-blue-500 via-cyan-400 to-teal-500',
+          bgImage: images.media,
+          layout: 'split'
+        },
+        {
+          id: 'brands',
+          title: 'For Brands',
+          subtitle: 'Access Our Full Ecosystem',
+          description: 'Access our full ecosystem to accelerate your digital growth. 100K+ vetted talents and 10K+ media network ready to help.',
+          benefits: [
+            'Direct access to 100K+ vetted talents',
+            'Full 10K+ media network coverage',
+            'End-to-end campaign management',
+            'Real-time analytics & reporting',
+            'Flexible engagement models',
+            'Proven ROI tracking'
+          ],
+          stats: [
+            { value: '100K+', label: 'Talent Pool' },
+            { value: '10K+', label: 'Media Network' },
+            { value: '340%', label: 'Avg ROI' }
+          ],
+          icon: '🏢',
+          color: 'from-emerald-400 via-green-400 to-teal-500',
+          bgImage: images.brands,
+          layout: 'card'
+        }
+      ]
+    },
+    featured: {
+      title: 'Community Spotlight',
+      subtitle: 'Meet amazing members from our ecosystem',
+      members: [
+        {
+          name: 'Sarah Wijaya',
+          role: 'Lifestyle Creator',
+          category: 'Top Influencer',
+          image: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400&q=80',
+          stats: { followers: '1.2M', campaigns: '45+', rating: '4.9' },
+          quote: 'Joining Posthinks completely changed my career. Access to brand campaigns and professional support is incredible.',
+          achievements: ['Brand Ambassador', 'Top Creator 2024', '1M+ Followers']
+        },
+        {
+          name: 'Tech Daily Indonesia',
+          role: 'Tech Media',
+          category: 'Media Partner',
+          image: 'https://images.unsplash.com/photo-1497366216548-37526070297c?w=400&q=80',
+          stats: { reach: '5M+', articles: '2K+', partners: '100+' },
+          quote: 'Partnership with Posthinks helped us monetize content and expand reach significantly.',
+          achievements: ['Best Tech Media', '5M+ Reach', 'Premium Partner']
+        },
+        {
+          name: 'Andi Pratama',
+          role: 'Buzz Creator',
+          category: 'Rising Star',
+          image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&q=80',
+          stats: { engagement: '15%', reach: '500K', campaigns: '28+' },
+          quote: 'From micro-influencer to top talent in 1 year. Posthinks provided the right platform and exposure.',
+          achievements: ['Rising Star 2024', '500K+ Reach', '28 Campaigns']
+        }
+      ]
+    },
+    events: {
+      title: 'Events & Programs',
+      subtitle: 'Upgrade your skills and expand your network through our exclusive events',
+      upcoming: [
+        {
+          title: 'Creator Bootcamp 2025',
+          date: 'March 15-17, 2025',
+          location: 'Jakarta + Online',
+          description: '3-day intensive workshop for content creators with top industry mentors.',
+          tag: 'Workshop',
+          image: images.event1,
+          spots: 50
+        },
+        {
+          title: 'Digital Marketing Summit',
+          date: 'March 8, 2025',
+          location: 'Jakarta Convention Center',
+          description: 'Annual summit with 50+ speakers and networking sessions.',
+          tag: 'Conference',
+          image: images.event2,
+          spots: 200
+        },
+        {
+          title: 'Influencer Meetup: Q1',
+          date: 'March 22, 2025',
+          location: 'Jakarta',
+          description: 'Monthly networking event for talents and brands.',
+          tag: 'Networking',
+          image: images.event3,
+          spots: 100
+        }
+      ]
+    },
+    testimonials: {
+      title: 'Success Stories',
+      subtitle: 'Hear directly from our community members',
+      stories: [
+        {
+          name: 'Rina Kusuma',
+          role: 'Fashion Influencer',
+          image: images.testimonial1,
+          result: '10x Income Increase',
+          content: 'Since joining 2 years ago, I\'ve worked with 50+ brands and my income increased 10x. Support from Posthinks team is incredible.',
+          metrics: [
+            { label: 'Campaigns', value: '50+' },
+            { label: 'Income Growth', value: '10x' },
+            { label: 'Brand Partners', value: '30+' }
+          ]
+        },
+        {
+          name: 'Media Nusantara',
+          role: 'Regional Publisher',
+          image: images.testimonial2,
+          result: '3x Audience Reach',
+          content: 'Partnership with Posthinks opened doors to new revenue streams. We now reach 3x more audience with the same content.',
+          metrics: [
+            { label: 'Reach Growth', value: '3x' },
+            { label: 'Revenue', value: '40%' },
+            { label: 'Brand Deals', value: '25+' }
+          ]
+        },
+        {
+          name: 'Dian Sastro',
+          role: 'Micro Creator',
+          image: images.testimonial3,
+          result: 'Full-time Creator',
+          content: 'Starting as nobody in this industry, Posthinks helped me build portfolio and now I\'m a full-time creator with sustainable income.',
+          metrics: [
+            { label: 'Followers', value: '100K+' },
+            { label: 'Engagement', value: '12%' },
+            { label: 'Monthly Income', value: '$5K+' }
+          ]
+        },
+        {
+          name: 'Budi Santoso',
+          role: 'Tech Reviewer',
+          image: images.testimonial4,
+          result: '500K Subscribers',
+          content: 'With Posthinks support, my YouTube channel grew from 10K to 500K subscribers in 18 months. Their campaign management is very professional.',
+          metrics: [
+            { label: 'Subscribers', value: '500K' },
+            { label: 'Growth', value: '4900%' },
+            { label: 'Brand Deals', value: '60+' }
+          ]
+        },
+        {
+          name: 'Citra Dewi',
+          role: 'Lifestyle Blogger',
+          image: images.testimonial5,
+          result: 'Brand Ambassador',
+          content: 'Posthinks not only provides campaigns but also helps me with personal branding. Now I\'m a brand ambassador for 5 major brands.',
+          metrics: [
+            { label: 'Ambassador', value: '5' },
+            { label: 'Engagement', value: '18%' },
+            { label: 'Monthly Income', value: '$8K+' }
+          ]
+        }
+      ]
+    },
+    cta: {
+      title: 'Ready to Join Our Community?',
+      subtitle: 'Choose your role and start your digital journey today',
+      primary: 'Join Now',
+      secondary: 'Learn More'
+    }
+  }
+};
+
+const data = communityData[locale];
+const contactUrl = locale === 'en' ? '/en/contact' : '/kontak';
+const solusiUrl = locale === 'en' ? '/en/solusi' : '/solusi';
+---
+
+<BaseLayout title={data.title} description={data.description} lang={locale}>
+  <!-- Hero Section -->
+  <section class="relative py-32 bg-gradient-to-b from-gray-50 via-white to-cyan-50/30 overflow-hidden">
+    {/* Animated Background */}
+    <div class="absolute inset-0 overflow-hidden pointer-events-none">
+      {/* Grid Pattern */}
+      <div class="absolute inset-0 opacity-[0.03]">
+        <div class="absolute inset-0 bg-[linear-gradient(to_right,#0891b2_1px,transparent_1px),linear-gradient(to_bottom,#0891b2_1px,transparent_1px)] bg-[size:60px_60px] animate-grid-pan"></div>
+      </div>
+
+      {/* Floating Gradient Orbs */}
+      <div class="absolute top-40 right-20 w-[400px] h-[400px] bg-gradient-to-br from-cyan-200/30 to-teal-200/30 rounded-full blur-3xl animate-float"></div>
+      <div class="absolute bottom-40 left-20 w-[500px] h-[500px] bg-gradient-to-tr from-blue-200/30 to-cyan-200/30 rounded-full blur-3xl animate-float" style="animation-delay: -4s"></div>
+
+      {/* Floating Particles */}
+      <div class="absolute top-1/4 right-1/4 w-2 h-2 bg-cyan-500 rounded-full animate-float-particle opacity-30"></div>
+      <div class="absolute top-1/3 left-1/3 w-3 h-3 bg-teal-500 rounded-full animate-float-particle opacity-20" style="animation-delay: -1s"></div>
+      <div class="absolute bottom-1/4 right-1/3 w-2 h-2 bg-blue-500 rounded-full animate-float-particle opacity-25" style="animation-delay: -2s"></div>
+    </div>
+
+    <div class="relative z-10 max-w-7xl mx-auto px-6 lg:px-8">
+      <div class="max-w-4xl mx-auto text-center">
+        <div class="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-white shadow-2xl border border-cyan-200/50 backdrop-blur-sm mb-8">
+          <span class="w-2.5 h-2.5 rounded-full bg-gradient-to-r from-cyan-500 to-teal-500 animate-pulse"></span>
+          <span class="text-sm font-bold text-gray-900 uppercase tracking-wider">{data.hero.badge}</span>
+        </div>
+
+        <h1 class="text-5xl md:text-6xl lg:text-7xl font-black text-gray-900 mb-6 leading-tight">
+          {data.hero.title}
+        </h1>
+
+        <p class="text-xl text-gray-600 max-w-3xl mx-auto mb-12">
+          {data.hero.subtitle}
+        </p>
+
+        {/* Hero Stats */}
+        <div class="grid grid-cols-3 gap-6 mb-12 max-w-3xl mx-auto">
+          {data.hero.stats.map((stat, index) => (
+            <div key={index} class="text-center p-6 rounded-2xl bg-white shadow-xl border border-gray-200 hover:border-cyan-300 hover:shadow-2xl hover:-translate-y-1 transition-all duration-300">
+              <div class="text-4xl md:text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-cyan-500 to-teal-500 mb-2">
+                {stat.value}
+              </div>
+              <div class="text-sm text-gray-600 font-medium uppercase tracking-wider">
+                {stat.label}
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* CTA Buttons */}
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+          <a
+            href={contactUrl}
+            class="inline-flex items-center justify-center gap-3 px-10 py-5 bg-gradient-to-r from-cyan-500 to-teal-500 text-white font-bold text-lg rounded-2xl shadow-xl hover:shadow-cyan-500/50 hover:scale-105 transition-all duration-300 group"
+          >
+            {data.hero.cta.primary}
+            <svg class="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+            </svg>
+          </a>
+
+          <a
+            href={contactUrl}
+            class="inline-flex items-center justify-center gap-3 px-10 py-5 bg-white text-gray-900 font-bold text-lg rounded-2xl border-2 border-gray-300 hover:border-cyan-400 hover:scale-105 transition-all duration-300 group"
+          >
+            {data.hero.cta.secondary}
+            <svg class="w-5 h-5 group-hover:rotate-12 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+            </svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Community Pillars -->
+  <section class="relative py-32 bg-white overflow-hidden">
+    {/* Animated Background */}
+    <div class="absolute inset-0 overflow-hidden pointer-events-none">
+      {/* Grid Pattern */}
+      <div class="absolute inset-0 opacity-[0.03]">
+        <div class="absolute inset-0 bg-[linear-gradient(to_right,#0891b2_1px,transparent_1px),linear-gradient(to_bottom,#0891b2_1px,transparent_1px)] bg-[size:60px_60px] animate-grid-pan"></div>
+      </div>
+
+      {/* Floating Gradient Orbs */}
+      <div class="absolute top-40 left-20 w-[400px] h-[400px] bg-gradient-to-br from-cyan-200/30 to-teal-200/30 rounded-full blur-3xl animate-float"></div>
+      <div class="absolute bottom-40 right-20 w-[500px] h-[500px] bg-gradient-to-tr from-teal-200/30 to-cyan-200/30 rounded-full blur-3xl animate-float" style="animation-delay: -4s"></div>
+
+      {/* Floating Particles */}
+      <div class="absolute top-1/4 left-1/4 w-2 h-2 bg-cyan-500 rounded-full animate-float-particle opacity-30"></div>
+      <div class="absolute top-1/3 right-1/3 w-3 h-3 bg-teal-500 rounded-full animate-float-particle opacity-20" style="animation-delay: -1s"></div>
+      <div class="absolute bottom-1/4 left-1/3 w-2 h-2 bg-cyan-400 rounded-full animate-float-particle opacity-25" style="animation-delay: -2s"></div>
+    </div>
+
+    <div class="relative z-10 max-w-7xl mx-auto px-6 lg:px-8">
+      <div class="text-center mb-20">
+        <h2 class="text-5xl md:text-6xl lg:text-7xl font-black text-gray-900 mb-6 leading-tight">
+          {data.pillars.title}
+        </h2>
+        <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+          {data.pillars.subtitle}
+        </p>
+      </div>
+
+      <div class="space-y-24">
+        {data.pillars.roles.map((role, index) => (
+          <div
+            key={role.id}
+            class={`
+              scroll-section
+              ${index % 2 === 0 ? 'lg:pl-0' : 'lg:pr-0'}
+            `}
+            data-section={role.id}
+          >
+            {/* Featured Layout for Talents */}
+            {role.layout === 'featured' && (
+              <div class="relative">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                  {/* Image Side */}
+                  <div class={`scroll-reveal-${index % 2 === 0 ? 'left' : 'right'}`}>
+                    <div class="group relative">
+                      <div class={`absolute inset-0 bg-gradient-to-br ${role.color} rounded-[3rem] blur-2xl opacity-20 group-hover:opacity-30 transition-opacity duration-500`}></div>
+                      <div class="relative aspect-[4/3] rounded-[3rem] overflow-hidden shadow-2xl group-hover:shadow-[0_50px_100px_-20px_rgba(0,0,0,0.3)] transition-all duration-500">
+                        <img
+                          src={role.bgImage}
+                          alt={role.title}
+                          class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110"
+                          loading="lazy"
+                        />
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
+
+                        {/* Floating Badge */}
+                        <div class="absolute top-6 left-6 animate-float-badge">
+                          <div class="px-5 py-3 rounded-2xl bg-white/95 dark:bg-black/90 backdrop-blur-xl border border-white/20 shadow-2xl flex items-center gap-3">
+                            <div class={`w-12 h-12 rounded-xl bg-gradient-to-br ${role.color} flex items-center justify-center text-white text-2xl shadow-lg`}>
+                              {role.icon}
+                            </div>
+                            <div>
+                              <div class="text-[10px] font-bold text-gray-500 uppercase tracking-wider">Role</div>
+                              <div class="text-lg font-black text-gray-900">0{index + 1}</div>
+                            </div>
+                          </div>
+                        </div>
+
+                        {/* Stats on Image */}
+                        <div class="absolute bottom-6 right-6 flex gap-3">
+                          {role.stats.slice(0, 2).map((stat, i) => (
+                            <div key={i} class="px-4 py-2 rounded-xl bg-white/95 dark:bg-black/90 backdrop-blur-xl border border-white/20">
+                              <div class="text-xl font-black text-gray-900">{stat.value}</div>
+                              <div class="text-[9px] text-gray-500 uppercase">{stat.label}</div>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Content Side */}
+                  <div class={`scroll-reveal-${index % 2 === 0 ? 'right' : 'left'}`}>
+                    <div class={`inline-flex items-center gap-2 px-4 py-2 mb-6 rounded-full bg-gradient-to-r ${role.color}`}>
+                      <span class="text-2xl">{role.icon}</span>
+                      <span class="text-sm font-bold text-white">{role.subtitle}</span>
+                    </div>
+
+                    <h3 class="text-3xl md:text-4xl lg:text-5xl font-black text-gray-900 dark:text-white mb-4 leading-tight">
+                      {role.title}
+                    </h3>
+
+                    <p class="text-lg text-gray-600 dark:text-gray-400 leading-relaxed mb-8">
+                      {role.description}
+                    </p>
+
+                    {/* Benefits with checkmarks */}
+                    <div class="space-y-3 mb-8">
+                      {role.benefits.slice(0, 4).map((benefit, i) => (
+                        <div key={i} class="flex items-start gap-3 text-gray-700 dark:text-gray-300 feature-item" data-delay={i * 50}>
+                          <div class={`w-8 h-8 rounded-lg bg-gradient-to-br ${role.color} flex items-center justify-center flex-shrink-0`}>
+                            <svg class="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                            </svg>
+                          </div>
+                          <span class="text-sm">{benefit}</span>
+                        </div>
+                      ))}
+                    </div>
+
+                    {/* Stats Grid */}
+                    <div class="grid grid-cols-3 gap-4 mb-8">
+                      {role.stats.map((stat, i) => (
+                        <div key={i} class="text-center p-4 rounded-2xl bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 hover:scale-105 transition-transform duration-300">
+                          <div class={`text-2xl font-black bg-gradient-to-r ${role.color} bg-clip-text text-transparent leading-none mb-2`}>
+                            {stat.value}
+                          </div>
+                          <div class="text-[10px] text-gray-600 dark:text-gray-400 font-medium uppercase tracking-wider">
+                            {stat.label}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+
+                    <a
+                      href={contactUrl}
+                      class="inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-cyan-500 to-teal-500 text-white font-bold rounded-2xl shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300"
+                    >
+                      {locale === 'id' ? 'Gabung Sekarang' : 'Join Now'}
+                      <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                      </svg>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* Split Layout for Media */}
+            {role.layout === 'split' && (
+              <div class="relative">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                  {/* Left - Content */}
+                  <div class="space-y-6 scroll-reveal-left">
+                    <div>
+                      <div class={`inline-flex items-center gap-2 px-4 py-2 mb-6 rounded-full bg-gradient-to-r ${role.color}`}>
+                        <span class="text-2xl">{role.icon}</span>
+                        <span class="text-sm font-bold text-white">{role.subtitle}</span>
+                      </div>
+
+                      <h3 class="text-3xl md:text-4xl font-black text-gray-900 dark:text-white mb-4 leading-tight">
+                        {role.title}
+                      </h3>
+
+                      <p class="text-lg text-gray-600 dark:text-gray-400 leading-relaxed">
+                        {role.description}
+                      </p>
+                    </div>
+
+                    {/* Benefits List */}
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                      {role.benefits.map((benefit, i) => (
+                        <div key={i} class="flex items-start gap-3 text-gray-700 dark:text-gray-300 feature-item" data-delay={i * 50}>
+                          <div class={`w-8 h-8 rounded-lg bg-gradient-to-br ${role.color} flex items-center justify-center flex-shrink-0`}>
+                            <svg class="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                            </svg>
+                          </div>
+                          <span class="text-sm">{benefit}</span>
+                        </div>
+                      ))}
+                    </div>
+
+                    {/* Stats Cards */}
+                    <div class="grid grid-cols-3 gap-4">
+                      {role.stats.map((stat, i) => (
+                        <div key={i} class="text-center p-4 rounded-2xl bg-gradient-to-br from-gray-50 to-white dark:from-gray-800 dark:to-gray-700 border border-gray-200 dark:border-gray-600 hover:scale-105 transition-all duration-300">
+                          <div class={`text-2xl font-black bg-gradient-to-r ${role.color} bg-clip-text text-transparent leading-none mb-2`}>
+                            {stat.value}
+                          </div>
+                          <div class="text-[10px] text-gray-600 dark:text-gray-400 font-medium uppercase tracking-wider">
+                            {stat.label}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Right - Image Gallery */}
+                  <div class="space-y-4 scroll-reveal-right">
+                    <div class="group relative rounded-[2rem] overflow-hidden shadow-2xl">
+                      <img
+                        src={role.bgImage}
+                        alt={role.title}
+                        class="w-full h-[350px] object-cover transition-transform duration-1000 group-hover:scale-110"
+                        loading="lazy"
+                      />
+                      <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
+                      <div class="absolute bottom-6 left-6 right-6">
+                        <div class="grid grid-cols-2 gap-3">
+                          {role.stats.map((stat, i) => (
+                            <div key={i} class="px-4 py-3 bg-white/95 dark:bg-black/90 backdrop-blur-xl rounded-xl">
+                              <div class="text-2xl font-black text-gray-900">{stat.value}</div>
+                              <div class="text-[9px] text-gray-500 uppercase">{stat.label}</div>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-4">
+                      {role.benefits.slice(0, 2).map((benefit, i) => (
+                        <div key={i} class="p-4 rounded-2xl bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 hover:scale-105 transition-all duration-300">
+                          <div class={`w-10 h-10 rounded-xl bg-gradient-to-br ${role.color} flex items-center justify-center text-white text-xl mb-3`}>
+                            {i === 0 ? '📈' : '💰'}
+                          </div>
+                          <div class="text-sm font-bold text-gray-900 dark:text-white">{benefit.split(' ').slice(0, 2).join(' ')}</div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* Card Layout for Brands */}
+            {role.layout === 'card' && (
+              <div class="scroll-reveal">
+                <div class="relative rounded-[3rem] overflow-hidden shadow-2xl group">
+                  <div class="absolute inset-0">
+                    <img
+                      src={role.bgImage}
+                      alt={role.title}
+                      class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105"
+                      loading="lazy"
+                    />
+                    <div class="absolute inset-0 bg-gradient-to-br from-gray-900/90 via-gray-900/80 to-gray-900/90"></div>
+                  </div>
+
+                  <div class="relative z-10 px-8 md:px-16 py-20">
+                    <div class="max-w-4xl">
+                      <div class={`inline-flex items-center gap-2 px-4 py-2 mb-6 bg-gradient-to-r ${role.color} rounded-full`}>
+                        <span class="text-2xl">{role.icon}</span>
+                        <span class="text-sm font-bold text-white">{role.subtitle}</span>
+                      </div>
+
+                      <h3 class="text-4xl md:text-5xl font-black text-white mb-6 leading-tight">
+                        {role.title}
+                      </h3>
+
+                      <p class="text-lg text-gray-300 leading-relaxed mb-12 max-w-2xl">
+                        {role.description}
+                      </p>
+
+                      {/* Benefits Grid */}
+                      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-12">
+                        {role.benefits.map((benefit, i) => (
+                          <div key={i} class="flex items-start gap-3 text-white feature-item" data-delay={i * 50}>
+                            <div class={`w-8 h-8 rounded-lg bg-gradient-to-br ${role.color} flex items-center justify-center flex-shrink-0`}>
+                              <svg class="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                              </svg>
+                            </div>
+                            <span class="text-sm">{benefit}</span>
+                          </div>
+                        ))}
+                      </div>
+
+                      {/* Stats */}
+                      <div class="flex flex-wrap gap-6">
+                        {role.stats.map((stat, i) => (
+                          <div key={i} class="px-8 py-6 bg-white/10 backdrop-blur-xl rounded-2xl border border-white/20">
+                            <div class="text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-primary to-cyan-500 mb-2">
+                              {stat.value}
+                            </div>
+                            <div class="text-sm text-gray-300 font-medium uppercase tracking-wider">
+                              {stat.label}
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Featured Members -->
+  <section class="relative py-32 bg-gradient-to-br from-gray-50 via-white to-cyan-50 overflow-hidden">
+    {/* Animated Background */}
+    <div class="absolute inset-0 overflow-hidden pointer-events-none">
+      {/* Grid Pattern */}
+      <div class="absolute inset-0 opacity-[0.03]">
+        <div class="absolute inset-0 bg-[linear-gradient(to_right,#0891b2_1px,transparent_1px),linear-gradient(to_bottom,#0891b2_1px,transparent_1px)] bg-[size:60px_60px] animate-grid-pan"></div>
+      </div>
+
+      {/* Floating Gradient Orbs */}
+      <div class="absolute top-40 right-20 w-[400px] h-[400px] bg-gradient-to-br from-cyan-200/30 to-teal-200/30 rounded-full blur-3xl animate-float"></div>
+      <div class="absolute bottom-40 left-20 w-[500px] h-[500px] bg-gradient-to-tr from-blue-200/30 to-cyan-200/30 rounded-full blur-3xl animate-float" style="animation-delay: -4s"></div>
+
+      {/* Floating Particles */}
+      <div class="absolute top-1/4 right-1/4 w-2 h-2 bg-cyan-500 rounded-full animate-float-particle opacity-30"></div>
+      <div class="absolute top-1/3 left-1/3 w-3 h-3 bg-teal-500 rounded-full animate-float-particle opacity-20" style="animation-delay: -1s"></div>
+      <div class="absolute bottom-1/4 right-1/3 w-2 h-2 bg-blue-500 rounded-full animate-float-particle opacity-25" style="animation-delay: -2s"></div>
+    </div>
+
+    <div class="relative z-10 max-w-7xl mx-auto px-6 lg:px-8">
+      <div class="text-center mb-20">
+        <h2 class="text-5xl md:text-6xl lg:text-7xl font-black text-gray-900 mb-6 leading-tight">
+          {data.featured.title}
+        </h2>
+        <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+          {data.featured.subtitle}
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        {data.featured.members.map((member, index) => (
+          <div
+            key={index}
+            class="group relative bg-white rounded-[2.5rem] p-8 border border-gray-200 hover:border-cyan-300 transition-all duration-500 hover:shadow-2xl hover:-translate-y-2"
+          >
+            {/* Member Image */}
+            <div class="relative mb-6">
+              <div class="aspect-square rounded-3xl overflow-hidden mb-4">
+                <img
+                  src={member.image}
+                  alt={member.name}
+                  class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                  loading="lazy"
+                />
+              </div>
+
+              {/* Category Badge */}
+              <div class="absolute top-4 right-4">
+                <span className="inline-flex items-center gap-2 px-4 py-2 bg-cyan-100 rounded-full">
+                  <span class="w-2 h-2 rounded-full bg-cyan-500"></span>
+                  <span class="text-xs font-bold text-cyan-700 uppercase tracking-wider">
+                    {member.category}
+                  </span>
+                </span>
+              </div>
+            </div>
+
+            {/* Member Info */}
+            <h3 class="text-xl font-black text-gray-900 mb-1 text-center group-hover:text-cyan-600 transition-colors duration-300">
+              {member.name}
+            </h3>
+            <p class="text-sm text-gray-600 mb-6 text-center">
+              {member.role}
+            </p>
+
+            {/* Stats */}
+            <div class="grid grid-cols-3 gap-3 mb-6">
+              {Object.entries(member.stats).map(([key, value]) => (
+                <div key={key} class="text-center">
+                  <div class="text-lg font-black text-transparent bg-clip-text bg-gradient-to-r from-cyan-500 to-teal-500 leading-none">
+                    {value}
+                  </div>
+                  <div class="text-[10px] text-gray-500 uppercase mt-1">
+                    {key}
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* Quote */}
+            <p class="text-sm text-gray-600 dark:text-gray-400 italic leading-relaxed mb-6 text-center">
+              "{member.quote}"
+            </p>
+
+            {/* Achievements */}
+            <div class="flex flex-wrap gap-2 justify-center">
+              {member.achievements.map((achievement, i) => (
+                <span key={i} class="px-3 py-1 text-xs font-bold bg-gray-100 text-gray-700 rounded-full">
+                  {achievement}
+                </span>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Events Section -->
+  <section class="relative py-32 bg-white overflow-hidden">
+    {/* Animated Background */}
+    <div class="absolute inset-0 overflow-hidden pointer-events-none">
+      {/* Grid Pattern */}
+      <div class="absolute inset-0 opacity-[0.03]">
+        <div class="absolute inset-0 bg-[linear-gradient(to_right,#0891b2_1px,transparent_1px),linear-gradient(to_bottom,#0891b2_1px,transparent_1px)] bg-[size:60px_60px] animate-grid-pan"></div>
+      </div>
+
+      {/* Floating Gradient Orbs */}
+      <div class="absolute top-40 left-20 w-[400px] h-[400px] bg-gradient-to-br from-cyan-200/30 to-teal-200/30 rounded-full blur-3xl animate-float"></div>
+      <div class="absolute bottom-40 right-20 w-[500px] h-[500px] bg-gradient-to-tr from-teal-200/30 to-cyan-200/30 rounded-full blur-3xl animate-float" style="animation-delay: -4s"></div>
+
+      {/* Floating Particles */}
+      <div class="absolute top-1/4 left-1/4 w-2 h-2 bg-cyan-500 rounded-full animate-float-particle opacity-30"></div>
+      <div class="absolute top-1/3 right-1/3 w-3 h-3 bg-teal-500 rounded-full animate-float-particle opacity-20" style="animation-delay: -1s"></div>
+      <div class="absolute bottom-1/4 left-1/3 w-2 h-2 bg-cyan-400 rounded-full animate-float-particle opacity-25" style="animation-delay: -2s"></div>
+    </div>
+
+    <div class="relative z-10 max-w-7xl mx-auto px-6 lg:px-8">
+      <div class="text-center mb-20">
+        <h2 class="text-5xl md:text-6xl lg:text-7xl font-black text-gray-900 mb-6 leading-tight">
+          {data.events.title}
+        </h2>
+        <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+          {data.events.subtitle}
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        {data.events.upcoming.map((event, index) => (
+          <div
+            key={index}
+            class="group relative bg-gradient-to-br from-gray-50 to-white rounded-[2.5rem] overflow-hidden border border-gray-200 hover:border-cyan-300 hover:shadow-2xl hover:-translate-y-2 transition-all duration-500"
+          >
+            {/* Event Image */}
+            <div class="relative aspect-[16/10] overflow-hidden">
+              <img
+                src={event.image}
+                alt={event.title}
+                class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                loading="lazy"
+              />
+              <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+
+              {/* Tag Badge */}
+              <div class="absolute top-6 left-6">
+                <span className="inline-flex items-center gap-2 px-4 py-2 bg-white/95 backdrop-blur-xl rounded-full border border-white/20">
+                  <span class="w-2 h-2 rounded-full bg-cyan-500 animate-pulse"></span>
+                  <span class="text-xs font-bold text-gray-900 uppercase tracking-wider">
+                    {event.tag}
+                  </span>
+                </span>
+              </div>
+
+              {/* Spots Badge */}
+              <div class="absolute top-6 right-6">
+                <span className="inline-flex items-center gap-2 px-4 py-2 bg-white/95 dark:bg-black/90 backdrop-blur-xl rounded-full border border-white/20">
+                  <span class="text-xs font-bold text-gray-900">
+                    {event.spots} spots left
+                  </span>
+                </span>
+              </div>
+            </div>
+
+            {/* Event Content */}
+            <div class="p-8">
+              <h3 class="text-2xl font-black text-gray-900 mb-4 group-hover:text-cyan-600 transition-colors duration-300">
+                {event.title}
+              </h3>
+
+              {/* Date & Location */}
+              <div class="space-y-2 mb-4">
+                <div class="flex items-center gap-3 text-sm text-gray-600">
+                  <svg class="w-5 h-5 text-cyan-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                  </svg>
+                  <span>{event.date}</span>
+                </div>
+                <div class="flex items-center gap-3 text-sm text-gray-600">
+                  <svg class="w-5 h-5 text-cyan-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                  </svg>
+                  <span>{event.location}</span>
+                </div>
+              </div>
+
+              {/* Description */}
+              <p class="text-gray-600 leading-relaxed mb-6">
+                {event.description}
+              </p>
+
+              {/* CTA */}
+              <a
+                href={contactUrl}
+                class="inline-flex items-center gap-2 text-cyan-600 font-bold hover:gap-3 transition-all duration-300 group"
+              >
+                {locale === 'id' ? 'Daftar Sekarang' : 'Register Now'}
+                <svg class="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                </svg>
+              </a>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials -->
+  <section class="relative py-32 bg-gradient-to-br from-gray-50 via-white to-cyan-50 overflow-hidden">
+    {/* Animated Background */}
+    <div class="absolute inset-0 overflow-hidden pointer-events-none">
+      {/* Grid Pattern */}
+      <div class="absolute inset-0 opacity-[0.03]">
+        <div class="absolute inset-0 bg-[linear-gradient(to_right,#0891b2_1px,transparent_1px),linear-gradient(to_bottom,#0891b2_1px,transparent_1px)] bg-[size:60px_60px] animate-grid-pan"></div>
+      </div>
+
+      {/* Floating Gradient Orbs */}
+      <div class="absolute top-40 right-20 w-[400px] h-[400px] bg-gradient-to-br from-cyan-200/30 to-teal-200/30 rounded-full blur-3xl animate-float"></div>
+      <div class="absolute bottom-40 left-20 w-[500px] h-[500px] bg-gradient-to-tr from-blue-200/30 to-cyan-200/30 rounded-full blur-3xl animate-float" style="animation-delay: -4s"></div>
+
+      {/* Floating Particles */}
+      <div class="absolute top-1/4 right-1/4 w-2 h-2 bg-cyan-500 rounded-full animate-float-particle opacity-30"></div>
+      <div class="absolute top-1/3 left-1/3 w-3 h-3 bg-teal-500 rounded-full animate-float-particle opacity-20" style="animation-delay: -1s"></div>
+      <div class="absolute bottom-1/4 right-1/3 w-2 h-2 bg-blue-500 rounded-full animate-float-particle opacity-25" style="animation-delay: -2s"></div>
+    </div>
+
+    <div class="relative z-10 max-w-7xl mx-auto px-6 lg:px-8">
+      <div class="text-center mb-20">
+        <h2 class="text-5xl md:text-6xl lg:text-7xl font-black text-gray-900 mb-6 leading-tight">
+          {data.testimonials.title}
+        </h2>
+        <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+          {data.testimonials.subtitle}
+        </p>
+      </div>
+
+      {/* Carousel Container */}
+      <div class="relative testimonial-carousel" data-carousel>
+        {/* Navigation Buttons */}
+        <button
+          class="carousel-nav-btn carousel-nav-prev absolute left-0 top-1/2 -translate-y-1/2 z-20 w-14 h-14 rounded-full bg-white shadow-xl border border-gray-200 flex items-center justify-center text-cyan-600 hover:bg-cyan-50 hover:scale-110 transition-all duration-300 -translate-x-1/2 hidden md:flex"
+          aria-label="Previous testimonial"
+        >
+          <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7" />
+          </svg>
+        </button>
+
+        <button
+          class="carousel-nav-btn carousel-nav-next absolute right-0 top-1/2 -translate-y-1/2 z-20 w-14 h-14 rounded-full bg-white shadow-xl border border-gray-200 flex items-center justify-center text-cyan-600 hover:bg-cyan-50 hover:scale-110 transition-all duration-300 translate-x-1/2 hidden md:flex"
+          aria-label="Next testimonial"
+        >
+          <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7" />
+          </svg>
+        </button>
+
+        {/* Carousel Track */}
+        <div class="carousel-track flex gap-8 overflow-x-auto scroll-smooth snap-x snap-mandatory px-4 md:px-0 pb-8 -mx-4 md:mx-0 scrollbar-hide">
+          {data.testimonials.stories.map((story, index) => (
+            <div
+              key={index}
+              class="carousel-slide flex-shrink-0 w-full md:w-[calc(33.333%-0.667rem)] snap-center"
+            >
+              <div class="group relative bg-white rounded-[2.5rem] p-8 border border-gray-200 hover:border-cyan-300 transition-all duration-500 hover:shadow-2xl h-full">
+                {/* Avatar */}
+                <div class="w-20 h-20 rounded-2xl bg-gradient-to-br from-cyan-500 to-teal-500 flex items-center justify-center text-4xl mb-6 shadow-lg group-hover:scale-110 transition-transform duration-300 overflow-hidden">
+                  <img
+                    src={story.image}
+                    alt={story.name}
+                    class="w-full h-full object-cover"
+                  />
+                </div>
+
+                {/* Result Badge */}
+                <div class="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-cyan-100 to-teal-100 rounded-full mb-6">
+                  <span class="w-2 h-2 rounded-full bg-cyan-500"></span>
+                  <span class="text-xs font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-600 to-teal-600 uppercase tracking-wider">
+                    {story.result}
+                  </span>
+                </div>
+
+                {/* Name & Role */}
+                <h3 class="text-xl font-black text-gray-900 mb-1">
+                  {story.name}
+                </h3>
+                <p class="text-sm text-gray-600 mb-6">
+                  {story.role}
+                </p>
+
+                {/* Content */}
+                <p class="text-gray-700 leading-relaxed mb-6">
+                  {story.content}
+                </p>
+
+                {/* Metrics */}
+                <div class="grid grid-cols-3 gap-3">
+                  {story.metrics.map((metric, i) => (
+                    <div key={i} class="text-center p-3 rounded-xl bg-gray-50">
+                      <div class="text-lg font-black text-transparent bg-clip-text bg-gradient-to-r from-cyan-500 to-teal-500 leading-none mb-1">
+                        {metric.value}
+                      </div>
+                      <div class="text-[10px] text-gray-500 uppercase tracking-wider">
+                        {metric.label}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Pagination Dots */}
+        <div class="carousel-pagination flex justify-center gap-3 mt-8">
+          {data.testimonials.stories.map((_, index) => (
+            <button
+              key={index}
+              class="carousel-dot w-3 h-3 rounded-full bg-gray-300 hover:bg-cyan-400 transition-all duration-300"
+              data-index={index}
+              aria-label={`Go to testimonial ${index + 1}`}
+            />
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Final CTA -->
+  <CTA
+    locale={locale}
+    cta={{
+      title: data.cta.title,
+      description: data.cta.subtitle,
+      button: data.cta.primary
+    }}
+    contactUrl={contactUrl}
+  />
+</BaseLayout>
+
+<style>
+  @keyframes float {
+    0%, 100% {
+      transform: translateY(0px) scale(1);
+    }
+    50% {
+      transform: translateY(-30px) scale(1.1);
+    }
+  }
+
+  @keyframes float-particle {
+    0%, 100% {
+      transform: translate(0, 0) scale(1);
+      opacity: 0.6;
+    }
+    25% {
+      transform: translate(20px, -30px) scale(1.1);
+      opacity: 0.8;
+    }
+    50% {
+      transform: translate(-10px, -50px) scale(0.9);
+      opacity: 0.5;
+    }
+    75% {
+      transform: translate(30px, -20px) scale(1.05);
+      opacity: 0.7;
+    }
+  }
+
+  @keyframes float-badge {
+    0%, 100% {
+      transform: translateY(0px);
+    }
+    50% {
+      transform: translateY(-10px);
+    }
+  }
+
+  @keyframes grid-pan {
+    0% {
+      transform: translateX(0) translateY(0);
+    }
+    100% {
+      transform: translateX(-30px) translateY(-30px);
+    }
+  }
+
+  @keyframes pulse-glow {
+    0%, 100% {
+      opacity: 0.3;
+      transform: scale(1);
+    }
+    50% {
+      opacity: 0.6;
+      transform: scale(1.1);
+    }
+  }
+
+  .animate-float {
+    animation: float 8s ease-in-out infinite;
+  }
+
+  .animate-float-particle {
+    animation: float-particle 10s ease-in-out infinite;
+  }
+
+  .animate-float-badge {
+    animation: float-badge 4s ease-in-out infinite;
+  }
+
+  .animate-grid-pan {
+    animation: grid-pan 15s ease-in-out infinite alternate;
+  }
+
+  .animate-pulse-glow {
+    animation: pulse-glow 4s ease-in-out infinite;
+  }
+
+  /* Scroll Reveal Animations */
+  .scroll-reveal,
+  .scroll-reveal-left,
+  .scroll-reveal-right {
+    opacity: 0;
+    transform: translateY(60px);
+    transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .scroll-reveal-left {
+    transform: translateX(-60px);
+  }
+
+  .scroll-reveal-right {
+    transform: translateX(60px);
+  }
+
+  .scroll-reveal.visible,
+  .scroll-reveal-left.visible,
+  .scroll-reveal-right.visible {
+    opacity: 1;
+    transform: translate(0);
+  }
+
+  /* Feature Item Animation */
+  .feature-item {
+    opacity: 0;
+    transform: translateX(-20px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+  }
+
+  .feature-item.visible {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  /* Scroll Section */
+  .scroll-section {
+    opacity: 0;
+    transition: opacity 0.5s ease;
+  }
+
+  .scroll-section.visible {
+    opacity: 1;
+  }
+
+  /* Carousel Styles */
+  .carousel-track {
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+
+  .carousel-track::-webkit-scrollbar {
+    display: none;
+  }
+
+  .carousel-track::-webkit-scrollbar-track {
+    display: none;
+  }
+
+  .carousel-track::-webkit-scrollbar-thumb {
+    display: none;
+  }
+
+  .carousel-dot {
+    transition: all 0.3s ease;
+  }
+
+  .carousel-dot.active {
+    background: linear-gradient(to right, #0891b2, #14b8a6);
+    width: 2rem;
+  }
+
+  .carousel-nav-btn {
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.3s ease;
+  }
+
+  .testimonial-carousel:hover .carousel-nav-btn {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .carousel-nav-btn:hover {
+    background: linear-gradient(to right, #0891b2, #14b8a6);
+    color: white;
+    border-color: transparent;
+  }
+
+  /* Reduced Motion Support */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+</style>
+
+<script>
+  // Intersection Observer for scroll animations
+  document.addEventListener('DOMContentLoaded', () => {
+    // General reveal animations
+    const revealElements = document.querySelectorAll('.scroll-reveal, .scroll-reveal-left, .scroll-reveal-right');
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const delay = entry.target.dataset.delay || 0;
+          setTimeout(() => {
+            entry.target.classList.add('visible');
+          }, delay);
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+
+    revealElements.forEach(el => revealObserver.observe(el));
+
+    // Section animations
+    const sections = document.querySelectorAll('.scroll-section');
+    const sectionObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.1 });
+
+    sections.forEach(section => sectionObserver.observe(section));
+
+    // Feature items
+    const featureItems = document.querySelectorAll('.feature-item');
+    const featureObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const delay = entry.target.dataset.delay || 0;
+          setTimeout(() => {
+            entry.target.classList.add('visible');
+          }, delay);
+          featureObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.2 });
+
+    featureItems.forEach(item => featureObserver.observe(item));
+
+    // Testimonial Carousel
+    const carousels = document.querySelectorAll('[data-carousel]');
+
+    carousels.forEach(carousel => {
+      const track = carousel.querySelector('.carousel-track');
+      const slides = carousel.querySelectorAll('.carousel-slide');
+      const dots = carousel.querySelectorAll('.carousel-dot');
+      const prevBtn = carousel.querySelector('.carousel-nav-prev');
+      const nextBtn = carousel.querySelector('.carousel-nav-next');
+
+      if (!track || slides.length === 0) return;
+
+      let currentIndex = 0;
+      const totalSlides = slides.length;
+      let isDragging = false;
+      let startPos = 0;
+      let currentTranslate = 0;
+      let prevTranslate = 0;
+      let animationID = 0;
+
+      // Update dots based on current slide
+      function updateDots() {
+        dots.forEach((dot, index) => {
+          if (index === currentIndex) {
+            dot.classList.add('active');
+          } else {
+            dot.classList.remove('active');
+          }
+        });
+      }
+
+      // Go to specific slide
+      function goToSlide(index) {
+        if (index < 0) index = totalSlides - 1;
+        if (index >= totalSlides) index = 0;
+
+        currentIndex = index;
+        const slideWidth = slides[0].offsetWidth;
+        const gap = 32; // gap-8 = 2rem = 32px
+        track.scrollTo({
+          left: index * (slideWidth + gap),
+          behavior: 'smooth'
+        });
+
+        updateDots();
+      }
+
+      // Get current slide index based on scroll position
+      function getCurrentSlideIndex() {
+        const slideWidth = slides[0].offsetWidth;
+        const gap = 32;
+        const scrollLeft = track.scrollLeft;
+        return Math.round(scrollLeft / (slideWidth + gap));
+      }
+
+      // Update on scroll
+      track.addEventListener('scroll', () => {
+        const newIndex = getCurrentSlideIndex();
+        if (newIndex !== currentIndex) {
+          currentIndex = newIndex;
+          updateDots();
+        }
+      });
+
+      // Navigation buttons
+      prevBtn?.addEventListener('click', () => {
+        goToSlide(currentIndex - 1);
+      });
+
+      nextBtn?.addEventListener('click', () => {
+        goToSlide(currentIndex + 1);
+      });
+
+      // Dot navigation
+      dots.forEach((dot, index) => {
+        dot.addEventListener('click', () => {
+          goToSlide(index);
+        });
+      });
+
+      // Touch/Swipe support
+      function touchStart(index) {
+        return function(event) {
+          isDragging = true;
+          startPos = getPositionX(event);
+          animationID = requestAnimationFrame(animation);
+          track.style.cursor = 'grabbing';
+        }
+      }
+
+      function touchEnd() {
+        isDragging = false;
+        cancelAnimationFrame(animationID);
+        track.style.cursor = 'grab';
+
+        const movedBy = currentTranslate - prevTranslate;
+
+        // Swipe threshold
+        if (movedBy < -75) {
+          goToSlide(currentIndex + 1);
+        } else if (movedBy > 75) {
+          goToSlide(currentIndex - 1);
+        } else {
+          // Snap back to current slide
+          goToSlide(currentIndex);
+        }
+      }
+
+      function touchMove(event) {
+        if (isDragging) {
+          const currentPosition = getPositionX(event);
+          currentTranslate = prevTranslate + currentPosition - startPos;
+        }
+      }
+
+      function getPositionX(event) {
+        return event.type.includes('mouse') ? event.pageX : event.touches[0].clientX;
+      }
+
+      function animation() {
+        if (isDragging) {
+          track.style.transform = `translateX(${currentTranslate}px)`;
+          requestAnimationFrame(animation);
+        }
+      }
+
+      // Add touch events
+      track.addEventListener('touchstart', touchStart(currentIndex), { passive: true });
+      track.addEventListener('touchend', touchEnd);
+      track.addEventListener('touchmove', touchMove, { passive: true });
+
+      // Add mouse events for desktop
+      track.addEventListener('mousedown', touchStart(currentIndex));
+      track.addEventListener('mouseup', touchEnd);
+      track.addEventListener('mouseleave', () => {
+        if (isDragging) {
+          touchEnd();
+        }
+      });
+      track.addEventListener('mousemove', touchMove);
+      track.style.cursor = 'grab';
+
+      // Keyboard navigation
+      carousel.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowLeft') {
+          goToSlide(currentIndex - 1);
+        } else if (e.key === 'ArrowRight') {
+          goToSlide(currentIndex + 1);
+        }
+      });
+
+      // Initialize
+      updateDots();
+
+      // Recalculate on resize
+      window.addEventListener('resize', () => {
+        goToSlide(currentIndex);
+      });
+    });
+  });
+</script>

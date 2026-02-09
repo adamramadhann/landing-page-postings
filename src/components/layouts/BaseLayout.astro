@@ -1,0 +1,104 @@
+---
+// src/components/layouts/BaseLayout.astro
+import Header from '../layout/Header.astro';
+import Footer from '../layout/Footer.astro';
+import { getCollection } from 'astro:content';
+import { ViewTransitions } from 'astro:transitions';
+import { getLocaleFromPath, type Locale } from '../../lib/i18n-data';
+import '../../styles/global.css';
+
+interface Props {
+  title?: string;
+  description?: string;
+  image?: string;
+  lang?: Locale;
+  noindex?: boolean;
+}
+
+const {
+  title = 'Posthinks Elevate - Digital Transformation Partner',
+  description = 'Mitra transformasi digital terpercaya untuk bisnis Anda',
+  image = '/images/og-default.jpg',
+  lang = 'id',
+  noindex = false,
+} = Astro.props;
+
+// Get current language from URL using helper
+const currentPath = Astro.url.pathname;
+const currentLang = getLocaleFromPath(currentPath);
+
+// Get posts for language switcher
+const allPosts = await getCollection('blog');
+const postsByLang = {
+  id: allPosts.filter(post => post.data.lang === 'id'),
+  en: allPosts.filter(post => post.data.lang === 'en'),
+};
+---
+
+<!doctype html>
+<html lang={lang} class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <!-- SEO Meta Tags -->
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="generator" content={Astro.generator} />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={Astro.url} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={new URL(image, Astro.url)} />
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content={Astro.url} />
+    <meta property="twitter:title" content={title} />
+    <meta property="twitter:description" content={description} />
+    <meta property="twitter:image" content={new URL(image, Astro.url)} />
+
+    <!-- Robots -->
+    {noindex && <meta name="robots" content="noindex, nofollow" />}
+
+    <!-- Canonical URL with language -->
+    <link rel="canonical" href={Astro.url} />
+    <link rel="alternate" hreflang="id" href={Astro.url.href.replace('/en/', '/').replace(/^\/en$/, '/')} />
+    <link rel="alternate" hreflang="en" href={Astro.url.href.startsWith('/en') ? Astro.url.href : ('/en' + Astro.url.href).replace('//en/', '/en/')} />
+    <link rel="alternate" hreflang="x-default" href={Astro.url.href.replace('/en/', '/').replace(/^\/en$/, '/')} />
+
+    <!-- View Transitions API untuk smooth page navigation -->
+    <ViewTransitions />
+
+    <!-- Preconnect untuk eksternal resources -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  </head>
+
+  <body class="min-h-screen flex flex-col">
+    <Header currentLang={currentLang} />
+
+    <main class="flex-1" transition:animate="fade">
+      <slot />
+    </main>
+
+    <Footer currentLang={currentLang} />
+  </body>
+</html>
+
+<style>
+  /* Animasi fade untuk View Transitions */
+  @keyframes fade {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+</style>

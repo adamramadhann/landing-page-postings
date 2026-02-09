@@ -1,0 +1,165 @@
+{
+  "common": {
+    "siteName": "Posthinks Elevate",
+    "siteDescription": "360° Media Agency connecting brands with audiences through Big Data, Buzzer, Influencer, and Clipper",
+    "language": "en"
+  },
+  "nav": {
+    "home": "Home",
+    "solutions": "Solutions",
+    "services": "Services",
+    "community": "Community",
+    "caseStudies": "Case Studies",
+    "blog": "Blog",
+    "contact": "Contact",
+    "consultation": "Consultation"
+  },
+  "footer": {
+    "description": "360° Media Agency connecting brands with audiences through Big Data, real-time buzz, 500+ Clippers, and 100,000+ talent network.",
+    "quickLinks": "Quick Links",
+    "services": "Services",
+    "rights": "All rights reserved.",
+    "cta": {
+      "title": "Ready to Elevate Your Brand Impact?",
+      "description": "Discuss your media campaign strategy with our experts.",
+      "button": "Contact Us"
+    }
+  },
+  "hero": {
+    "badge": "Social Media Specialist",
+    "title": "Social Media Specialist",
+    "description": "Boost Your Brand's Social Media Presence with Data-Driven Strategies that Engage, Convert, and Deliver Real Results",
+    "cta": {
+      "primary": "Get Started",
+      "secondary": "View Our Work"
+    },
+    "stats": [
+      { "label": "Projects Completed", "value": "500+" },
+      { "label": "Client Satisfaction", "value": "98%" },
+      { "label": "Reach Generated", "value": "150M+" },
+      { "label": "Engagements Driven", "value": "12M+" }
+    ]
+  },
+  "services": {
+    "title": "What We Do",
+    "subtitle": "Comprehensive social media solutions tailored to your brand's unique needs",
+    "items": [
+      {
+        "icon": "📝",
+        "title": "Content Strategy",
+        "description": "Develop compelling content strategies that resonate with your target audience and drive meaningful engagement across all platforms."
+      },
+      {
+        "icon": "👥",
+        "title": "Community Management",
+        "description": "Build and nurture loyal communities around your brand with authentic interactions and proactive engagement."
+      },
+      {
+        "icon": "📣",
+        "title": "Paid Social Advertising",
+        "description": "Maximize ROI with targeted ad campaigns that reach the right audience at the right time with the right message."
+      },
+      {
+        "icon": "📊",
+        "title": "Analytics & Reporting",
+        "description": "Get actionable insights from comprehensive analytics that measure what matters most to your business goals."
+      }
+    ],
+    "cta": {
+      "text": "Explore All Services",
+      "href": "/en/services"
+    },
+    "detail": {
+      "contentStrategy": {
+        "title": "Content Strategy",
+        "description": "Develop compelling content strategies that resonate with your target audience and drive meaningful engagement across all platforms.",
+        "features": [
+          "Content Audit & Research",
+          "Platform-Specific Strategies",
+          "Editorial Calendar Creation",
+          "Performance Tracking"
+        ]
+      },
+      "communityManagement": {
+        "title": "Community Management",
+        "description": "Build and nurture loyal communities around your brand with authentic interactions and proactive engagement.",
+        "features": [
+          "Comment Moderation",
+          "Customer Response",
+          "Community Growth Tactics",
+          "Crisis Management"
+        ]
+      },
+      "paidSocial": {
+        "title": "Paid Social Advertising",
+        "description": "Maximize ROI with targeted ad campaigns that reach the right audience at the right time with the right message.",
+        "features": [
+          "Audience Targeting",
+          "A/B Testing",
+          "Budget Optimization",
+          "Conversion Tracking"
+        ]
+      },
+      "analytics": {
+        "title": "Analytics & Reporting",
+        "description": "Get actionable insights from comprehensive analytics that measure what matters most to your business goals.",
+        "features": [
+          "Custom Dashboards",
+          "Performance Reports",
+          "Competitor Analysis",
+          "ROI Measurement"
+        ]
+      }
+    },
+    "page": {
+      "title": "Services",
+      "subtitle": "360° solutions for impactful digital campaigns",
+      "needHelp": "Need Help?",
+      "needHelpDesc": "Consult your digital campaign needs with us",
+      "contactUs": "Contact Us"
+    }
+  },
+  "cta": {
+    "title": "Ready for Impactful Campaigns?",
+    "description": "Discuss your media campaign strategy with our experts and find the best solution for your brand.",
+    "button": "Contact Us"
+  },
+  "blog": {
+    "title": "Latest Articles",
+    "subtitle": "Insights and tips about media marketing and digital campaigns",
+    "viewAll": "View All Articles",
+    "related": "Related Posts",
+    "loadMore": "Load More",
+    "readMore": "Read More",
+    "publishedOn": "Published on",
+    "readingTime": "min read"
+  },
+  "contact": {
+    "title": "Contact Us",
+    "subtitle": "Ready for impactful campaigns? Discuss with our experts",
+    "sendMessage": "Send Message",
+    "form": {
+      "name": "Full Name",
+      "email": "Email",
+      "subject": "Subject",
+      "message": "Message",
+      "submit": "Send Message",
+      "placeholders": {
+        "name": "John Doe",
+        "email": "john@example.com",
+        "subject": "Campaign Consultation",
+        "message": "Tell us about your campaign needs..."
+      },
+      "success": "Thank you! Your message has been sent."
+    },
+    "info": {
+      "email": "Email",
+      "phone": "Phone",
+      "address": "Address",
+      "socialMedia": "Social Media",
+      "emailValue": "hello@posthinks.com",
+      "phoneValue": "+62 21 1234 5678",
+      "addressValue": "South Jakarta, Indonesia"
+    }
+  }
+}

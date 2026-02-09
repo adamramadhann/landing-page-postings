@@ -1,0 +1,90 @@
+---
+// src/components/blog/BlogMeta.astro
+// Blog meta information component
+import { formatDate } from '../../lib/utils';
+
+interface Props {
+  author?: string;
+  authorTitle?: string;
+  date: Date;
+  readTime: number;
+  lang: 'id' | 'en';
+}
+
+const { author, authorTitle, date, readTime, lang } = Astro.props;
+
+const formattedDate = formatDate(date, lang);
+const readTimeLabel = lang === 'id' ? 'menit baca' : 'min read';
+const byLabel = lang === 'id' ? 'Oleh' : 'By';
+---
+
+<!-- Blog Meta dengan Tailwind styling -->
+<div class="flex flex-wrap items-center gap-4 text-sm text-muted-foreground
+              border-y py-4">
+  <!-- Author -->
+  {
+    author && (
+      <div class="flex items-center gap-2">
+        <span class="font-medium text-foreground">{byLabel}</span>
+        <div>
+          <div class="font-medium text-foreground">{author}</div>
+          {
+            authorTitle && (
+              <div class="text-xs">{authorTitle}</div>
+            )
+          }
+        </div>
+      </div>
+    )
+  }
+
+  <!-- Separator -->
+  {author && (
+    <span class="hidden sm:inline" aria-hidden="true">•</span>
+  )}
+
+  <!-- Date -->
+  <div class="flex items-center gap-2">
+    <svg
+      class="h-4 w-4"
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke="currentColor"
+      aria-hidden="true"
+    >
+      <path
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width={2}
+        d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+      />
+    </svg>
+    <time datetime={date.toISOString()}>
+      {formattedDate}
+    </time>
+  </div>
+
+  <!-- Separator -->
+  <span class="hidden sm:inline" aria-hidden="true">•</span>
+
+  <!-- Reading Time -->
+  <div class="flex items-center gap-2">
+    <svg
+      class="h-4 w-4"
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke="currentColor"
+      aria-hidden="true"
+    >
+      <path
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width={2}
+        d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+      />
+    </svg>
+    <span>
+      {readTime} {readTimeLabel}
+    </span>
+  </div>
+</div>

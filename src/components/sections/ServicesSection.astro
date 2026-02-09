@@ -1,0 +1,226 @@
+---
+// src/components/sections/ServicesSection.astro
+import AnimateOnScroll from '../ui/AnimateOnScroll.astro';
+
+interface Props {
+  currentLang: 'id' | 'en';
+  data: {
+    title: string;
+    subtitle: string;
+    items: Array<{
+      icon: string;
+      title: string;
+      description: string;
+    }>;
+    cta: {
+      text: string;
+      href: string;
+    };
+  };
+}
+
+const { currentLang: lang, data } = Astro.props;
+const servicesUrl = lang === 'en' ? '/en/services' : '/services';
+
+// Service dengan images - CONSISTENT CYAN/TEAL THEME
+const servicesWithImages = data.items.map((service, index) => ({
+  ...service,
+  imageUrl: [
+    'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=1200&q=80',
+    'https://images.unsplash.com/photo-1551434678-e076c223a692?w=1200&q=80',
+    'https://images.unsplash.com/photo-1557804506-669a67965ba0?w=1200&q=80',
+    'https://images.unsplash.com/photo-1553877522-43269d4ea984?w=1200&q=80',
+  ][index % 4],
+  imageAlt: `${service.title} service illustration`,
+  illusType: index % 2 === 0 ? 'left' : 'right',
+  accentColor: 'from-cyan-500 via-teal-500 to-blue-500',
+  bgColor: index % 2 === 0 ? 'bg-cyan-50/50' : 'bg-transparent'
+}));
+---
+
+<section class="relative py-24 bg-white dark:bg-gray-900 overflow-hidden">
+  {/* Animated Background - CYAN/TEAL CONSISTENT */}
+  <div class="absolute inset-0 overflow-hidden pointer-events-none">
+    {/* Grid Pattern */}
+    <div class="absolute inset-0 opacity-[0.03] dark:opacity-[0.05]">
+      <div class="absolute inset-0 bg-[linear-gradient(to_right,#0891b2_1px,transparent_1px),linear-gradient(to_bottom,#0891b2_1px,transparent_1px)] bg-[size:50px_50px]"></div>
+    </div>
+
+    {/* Floating Gradient Orbs - Cyan/Teal Only */}
+    <div class="absolute top-20 right-20 w-[500px] h-[500px] bg-cyan-500/5 rounded-full blur-3xl animate-float"></div>
+    <div class="absolute bottom-20 left-20 w-[400px] h-[400px] bg-teal-500/5 rounded-full blur-3xl animate-float" style="animation-delay: 2s"></div>
+
+    {/* Animated Lines - Cyan/Teal Only */}
+    <div class="absolute top-1/4 left-0 w-full h-px bg-gradient-to-r from-transparent via-cyan-500/10 to-transparent animate-pulse"></div>
+    <div class="absolute top-3/4 left-0 w-full h-px bg-gradient-to-r from-transparent via-teal-500/10 to-transparent animate-pulse" style="animation-delay: 1s"></div>
+
+    {/* Floating Particles - Cyan/Teal Only */}
+    <div class="absolute top-1/3 left-10 w-2 h-2 rounded-full bg-cyan-500/20 animate-float"></div>
+    <div class="absolute top-1/2 right-20 w-1.5 h-1.5 rounded-full bg-teal-500/20 animate-float" style="animation-delay: 0.5s"></div>
+    <div class="absolute bottom-1/3 right-40 w-2.5 h-2.5 rounded-full bg-cyan-400/20 animate-float" style="animation-delay: 1.5s"></div>
+  </div>
+
+  {/* Section Header */}
+  <AnimateOnScroll animation="fade-up" delay={0} duration={800}>
+    <div class="relative z-10 max-w-4xl mx-auto text-center mb-24 px-4 sm:px-6 lg:px-8">
+      <div class="inline-flex items-center gap-2 px-4 py-2 mb-8 bg-cyan-50 dark:bg-cyan-950/20 border border-cyan-200 dark:border-cyan-800 rounded-full backdrop-blur-sm">
+        <span class="w-2 h-2 rounded-full bg-cyan-500 animate-pulse"></span>
+        <span class="text-xs font-bold tracking-[0.2em] text-cyan-600 dark:text-cyan-400 uppercase">What We Do</span>
+      </div>
+
+      <h2 class="text-4xl md:text-5xl lg:text-7xl font-black text-gray-900 dark:text-white mb-6 tracking-tight">
+        {data.title}
+      </h2>
+
+      <p class="text-lg md:text-xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
+        {data.subtitle}
+      </p>
+    </div>
+  </AnimateOnScroll>
+
+  {/* Services - Full Width Alternating */}
+  <div class="relative z-10">
+    {servicesWithImages.map((service, index) => (
+      <AnimateOnScroll
+        key={service.title}
+        animation="fade-up"
+        delay={index * 100}
+        duration={800}
+        class={`
+          relative service-section
+          py-20 md:py-32
+          ${index % 2 === 0 ? service.bgColor : 'bg-transparent'}
+        `}
+      >
+        <div class={`
+          max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8
+          flex flex-col ${service.illusType === 'left' ? 'md:flex-row' : 'md:flex-row-reverse'}
+          items-center gap-12 md:gap-20
+        `}>
+          {/* Image Side - Full Width Impact */}
+          <div class="flex-1 relative">
+            <div class="relative aspect-[4/3] md:aspect-[16/10] rounded-[2rem] overflow-hidden shadow-2xl">
+              {/* Image */}
+              <img
+                src={service.imageUrl}
+                alt={service.imageAlt}
+                class="absolute inset-0 w-full h-full object-cover"
+                loading="lazy"
+              />
+
+              {/* Gradient Overlays */}
+              <div class="absolute inset-0 bg-gradient-to-br from-black/30 via-transparent to-black/50 opacity-60"></div>
+
+              {/* Floating Badge */}
+              <div class={`
+                absolute top-6 ${service.illusType === 'left' ? 'left-6' : 'right-6'}
+                animate-float
+              `}>
+                <div class="px-5 py-3 rounded-2xl bg-white/95 dark:bg-black/90 backdrop-blur-xl border border-white/20 shadow-2xl flex items-center gap-3">
+                  <div class={`
+                    w-12 h-12 rounded-xl bg-gradient-to-br ${service.accentColor}
+                    flex items-center justify-center text-white text-2xl shadow-lg
+                  `}>
+                    {service.icon}
+                  </div>
+                  <div>
+                    <div class="text-[10px] font-bold text-gray-500 uppercase tracking-wider">Service</div>
+                    <div class="text-lg font-black text-gray-900">0{index + 1}</div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Stats Corner */}
+              <div class={`
+                absolute bottom-6 ${service.illusType === 'left' ? 'right-6' : 'left-6'}
+                flex gap-3 animate-float
+              `} style="animation-delay: 0.5s">
+                <div class="px-4 py-2 rounded-xl bg-white/95 dark:bg-black/90 backdrop-blur-xl border border-white/20">
+                  <div class="text-2xl font-black text-gray-900">500+</div>
+                  <div class="text-[10px] text-gray-500 uppercase">Projects</div>
+                </div>
+                <div class="px-4 py-2 rounded-xl bg-white/95 dark:bg-black/90 backdrop-blur-xl border border-white/20">
+                  <div class="text-2xl font-black text-gray-900">98%</div>
+                  <div class="text-[10px] text-gray-500 uppercase">Happy</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Content Side */}
+          <div class="flex-1 space-y-8">
+            {/* Title */}
+            <div class="space-y-4">
+              <h3 class="text-4xl md:text-5xl lg:text-6xl font-black text-gray-900 dark:text-white leading-tight">
+                {service.title}
+              </h3>
+
+              {/* Underline */}
+              <div class={`
+                h-1.5 w-24 bg-gradient-to-r ${service.accentColor}
+                rounded-full
+              `}></div>
+            </div>
+
+            {/* Description */}
+            <p class="text-lg md:text-xl text-gray-600 dark:text-gray-400 leading-relaxed">
+              {service.description}
+            </p>
+
+            {/* Feature List */}
+            <ul class="space-y-4">
+              {['Expert Team', 'Proven Results', '24/7 Support', 'Agile Process'].slice(0, 4).map((feature, i) => (
+                <li
+                  key={i}
+                  class="flex items-center gap-4 text-gray-700 dark:text-gray-300 text-base md:text-lg font-medium"
+                >
+                  <div class={`
+                    w-7 h-7 rounded-xl
+                    bg-gradient-to-br ${service.accentColor}
+                    flex items-center justify-center flex-shrink-0 shadow-lg
+                  `}>
+                    <svg class="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7" />
+                    </svg>
+                  </div>
+                  <span>{feature}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+
+        {/* Animated Divider Line */}
+        {index !== servicesWithImages.length - 1 && (
+          <div class="absolute bottom-0 left-1/2 w-px h-32 bg-gradient-to-b from-gray-300 via-gray-200 to-transparent dark:from-gray-700 dark:via-gray-800 transform -translate-x-1/2 hidden md:block"></div>
+        )}
+      </AnimateOnScroll>
+    ))}
+  </div>
+</section>
+
+<style>
+  @keyframes float {
+    0%, 100% {
+      transform: translateY(0px) scale(1);
+    }
+    50% {
+      transform: translateY(-10px) scale(1.02);
+    }
+  }
+
+  .animate-float {
+    animation: float 4s ease-in-out infinite;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+</style>
+

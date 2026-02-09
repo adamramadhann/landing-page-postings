@@ -1,0 +1,371 @@
+---
+// src/pages/[lang]/services.astro
+// Services Page dengan Layout yang Varied & Dynamic untuk Posthinks
+import BaseLayout from '../../components/layouts/BaseLayout.astro';
+import { getTranslations } from '../../lib/i18n-data';
+import type { Locale } from '../../lib/i18n-data';
+
+// Generate static paths
+export function getStaticPaths() {
+  return [
+    { params: { lang: 'id' } },
+    { params: { lang: 'en' } },
+  ];
+}
+
+const { lang } = Astro.params;
+const locale = lang as Locale;
+const t = await getTranslations(locale);
+
+// SEO
+const title = locale === 'id' ? 'Layanan - Posthinks Elevate' : 'Services - Posthinks Elevate';
+const description = t.services.subtitle;
+
+const services = [
+  {
+    id: 'buzzer',
+    icon: '🎯',
+    title: { id: 'Buzzer & Influencer Marketing', en: 'Buzzer & Influencer Marketing' },
+    shortDesc: { id: 'Database 100K+ talent dengan AI-matching', en: '100K+ talent database with AI-matching' },
+    description: {
+      id: 'Akses langsung ke database 100.000+ verified influencers. AI-matching system menemukan talent yang perfect-fit dengan brand Anda.',
+      en: 'Direct access to 100,000+ verified influencers database. AI-matching system finds perfect-fit talent for your brand.'
+    },
+    features: ['100K+ Talent Database', 'AI Matching System', 'Real-time Analytics', 'Viral Campaign Management', 'KOL Management', 'Engagement Tracking'],
+    gradient: 'from-pink-500 via-rose-500 to-red-500',
+    bgGradient: 'from-pink-50 to-rose-50 dark:from-pink-950/30 dark:to-rose-950/20',
+    stats: { value: '10M+', label: { id: 'Reach per Campaign', en: 'Reach per Campaign' } },
+    image: 'https://images.unsplash.com/photo-1611162617474-5b21e879e113?w=800&q=80',
+    featured: true
+  },
+  {
+    id: 'media',
+    icon: '📡',
+    title: { id: 'Media Network & Distribution', en: 'Media Network & Distribution' },
+    shortDesc: { id: 'Jaringan 10K+ media nasional & lokal', en: '10K+ national & local media network' },
+    description: {
+      id: 'Jaringan 10.000+ media outlets untuk maximum brand coverage.',
+      en: 'Network of 10,000+ media outlets for maximum brand coverage.'
+    },
+    features: ['10K+ Media Partners', 'Press Distribution', 'Media Monitoring', 'Article Coverage', 'Journalist Network', 'Crisis Management'],
+    gradient: 'from-blue-500 via-cyan-500 to-teal-500',
+    bgGradient: 'from-blue-50 to-cyan-50 dark:from-blue-950/30 dark:to-cyan-950/20',
+    stats: { value: '95%', label: { id: 'Media Pickup Rate', en: 'Media Pickup Rate' } },
+    image: 'https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=800&q=80',
+    featured: false
+  },
+  {
+    id: 'clipper',
+    icon: '🎬',
+    title: { id: 'Content Clipper Management', en: 'Content Clipper Management' },
+    shortDesc: { id: '500+ Pro Clippers untuk FYP domination', en: '500+ Pro Clippers for FYP domination' },
+    description: {
+      id: '500+ professional clippers mastered in TikTok & Reels algorithm.',
+      en: '500+ professional clippers mastered in TikTok & Reels algorithm.'
+    },
+    features: ['500+ Pro Clippers', 'Algorithm Mastery', 'Content Recycling', 'FYP Domination', 'Video Optimization', 'Trend Adaptation'],
+    gradient: 'from-emerald-500 via-teal-500 to-green-500',
+    bgGradient: 'from-emerald-50 to-teal-50 dark:from-emerald-950/30 dark:to-teal-950/20',
+    stats: { value: '5M+', label: { id: 'Monthly Views', en: 'Monthly Views' } },
+    image: 'https://images.unsplash.com/photo-1611162616305-c69b3fa7fbe0?w=800&q=80',
+    featured: false
+  },
+  {
+    id: 'seo',
+    icon: '🔍',
+    title: { id: 'SEO & High-Impact Search', en: 'SEO & High-Impact Search' },
+    shortDesc: { id: 'Top 3 search dengan technical SEO mendalam', en: 'Top 3 search with deep technical SEO' },
+    description: {
+      id: 'Technical SEO audit mendalam dengan CRO testing hingga 3x conversion.',
+      en: 'Deep technical SEO audit with CRO testing up to 3x conversion.'
+    },
+    features: ['Technical SEO Audit', 'Content Strategy', 'A/B Testing', 'Conversion Optimization', 'Rank Tracking', 'Competitor Analysis'],
+    gradient: 'from-violet-500 via-purple-500 to-indigo-500',
+    bgGradient: 'from-violet-50 to-purple-50 dark:from-violet-950/30 dark:to-purple-950/20',
+    stats: { value: '150%', label: { id: 'Traffic Increase', en: 'Traffic Increase' } },
+    image: 'https://images.unsplash.com/photo-1432888622747-4eb9a8efeb07?w=800&q=80',
+    featured: false
+  },
+  {
+    id: 'analytics',
+    icon: '📊',
+    title: { id: 'Big Data Analytics', en: 'Big Data Analytics' },
+    shortDesc: { id: 'Data-driven dengan premium tools', en: 'Data-driven with premium tools' },
+    description: {
+      id: 'Leverage Big Data dengan Digivla, Similarweb, dan Ahrefs.',
+      en: 'Leverage Big Data with Digivla, Similarweb, and Ahrefs.'
+    },
+    features: ['Big Data Processing', 'Consumer Insights', 'Competitor Analysis', 'Trend Prediction', 'Custom Dashboards', 'ROI Tracking'],
+    gradient: 'from-amber-500 via-orange-500 to-red-500',
+    bgGradient: 'from-amber-50 to-orange-50 dark:from-amber-950/30 dark:to-orange-950/20',
+    stats: { value: '320%', label: { id: 'Average ROI', en: 'Average ROI' } },
+    image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&q=80',
+    featured: false
+  },
+  {
+    id: 'buzz',
+    icon: '⚡',
+    title: { id: 'Real-Time Buzz & Virality', en: 'Real-Time Buzz & Virality' },
+    shortDesc: { id: 'Trending Topic & FYP TikTok management', en: 'Trending Topic & FYP TikTok management' },
+    description: {
+      id: 'Trending Topic domination dan FYP TikTok management.',
+      en: 'Trending Topic domination and FYP TikTok management.'
+    },
+    features: ['Trending Topic Management', 'FYP Domination', 'Real-time Monitoring', 'Viral Content Strategy', 'Buzz Amplification', 'Instant Awareness'],
+    gradient: 'from-rose-500 via-pink-500 to-fuchsia-500',
+    bgGradient: 'from-rose-50 to-pink-50 dark:from-rose-950/30 dark:to-pink-950/20',
+    stats: { value: '2M+', label: { id: 'Daily Engagement', en: 'Daily Engagement' } },
+    image: 'https://images.unsplash.com/photo-1614332287897-cdc485fa562d?w=800&q=80',
+    featured: false
+  }
+];
+---
+
+<BaseLayout title={title} description={description} lang={locale}>
+  <!-- HERO - Diagonal Split dengan Bento Grid -->
+  <section class="relative min-h-screen flex items-center overflow-hidden bg-gradient-to-br from-gray-50 via-white to-gray-100 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
+    <!-- Animated Background -->
+    <div class="absolute inset-0 overflow-hidden">
+      <div class="absolute top-0 right-0 w-[800px] h-[800px] bg-gradient-to-br from-primary/20 to-cyan-500/20 rounded-full blur-3xl animate-float"></div>
+      <div class="absolute bottom-0 left-0 w-[600px] h-[600px] bg-gradient-to-tr from-purple-500/20 to-pink-500/20 rounded-full blur-3xl animate-float" style="animation-delay: -3s"></div>
+    </div>
+
+    <div class="container mx-auto px-6 lg:px-8 relative z-10">
+      <div class="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+        <!-- Left Content -->
+        <div class="space-y-8 animate-fade-up">
+          <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white dark:bg-gray-800 border-2 border-primary/20 shadow-lg">
+            <span class="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
+            <span class="text-sm font-bold text-primary uppercase tracking-wider">Our Services</span>
+          </div>
+
+          <h1 class="text-5xl lg:text-7xl font-black text-gray-900 dark:text-white leading-tight">
+            {locale === 'id' ? 'Solusi 360° untuk' : '360° Solutions for'}
+            <span class="block mt-2 text-transparent bg-clip-text bg-gradient-to-r from-primary via-purple-500 to-pink-500 animate-gradient-shift">
+              {locale === 'id' ? 'Campaign Berdampak' : 'Impactful Campaigns'}
+            </span>
+          </h1>
+
+          <p class="text-xl text-gray-600 dark:text-gray-400 leading-relaxed max-w-xl">
+            {locale === 'id'
+              ? 'Dari Buzzer hingga SEO, kami menyediakan semua tools dan expertise untuk campaign yang berdampak.'
+              : 'From Buzzer to SEO, we provide all tools and expertise for impactful campaigns.'}
+          </p>
+
+          <a href="#services" class="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-primary to-cyan-500 text-white font-bold rounded-xl shadow-xl hover:shadow-2xl hover:scale-105 transition-all duration-300">
+            {locale === 'id' ? 'Jelajahi Layanan' : 'Explore Services'}
+            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+            </svg>
+          </a>
+        </div>
+
+        <!-- Right - Bento Grid Visual -->
+        <div class="relative animate-fade-in" style="animation-delay: 200ms">
+          <div class="grid grid-cols-2 gap-4">
+            {services.slice(0, 4).map((service, i) => (
+              <div class={`group relative ${i === 0 ? 'col-span-2 row-span-2' : ''} bg-white dark:bg-gray-800 rounded-3xl p-6 shadow-xl hover:shadow-2xl transition-all duration-500 overflow-hidden`}>
+                <div class={`absolute inset-0 bg-gradient-to-br ${service.gradient} opacity-0 group-hover:opacity-10 transition-opacity duration-500`}></div>
+                <div class="relative z-10">
+                  <div class="text-4xl mb-4">{service.icon}</div>
+                  <h3 class="text-lg font-black text-gray-900 dark:text-white mb-2">{service.title[locale]}</h3>
+                  {service.stats && (
+                    <div class="flex items-baseline gap-2">
+                      <span class={`text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r ${service.gradient}`}>{service.stats.value}</span>
+                    </div>
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURED SERVICE - Horizontal Split -->
+  {services.filter(s => s.featured).map((service) => (
+    <section id="services" class="relative py-32 bg-gradient-to-br from-pink-50 via-rose-50 to-purple-50 dark:from-pink-950/30 dark:via-rose-950/20 dark:to-purple-950/30 overflow-hidden">
+      <div class="container mx-auto px-6 lg:px-8">
+        <div class="grid lg:grid-cols-2 gap-16 items-center">
+          <!-- Image Side -->
+          <div class="relative group scroll-reveal">
+            <div class="aspect-[4/3] rounded-[3rem] overflow-hidden shadow-2xl">
+              <img src={service.image} alt={service.title[locale]} class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
+              <div class="absolute inset-0 bg-gradient-to-br from-black/40 to-transparent"></div>
+            </div>
+            <!-- Floating Stats -->
+            <div class="absolute -bottom-8 -right-8 bg-white dark:bg-gray-800 rounded-3xl p-6 shadow-2xl border-4 border-white dark:border-gray-700">
+              <div class={`text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r ${service.gradient} mb-2`}>{service.stats.value}</div>
+              <div class="text-sm font-semibold text-gray-600 dark:text-gray-400">{service.stats.label[locale]}</div>
+            </div>
+          </div>
+
+          <!-- Content Side -->
+          <div class="space-y-8 scroll-reveal" style="animation-delay: 200ms">
+            <div>
+              <div class="inline-flex items-center gap-3 px-5 py-2 rounded-full bg-white dark:bg-gray-800 border-2 border-pink-500/20 shadow-lg mb-6">
+                <span class="text-3xl">{service.icon}</span>
+                <span class="text-sm font-bold text-pink-600 dark:text-pink-400 uppercase tracking-wider">Most Popular</span>
+              </div>
+              <h2 class="text-4xl lg:text-5xl font-black text-gray-900 dark:text-white mb-4">{service.title[locale]}</h2>
+              <p class="text-2xl font-bold text-pink-600 dark:text-pink-400 mb-6">{service.shortDesc[locale]}</p>
+              <p class="text-lg text-gray-600 dark:text-gray-400 leading-relaxed">{service.description[locale]}</p>
+            </div>
+
+            <!-- Features Grid -->
+            <div class="grid grid-cols-2 gap-4">
+              {service.features.map((feature, i) => (
+                <div key={i} class="flex items-center gap-3 p-4 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl border border-pink-200 dark:border-pink-900">
+                  <svg class="w-5 h-5 text-pink-500 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                  </svg>
+                  <span class="text-sm font-semibold text-gray-800 dark:text-gray-200">{feature}</span>
+                </div>
+              ))}
+            </div>
+
+            <a href={locale === 'id' ? '/kontak' : '/en/contact'} class="inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-pink-500 to-purple-600 text-white font-bold text-lg rounded-2xl shadow-xl hover:shadow-2xl hover:scale-105 transition-all duration-300">
+              {locale === 'id' ? 'Konsultasi Layanan Ini' : 'Consult This Service'}
+              <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+              </svg>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+  ))}
+
+  <!-- OTHER SERVICES - Masonry Grid -->
+  <section class="relative py-32 bg-white dark:bg-gray-900">
+    <div class="container mx-auto px-6 lg:px-8">
+      <div class="text-center mb-20 scroll-reveal">
+        <h2 class="text-4xl lg:text-6xl font-black text-gray-900 dark:text-white mb-6">
+          {locale === 'id' ? 'Layanan Lainnya' : 'More Services'}
+        </h2>
+      </div>
+
+      <!-- Masonry Grid with Varying Sizes -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 auto-rows-[300px]">
+        {services.filter(s => !s.featured).map((service, index) => (
+          <div class={`group relative rounded-[2.5rem] overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-500 scroll-reveal ${index === 1 ? 'md:col-span-2' : ''}`} style={`animation-delay: ${index * 100}ms`}>
+            <div class="absolute inset-0">
+              <img src={service.image} alt={service.title[locale]} class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
+              <div class={`absolute inset-0 bg-gradient-to-br ${service.gradient} opacity-90 dark:opacity-80`}></div>
+            </div>
+
+            <div class="relative z-10 h-full flex flex-col justify-between p-8 text-white">
+              <div>
+                <div class="text-5xl mb-4">{service.icon}</div>
+                <h3 class="text-2xl font-black mb-2">{service.title[locale]}</h3>
+                <p class="text-white/90 font-medium">{service.shortDesc[locale]}</p>
+              </div>
+
+              <div class="space-y-4">
+                <div class="flex items-baseline gap-3">
+                  <span class="text-4xl font-black">{service.stats.value}</span>
+                  <span class="text-sm font-semibold opacity-90">{service.stats.label[locale]}</span>
+                </div>
+                <a href={locale === 'id' ? '/kontak' : '/en/contact'} class="inline-flex items-center gap-2 px-6 py-3 bg-white/20 backdrop-blur-sm rounded-xl hover:bg-white/30 transition-all duration-300">
+                  <span class="text-sm font-bold">{locale === 'id' ? 'Pelajari' : 'Learn More'}</span>
+                  <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                  </svg>
+                </a>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- PROCESS TIMELINE - Zigzag Layout -->
+  <section class="relative py-32 bg-gradient-to-b from-gray-50 to-white dark:from-gray-900 dark:to-gray-800">
+    <div class="container mx-auto px-6 lg:px-8">
+      <div class="text-center mb-20 scroll-reveal">
+        <h2 class="text-4xl lg:text-6xl font-black text-gray-900 dark:text-white mb-6">
+          {locale === 'id' ? 'Cara Kami Bekerja' : 'How We Work'}
+        </h2>
+      </div>
+
+      <div class="max-w-4xl mx-auto space-y-16">
+        {[
+          { step: '01', title: { id: 'Discovery & Research', en: 'Discovery & Research' }, desc: { id: 'Analisis bisnis, target audience, dan kompetitor', en: 'Analyze business, target audience, and competitors' } },
+          { step: '02', title: { id: 'Strategy Development', en: 'Strategy Development' }, desc: { id: 'Strategi komprehensif untuk maximum impact', en: 'Comprehensive strategy for maximum impact' } },
+          { step: '03', title: { id: 'Execution & Launch', en: 'Execution & Launch' }, desc: { id: 'Eksekusi strategi dengan precision', en: 'Execute strategy with precision' } },
+          { step: '04', title: { id: 'Optimization & Scale', en: 'Optimization & Scale' }, desc: { id: 'Monitor, optimize, dan scaling up', en: 'Monitor, optimize, and scale up' } }
+        ].map((item, index) => (
+          <div class={`relative flex items-center gap-8 scroll-reveal ${index % 2 === 0 ? '' : 'flex-row-reverse'}`} style={`animation-delay: ${index * 150}ms`}>
+            <div class="relative z-10 flex-shrink-0 w-24 h-24 rounded-2xl bg-gradient-to-br from-primary to-cyan-500 flex items-center justify-center text-white font-black text-3xl shadow-2xl shadow-primary/30">
+              {item.step}
+            </div>
+            <div class="flex-1 bg-white dark:bg-gray-800 rounded-3xl p-8 shadow-xl border-2 border-gray-200 dark:border-gray-700">
+              <h3 class="text-2xl font-black text-gray-900 dark:text-white mb-3">{item.title[locale]}</h3>
+              <p class="text-gray-600 dark:text-gray-400 leading-relaxed">{item.desc[locale]}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA SECTION -->
+  <section class="relative py-32 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 overflow-hidden">
+    <div class="absolute inset-0">
+      <div class="absolute top-0 left-1/4 w-96 h-96 bg-primary/20 rounded-full blur-3xl"></div>
+      <div class="absolute bottom-0 right-1/4 w-96 h-96 bg-cyan-500/20 rounded-full blur-3xl"></div>
+    </div>
+
+    <div class="container mx-auto px-6 lg:px-8 relative z-10 text-center">
+      <h2 class="text-4xl lg:text-6xl font-black text-white mb-6">
+        {locale === 'id' ? 'Siap untuk Campaign' : 'Ready for Campaign'}
+        <span class="block mt-2 text-transparent bg-clip-text bg-gradient-to-r from-primary to-cyan-500">
+          {locale === 'id' ? 'Yang Berdampak?' : 'That Matters?'}
+        </span>
+      </h2>
+      <p class="text-xl text-gray-400 max-w-2xl mx-auto mb-12">
+        {locale === 'id' ? 'Diskusikan kebutuhan campaign Anda dengan tim expert kami' : 'Discuss your campaign needs with our expert team'}
+      </p>
+      <a href={locale === 'id' ? '/kontak' : '/en/contact'} class="inline-flex items-center gap-3 px-12 py-5 bg-gradient-to-r from-primary to-cyan-500 text-white font-bold text-xl rounded-2xl shadow-2xl hover:shadow-3xl hover:scale-105 transition-all duration-300">
+        {locale === 'id' ? 'Hubungi Kami Sekarang' : 'Contact Us Now'}
+        <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+        </svg>
+      </a>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  @keyframes fade-up { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes fade-in { from { opacity: 0; } to { opacity: 1; } }
+  @keyframes float { 0%, 100% { transform: translateY(0) scale(1); } 50% { transform: translateY(-20px) scale(1.05); } }
+  @keyframes gradient-shift { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
+
+  .animate-fade-up { animation: fade-up 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards; opacity: 0; }
+  .animate-fade-in { animation: fade-in 1s ease-out forwards; opacity: 0; }
+  .animate-float { animation: float 6s ease-in-out infinite; }
+  .animate-gradient-shift { background-size: 200% auto; animation: gradient-shift 3s ease infinite; }
+
+  .scroll-reveal { opacity: 0; transform: translateY(60px); transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1), transform 0.9s cubic-bezier(0.16, 1, 0.3, 1); }
+  .scroll-reveal.visible { opacity: 1; transform: translateY(0); }
+
+  @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; } }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const revealElements = document.querySelectorAll('.scroll-reveal');
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+    revealElements.forEach((el) => revealObserver.observe(el));
+  });
+</script>

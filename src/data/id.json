@@ -1,0 +1,165 @@
+{
+  "common": {
+    "siteName": "Posthinks Elevate",
+    "siteDescription": "360° Media Agency yang menghubungkan brand dengan audiens melalui Big Data, Buzzer, Influencer, dan Clipper",
+    "language": "id"
+  },
+  "nav": {
+    "home": "Beranda",
+    "solutions": "Solusi",
+    "services": "Layanan",
+    "community": "Community",
+    "caseStudies": "Studi Kasus",
+    "blog": "Blog",
+    "contact": "Kontak",
+    "consultation": "Konsultasi"
+  },
+  "footer": {
+    "description": "360° Media Agency yang menghubungkan brand dengan audiens melalui Big Data, real-time buzz, 500+ Clippers, dan jaringan 100.000+ talenta.",
+    "quickLinks": "Tautan Cepat",
+    "services": "Layanan",
+    "rights": "Semua hak dilindungi.",
+    "cta": {
+      "title": "Siap Meningkatkan Impact Brand Anda?",
+      "description": "Diskusikan strategi media campaign dengan ahli kami.",
+      "button": "Hubungi Kami"
+    }
+  },
+  "hero": {
+    "badge": "Social Media Specialist",
+    "title": "Social Media Specialist",
+    "description": "Boost Your Brand's Social Media Presence with Data-Driven Strategies that Engage, Convert, and Deliver Real Results",
+    "cta": {
+      "primary": "Get Started",
+      "secondary": "View Our Work"
+    },
+    "stats": [
+      { "label": "Projects Completed", "value": "500+" },
+      { "label": "Client Satisfaction", "value": "98%" },
+      { "label": "Reach Generated", "value": "150M+" },
+      { "label": "Engagements Driven", "value": "12M+" }
+    ]
+  },
+  "services": {
+    "title": "What We Do",
+    "subtitle": "Comprehensive social media solutions tailored to your brand's unique needs",
+    "items": [
+      {
+        "icon": "📝",
+        "title": "Content Strategy",
+        "description": "Develop compelling content strategies that resonate with your target audience and drive meaningful engagement across all platforms."
+      },
+      {
+        "icon": "👥",
+        "title": "Community Management",
+        "description": "Build and nurture loyal communities around your brand with authentic interactions and proactive engagement."
+      },
+      {
+        "icon": "📣",
+        "title": "Paid Social Advertising",
+        "description": "Maximize ROI with targeted ad campaigns that reach the right audience at the right time with the right message."
+      },
+      {
+        "icon": "📊",
+        "title": "Analytics & Reporting",
+        "description": "Get actionable insights from comprehensive analytics that measure what matters most to your business goals."
+      }
+    ],
+    "cta": {
+      "text": "Jelajahi Semua Layanan",
+      "href": "/layanan"
+    },
+    "detail": {
+      "contentStrategy": {
+        "title": "Content Strategy",
+        "description": "Develop compelling content strategies that resonate with your target audience and drive meaningful engagement across all platforms.",
+        "features": [
+          "Content Audit & Research",
+          "Platform-Specific Strategies",
+          "Editorial Calendar Creation",
+          "Performance Tracking"
+        ]
+      },
+      "communityManagement": {
+        "title": "Community Management",
+        "description": "Build and nurture loyal communities around your brand with authentic interactions and proactive engagement.",
+        "features": [
+          "Comment Moderation",
+          "Customer Response",
+          "Community Growth Tactics",
+          "Crisis Management"
+        ]
+      },
+      "paidSocial": {
+        "title": "Paid Social Advertising",
+        "description": "Maximize ROI with targeted ad campaigns that reach the right audience at the right time with the right message.",
+        "features": [
+          "Audience Targeting",
+          "A/B Testing",
+          "Budget Optimization",
+          "Conversion Tracking"
+        ]
+      },
+      "analytics": {
+        "title": "Analytics & Reporting",
+        "description": "Get actionable insights from comprehensive analytics that measure what matters most to your business goals.",
+        "features": [
+          "Custom Dashboards",
+          "Performance Reports",
+          "Competitor Analysis",
+          "ROI Measurement"
+        ]
+      }
+    },
+    "page": {
+      "title": "Layanan",
+      "subtitle": "Solusi 360° untuk campaign digital yang berdampak",
+      "needHelp": "Butuh Bantuan?",
+      "needHelpDesc": "Konsultasikan kebutuhan campaign digital Anda dengan kami",
+      "contactUs": "Hubungi Kami"
+    }
+  },
+  "cta": {
+    "title": "Siap untuk Campaign yang Berdampak?",
+    "description": "Diskusikan strategi media campaign Anda dengan ahli kami dan temukan solusi terbaik untuk brand Anda.",
+    "button": "Hubungi Kami"
+  },
+  "blog": {
+    "title": "Artikel Terbaru",
+    "subtitle": "Wawasan dan tips seputar media marketing dan digital campaign",
+    "viewAll": "Lihat Semua Artikel",
+    "related": "Postingan Terkait",
+    "loadMore": "Muat Lebih Banyak",
+    "readMore": "Baca Selengkapnya",
+    "publishedOn": "Diterbitkan pada",
+    "readingTime": "menit baca"
+  },
+  "contact": {
+    "title": "Hubungi Kami",
+    "subtitle": "Siap untuk campaign yang berdampak? Diskusikan dengan ahli kami",
+    "sendMessage": "Kirim Pesan",
+    "form": {
+      "name": "Nama Lengkap",
+      "email": "Email",
+      "subject": "Subjek",
+      "message": "Pesan",
+      "submit": "Kirim Pesan",
+      "placeholders": {
+        "name": "John Doe",
+        "email": "john@example.com",
+        "subject": "Konsultasi Campaign",
+        "message": "Ceritakan tentang kebutuhan campaign Anda..."
+      },
+      "success": "Terima kasih! Pesan Anda telah terkirim."
+    },
+    "info": {
+      "email": "Email",
+      "phone": "Telepon",
+      "address": "Alamat",
+      "socialMedia": "Social Media",
+      "emailValue": "hello@posthinks.com",
+      "phoneValue": "+62 21 1234 5678",
+      "addressValue": "Jakarta Selatan, Indonesia"
+    }
+  }
+}

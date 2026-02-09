@@ -1,0 +1,477 @@
+---
+// src/pages/[lang]/contact.astro
+// Contact Page dengan Modern Elegant Design
+import BaseLayout from '../../components/layouts/BaseLayout.astro';
+import { getTranslations } from '../../lib/i18n-data';
+import type { Locale } from '../../lib/i18n-data';
+
+export function getStaticPaths() {
+  return [{ params: { lang: 'id' } }, { params: { lang: 'en' } }];
+}
+
+const { lang } = Astro.params;
+const locale = lang as Locale;
+const t = await getTranslations(locale);
+
+const title = locale === 'id' ? 'Kontak - Posthinks Elevate' : 'Contact - Posthinks Elevate';
+const description = t.contact.subtitle;
+
+const contactMethods = [
+  {
+    icon: '📧',
+    title: 'Email',
+    value: 'hello@posthinks.com',
+    link: 'mailto:hello@posthinks.com',
+    isExternal: false,
+    description: locale === 'id' ? 'Kirim email untuk inquiry detail' : 'Send email for detailed inquiries'
+  },
+  {
+    icon: '📱',
+    title: 'WhatsApp',
+    value: '+62 812 3456 7890',
+    link: 'https://wa.me/6281234567890',
+    isExternal: true,
+    description: locale === 'id' ? 'Chat instan untuk quick response' : 'Instant chat for quick response'
+  },
+  {
+    icon: '📍',
+    title: locale === 'id' ? 'Alamat' : 'Address',
+    value: locale === 'id' ? 'Jakarta Selatan, Indonesia' : 'South Jakarta, Indonesia',
+    link: 'https://maps.google.com',
+    isExternal: true,
+    description: locale === 'id' ? 'Mampang Prapatan Raya No. 123' : 'Mampang Prapatan Raya No. 123'
+  }
+];
+
+const workingHours = locale === 'id' ? [
+  { day: 'Senin - Jumat', hours: '09:00 - 18:00' },
+  { day: 'Sabtu', hours: '10:00 - 15:00' },
+  { day: 'Minggu', hours: 'Tutup' }
+] : [
+  { day: 'Monday - Friday', hours: '09:00 - 18:00' },
+  { day: 'Saturday', hours: '10:00 - 15:00' },
+  { day: 'Sunday', hours: 'Closed' }
+];
+
+const socialLinks = [
+  { name: 'Instagram', url: 'https://instagram.com/posthinks', icon: '📸' },
+  { name: 'LinkedIn', url: 'https://linkedin.com/company/posthinks', icon: '💼' },
+  { name: 'TikTok', url: 'https://tiktok.com/@posthinks', icon: '🎵' }
+];
+---
+
+<BaseLayout title={title} description={description} lang={locale}>
+  <!-- HERO - Diagonal Split -->
+  <section class="relative min-h-screen flex items-center overflow-hidden bg-gradient-to-br from-gray-50 via-white to-gray-100 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
+    <!-- Background Elements -->
+    <div class="absolute inset-0 overflow-hidden">
+      <div class="absolute top-0 right-0 w-[600px] h-[600px] bg-gradient-to-br from-primary/20 to-cyan-500/20 rounded-full blur-3xl animate-float"></div>
+      <div class="absolute bottom-0 left-0 w-[400px] h-[400px] bg-gradient-to-tr from-purple-500/20 to-pink-500/20 rounded-full blur-3xl animate-float" style="animation-delay: -3s"></div>
+      <div class="absolute inset-0 opacity-[0.03]">
+        <div class="absolute inset-0 bg-[linear-gradient(to_right,#80808010_1px,transparent_1px),linear-gradient(to_bottom,#80808010_1px,transparent_1px)] bg-[size:64px_64px]"></div>
+      </div>
+    </div>
+
+    <div class="container mx-auto px-6 lg:px-8 relative z-10">
+      <div class="grid lg:grid-cols-2 gap-16 items-center">
+        <!-- Left Content -->
+        <div class="space-y-8 animate-fade-up">
+          <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white dark:bg-gray-800 border-2 border-primary/20 shadow-lg">
+            <span class="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
+            <span class="text-sm font-bold text-primary uppercase tracking-wider">Contact</span>
+          </div>
+
+          <h1 class="text-5xl lg:text-7xl font-black text-gray-900 dark:text-white leading-tight">
+            {locale === 'id' ? 'Mari' : 'Let\'s'}
+            <span class="block mt-2 text-transparent bg-clip-text bg-gradient-to-r from-primary via-purple-500 to-pink-500">
+              {locale === 'id' ? 'Berdiskusi' : 'Connect'}
+            </span>
+          </h1>
+
+          <p class="text-xl text-gray-600 dark:text-gray-400 leading-relaxed max-w-xl">
+            {locale === 'id'
+              ? 'Siap untuk campaign yang berdampak? Diskusikan dengan kami dan temukan solusi terbaik untuk brand Anda.'
+              : 'Ready for impactful campaigns? Discuss with us and find the best solution for your brand.'}
+          </p>
+
+          <!-- Quick Contact Options -->
+          <div class="flex flex-wrap gap-4">
+            <a href="https://wa.me/6281234567890" target="_blank" rel="noopener" class="inline-flex items-center gap-3 px-8 py-4 bg-green-500 text-white font-bold rounded-2xl shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300">
+              <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.5-.173 0-.371.05-.57.099-.198.05-.446.149-.644.297-.198.149-.446.396-.644.742-.198.347-.396.842-.496 1.386-.099.544-.05 1.188.05 1.682.099.494.297.988.594 1.482.298.494.644.939.99 1.336.347.396.743.742 1.139 1.04.396.297.792.544 1.188.742.396.199.842.347 1.287.446.446.099.892.149 1.337.149.446 0 .892-.05 1.288-.149.396-.099.743-.247 1.04-.446.297-.198.545-.445.693-.742.149-.297.248-.644.298-1.04.05-.396.05-.842 0-1.287-.05-.446-.149-.892-.298-1.337-.149-.446-.347-.842-.594-1.188-.247-.347-.545-.644-.842-.892-.297-.248-.644-.446-1.04-.594-.396-.149-.842-.248-1.287-.298-.446-.05-.892-.05-1.337 0z"/>
+              </svg>
+              <span>{locale === 'id' ? 'Chat WhatsApp' : 'WhatsApp Us'}</span>
+            </a>
+          </div>
+
+          <!-- Stats -->
+          <div class="grid grid-cols-2 md:grid-cols-4 gap-6 pt-8">
+            <div class="text-center">
+              <div class="text-3xl md:text-4xl font-black text-primary mb-1">500+</div>
+              <div class="text-xs font-semibold text-gray-600 dark:text-gray-400 uppercase tracking-wide">Campaigns</div>
+            </div>
+            <div class="text-center">
+              <div class="text-3xl md:text-4xl font-black text-purple-500 mb-1">98%</div>
+              <div class="text-xs font-semibold text-gray-600 dark:text-gray-400 uppercase tracking-wide">Satisfaction</div>
+            </div>
+            <div class="text-center">
+              <div class="text-3xl md:text-4xl font-black text-pink-500 mb-1">&lt;1h</div>
+              <div class="text-xs font-semibold text-gray-600 dark:text-gray-400 uppercase tracking-wide">Response</div>
+            </div>
+            <div class="text-center">
+              <div class="text-3xl md:text-4xl font-black text-cyan-500 mb-1">24/7</div>
+              <div class="text-xs font-semibold text-gray-600 dark:text-gray-400 uppercase tracking-wide">Support</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Content - Contact Form -->
+        <div class="relative animate-fade-up" style="animation-delay: 0.2s">
+          <div class="relative bg-white dark:bg-gray-800 rounded-3xl shadow-2xl border border-gray-200 dark:border-gray-700 p-8 md:p-10">
+            <div class="absolute -top-4 -right-4 w-20 h-20 bg-gradient-to-br from-primary to-cyan-500 rounded-2xl rotate-12 opacity-20"></div>
+            <div class="absolute -bottom-4 -left-4 w-16 h-16 bg-gradient-to-br from-purple-500 to-pink-500 rounded-xl -rotate-12 opacity-20"></div>
+
+            <h3 class="text-2xl font-black text-gray-900 dark:text-white mb-6">
+              {locale === 'id' ? 'Kirim Pesan' : 'Send Message'}
+            </h3>
+
+            <form class="space-y-5">
+              <div class="grid md:grid-cols-2 gap-5">
+                <div>
+                  <label class="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2">
+                    {locale === 'id' ? 'Nama' : 'Name'} *
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    placeholder={locale === 'id' ? 'John Doe' : 'John Doe'}
+                    class="w-full px-4 py-3 rounded-xl border-2 border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white font-semibold focus:border-primary focus:ring-4 focus:ring-primary/20 transition-all duration-200"
+                  />
+                </div>
+                <div>
+                  <label class="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2">
+                    {locale === 'id' ? 'Email' : 'Email'} *
+                  </label>
+                  <input
+                    type="email"
+                    required
+                    placeholder="john@example.com"
+                    class="w-full px-4 py-3 rounded-xl border-2 border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white font-semibold focus:border-primary focus:ring-4 focus:ring-primary/20 transition-all duration-200"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label class="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2">
+                  {locale === 'id' ? 'Subjek' : 'Subject'} *
+                </label>
+                <input
+                  type="text"
+                  required
+                  placeholder={locale === 'id' ? 'Tulis subjek...' : 'Write subject...'}
+                  class="w-full px-4 py-3 rounded-xl border-2 border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white font-semibold focus:border-primary focus:ring-4 focus:ring-primary/20 transition-all duration-200"
+                />
+              </div>
+
+              <div>
+                <label class="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2">
+                  {locale === 'id' ? 'Layanan' : 'Service'}
+                </label>
+                <select class="w-full px-4 py-3 rounded-xl border-2 border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white font-semibold focus:border-primary focus:ring-4 focus:ring-primary/20 transition-all duration-200">
+                  <option value="">{locale === 'id' ? 'Pilih layanan...' : 'Select service...'}</option>
+                  <option value="buzzer">{locale === 'id' ? 'Buzzer & Influencer' : 'Buzzer & Influencer'}</option>
+                  <option value="media">{locale === 'id' ? 'Media Network' : 'Media Network'}</option>
+                  <option value="clipper">{locale === 'id' ? 'Content Clipper' : 'Content Clipper'}</option>
+                  <option value="seo">{locale === 'id' ? 'SEO & Performance' : 'SEO & Performance'}</option>
+                  <option value="other">{locale === 'id' ? 'Lainnya' : 'Other'}</option>
+                </select>
+              </div>
+
+              <div>
+                <label class="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2">
+                  {locale === 'id' ? 'Pesan' : 'Message'} *
+                </label>
+                <textarea
+                  required
+                  rows="4"
+                  placeholder={locale === 'id' ? 'Tulis pesan Anda...' : 'Write your message...'}
+                  class="w-full px-4 py-3 rounded-xl border-2 border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white font-semibold focus:border-primary focus:ring-4 focus:ring-primary/20 transition-all duration-200 resize-none"
+                ></textarea>
+              </div>
+
+              <button
+                type="submit"
+                class="w-full py-4 px-6 bg-gradient-to-r from-primary to-cyan-500 text-white font-black rounded-xl shadow-lg hover:shadow-xl hover:scale-[1.02] transition-all duration-300 flex items-center justify-center gap-3"
+              >
+                <span>{locale === 'id' ? 'Kirim Pesan' : 'Send Message'}</span>
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+                </svg>
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT METHODS - Horizontal Cards -->
+  <section class="relative py-24 bg-white dark:bg-gray-900 overflow-hidden">
+    <div class="absolute inset-0 opacity-[0.02]">
+      <div class="absolute inset-0 bg-[linear-gradient(to_right,#80808010_1px,transparent_1px),linear-gradient(to_bottom,#80808010_1px,transparent_1px)] bg-[size:64px_64px]"></div>
+    </div>
+
+    <div class="container mx-auto px-6 lg:px-8 relative z-10">
+      <div class="text-center mb-16">
+        <h2 class="text-4xl md:text-5xl font-black text-gray-900 dark:text-white mb-4">
+          {locale === 'id' ? 'Cara Hubungi Kami' : 'Ways to Reach Us'}
+        </h2>
+        <p class="text-xl text-gray-600 dark:text-gray-400">
+          {locale === 'id' ? 'Pilih cara yang paling nyaman untuk Anda' : 'Choose the most convenient way for you'}
+        </p>
+      </div>
+
+      <div class="grid md:grid-cols-3 gap-8">
+        {contactMethods.map((method) => (
+          <a
+            href={method.link}
+            target={method.isExternal ? '_blank' : undefined}
+            rel={method.isExternal ? 'noopener' : undefined}
+            class="group relative bg-gradient-to-br from-gray-50 to-white dark:from-gray-800 dark:to-gray-800 rounded-3xl p-8 shadow-xl border-2 border-gray-200 dark:border-gray-700 hover:border-primary/50 hover:shadow-2xl transition-all duration-300"
+          >
+            <div class="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-primary/10 to-cyan-500/10 rounded-full blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+
+            <div class="relative z-10">
+              <div class="text-5xl mb-4">{method.icon}</div>
+              <h3 class="text-2xl font-black text-gray-900 dark:text-white mb-3">{method.title}</h3>
+              <p class="text-lg font-bold text-primary mb-2">{method.value}</p>
+              <p class="text-sm text-gray-600 dark:text-gray-400">{method.description}</p>
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- WORKING HOURS & SOCIAL - Split Section -->
+  <section class="relative py-24 bg-gradient-to-br from-gray-50 via-white to-gray-100 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 overflow-hidden">
+    <div class="container mx-auto px-6 lg:px-8">
+      <div class="grid lg:grid-cols-2 gap-16">
+        <!-- Working Hours -->
+        <div class="bg-white dark:bg-gray-800 rounded-3xl p-10 shadow-xl border border-gray-200 dark:border-gray-700">
+          <div class="flex items-center gap-4 mb-8">
+            <div class="w-14 h-14 bg-gradient-to-br from-primary to-cyan-500 rounded-2xl flex items-center justify-center shadow-lg">
+              <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+              </svg>
+            </div>
+            <div>
+              <h3 class="text-2xl font-black text-gray-900 dark:text-white">
+                {locale === 'id' ? 'Jam Operasional' : 'Working Hours'}
+              </h3>
+              <p class="text-sm font-semibold text-gray-600 dark:text-gray-400">
+                {locale === 'id' ? 'Kami siap membantu Anda' : 'We\'re here to help you'}
+              </p>
+            </div>
+          </div>
+
+          <div class="space-y-4">
+            {workingHours.map((schedule, index) => (
+              <div class={`flex items-center justify-between py-4 px-6 rounded-xl ${
+                index === 0 ? 'bg-gradient-to-r from-primary/10 to-cyan-500/10 border-2 border-primary/20' :
+                index === 1 ? 'bg-gray-50 dark:bg-gray-700' :
+                'bg-gray-50 dark:bg-gray-700 opacity-75'
+              }`}>
+                <div>
+                  <div class="text-sm font-semibold text-gray-600 dark:text-gray-400 uppercase tracking-wide mb-1">
+                    {schedule.day}
+                  </div>
+                  <div class="text-xl font-black text-gray-900 dark:text-white">
+                    {schedule.hours}
+                  </div>
+                </div>
+                {index === 0 && (
+                  <div class="px-3 py-1 bg-green-500 text-white text-xs font-black rounded-full uppercase tracking-wide">
+                    {locale === 'id' ? 'Buka' : 'Open'}
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+
+          <div class="mt-8 pt-6 border-t-2 border-gray-200 dark:border-gray-700">
+            <div class="flex items-center gap-3 text-gray-600 dark:text-gray-400">
+              <svg class="w-5 h-5 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+              </svg>
+              <span class="text-sm font-semibold">
+                {locale === 'id' ? 'Respon cepat dalam 1 jam' : 'Quick response within 1 hour'}
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Social Media -->
+        <div class="bg-gradient-to-br from-gray-900 to-gray-800 dark:from-gray-800 dark:to-gray-900 rounded-3xl p-10 shadow-xl border border-gray-700">
+          <div class="flex items-center gap-4 mb-8">
+            <div class="w-14 h-14 bg-gradient-to-br from-purple-500 to-pink-500 rounded-2xl flex items-center justify-center shadow-lg">
+              <svg class="w-7 h-7 text-white" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M6.098 15.783a6.461 6.461 0 01-1.438-1.398 6.363 6.363 0 01-1.188-1.892 6.456 6.456 0 01-.437-2.345c0-.827.158-1.614.437-2.345a6.363 6.363 0 011.188-1.892A6.461 6.461 0 016.098 4.217 6.428 6.428 0 018.443 3.78c.827 0 1.614.158 2.345.437.727.283 1.384.68 1.946 1.188a6.461 6.461 0 011.398 1.438c.352.565.625 1.178.812 1.828H9.767a3.59 3.59 0 00-.726-.968 3.614 3.614 0 00-1.005-.688 3.173 3.173 0 00-1.233-.243c-.468 0-.906.087-1.313.26a3.172 3.172 0 00-1.067.726 3.534 3.534 0 00-.726 1.142 3.886 3.886 0 00-.26 1.441c0 .503.087.974.26 1.413.178.44.42.827.726 1.162.31.33.68.592 1.107.785.427.19.892.286 1.394.286.432 0 .84-.077 1.222-.23a3.13 3.13 0 001.005-.688c.29-.31.523-.674.7-1.094h4.777a6.443 6.443 0 01-.812 1.828 6.461 6.461 0 01-1.398 1.398 6.363 6.363 0 01-1.892 1.188 6.456 6.456 0 01-2.345.437c-.827 0-1.614-.158-2.345-.437a6.363 6.363 0 01-1.892-1.188z" />
+              </svg>
+            </div>
+            <div>
+              <h3 class="text-2xl font-black text-white">
+                {locale === 'id' ? 'Media Sosial' : 'Social Media'}
+              </h3>
+              <p class="text-sm font-semibold text-gray-400">
+                {locale === 'id' ? 'Ikuti karya kami' : 'Follow our work'}
+              </p>
+            </div>
+          </div>
+
+          <div class="space-y-4">
+            {socialLinks.map((social) => (
+              <a
+                href={social.url}
+                target="_blank"
+                rel="noopener"
+                class="flex items-center justify-between py-4 px-6 bg-white/5 hover:bg-white/10 rounded-xl transition-all duration-300 group"
+              >
+                <div class="flex items-center gap-4">
+                  <span class="text-3xl">{social.icon}</span>
+                  <span class="text-lg font-bold text-white">{social.name}</span>
+                </div>
+                <svg class="w-6 h-6 text-gray-400 group-hover:text-white group-hover:translate-x-1 transition-all duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                </svg>
+              </a>
+            ))}
+          </div>
+
+          <div class="mt-8 pt-6 border-t border-gray-700">
+            <p class="text-sm font-semibold text-gray-400">
+              {locale === 'id'
+                ? 'Dapatkan update terbaru tentang campaign dan insights menarik'
+                : 'Get latest updates about campaigns and interesting insights'}
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MAP SECTION -->
+  <section class="relative h-[500px] bg-gray-900 overflow-hidden">
+    <div class="absolute inset-0 bg-gradient-to-br from-primary/20 to-cyan-500/20"></div>
+    <div class="absolute inset-0 flex items-center justify-center">
+      <div class="text-center space-y-6">
+        <div class="w-24 h-24 bg-gradient-to-br from-primary to-cyan-500 rounded-full flex items-center justify-center mx-auto shadow-2xl">
+          <svg class="w-12 h-12 text-white" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd" />
+          </svg>
+        </div>
+        <h3 class="text-3xl font-black text-white">
+          Posthinks HQ
+        </h3>
+        <p class="text-xl text-gray-300 max-w-md mx-auto">
+          Mampang Prapatan Raya No. 123<br/>
+          Jakarta Selatan, Indonesia
+        </p>
+        <a
+          href="https://maps.google.com"
+          target="_blank"
+          rel="noopener"
+          class="inline-flex items-center gap-3 px-8 py-4 bg-white text-gray-900 font-bold rounded-xl shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300"
+        >
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+          </svg>
+          <span>{locale === 'id' ? 'Buka di Google Maps' : 'Open in Google Maps'}</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA SECTION -->
+  <section class="relative py-24 bg-gradient-to-br from-primary via-purple-500 to-pink-500 overflow-hidden">
+    <div class="absolute inset-0">
+      <div class="absolute inset-0 bg-black/20"></div>
+      <div class="absolute inset-0 bg-[linear-gradient(to_right,#ffffff10_1px,transparent_1px),linear-gradient(to_bottom,#ffffff10_1px,transparent_1px)] bg-[size:64px_64px]"></div>
+    </div>
+
+    <div class="container mx-auto px-6 lg:px-8 relative z-10">
+      <div class="max-w-4xl mx-auto text-center">
+        <h2 class="text-4xl md:text-6xl font-black text-white mb-6 leading-tight">
+          {locale === 'id'
+            ? 'Siap Membuat Campaign Berdampak?'
+            : 'Ready to Make Impactful Campaigns?'}
+        </h2>
+        <p class="text-xl text-white/90 mb-10 max-w-2xl mx-auto">
+          {locale === 'id'
+            ? 'Diskusikan dengan tim ahli kami dan temukan strategi terbaik untuk brand Anda'
+            : 'Discuss with our expert team and find the best strategy for your brand'}
+        </p>
+        <div class="flex flex-wrap justify-center gap-4">
+          <a
+            href="https://wa.me/6281234567890"
+            target="_blank"
+            rel="noopener"
+            class="inline-flex items-center gap-3 px-10 py-5 bg-white text-primary font-black rounded-2xl shadow-2xl hover:shadow-3xl hover:scale-105 transition-all duration-300"
+          >
+            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.5-.173 0-.371.05-.57.099-.198.05-.446.149-.644.297-.198.149-.446.396-.644.742-.198.347-.396.842-.496 1.386-.099.544-.05 1.188.05 1.682.099.494.297.988.594 1.482.298.494.644.939.99 1.336.347.396.743.742 1.139 1.04.396.297.792.544 1.188.742.396.199.842.347 1.287.446.446.099.892.149 1.337.149.446 0 .892-.05 1.288-.149.396-.099.743-.247 1.04-.446.297-.198.545-.445.693-.742.149-.297.248-.644.298-1.04.05-.396.05-.842 0-1.287-.05-.446-.149-.892-.298-1.337-.149-.446-.347-.842-.594-1.188-.247-.347-.545-.644-.842-.892-.297-.248-.644-.446-1.04-.594-.396-.149-.842-.248-1.287-.298-.446-.05-.892-.05-1.337 0z"/>
+            </svg>
+            <span>{locale === 'id' ? 'Mulai Sekarang' : 'Start Now'}</span>
+          </a>
+          <a
+            href={`/${locale}/services`}
+            class="inline-flex items-center gap-3 px-10 py-5 bg-white/10 text-white font-black rounded-2xl border-2 border-white/30 hover:bg-white/20 hover:border-white/50 transition-all duration-300"
+          >
+            <span>{locale === 'id' ? 'Lihat Layanan' : 'View Services'}</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  @keyframes fade-up {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .animate-fade-up {
+    animation: fade-up 0.8s ease-out forwards;
+  }
+
+  @keyframes float {
+    0%, 100% {
+      transform: translateY(0px) scale(1);
+    }
+    50% {
+      transform: translateY(-20px) scale(1.05);
+    }
+  }
+
+  .animate-float {
+    animation: float 6s ease-in-out infinite;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+</style>
