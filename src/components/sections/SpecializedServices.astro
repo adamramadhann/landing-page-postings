@@ -1,297 +1,114 @@
 ---
 // src/components/sections/SpecializedServices.astro
-// Data diambil & diringkas dari Playbook Hal 5-21
-// Redesigned dengan consistent cyan/teal theme yang lebih elegan
 import AnimateOnScroll from '../ui/AnimateOnScroll.astro';
 
-const specializedServices = [
+const services = [
   {
-    title: "SEO & CRO Excellence",
-    shortDesc: "Dominasi Search Engine & Maksimalkan Konversi",
-    desc: "Audit teknis mendalam mengidentifikasi 50+ peluang optimasi. Strategi konten data-driven menargetkan high-intent keywords. CRO testing meningkatkan conversion rate hingga 3x dalam 90 hari.",
-    benefits: ["Technical SEO Audit", "Content Strategy", "A/B Testing", "Conversion Optimization"],
-    results: { metric: "150%", label: "Traffic Increase", timeframe: "6 months" },
-    iconType: "seo",
-    featured: true,
-    image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=1200&q=80&auto=format&fit=crop"
+    title: "SEO & CRO",
+    desc: "Optimasi touchpoint untuk konversi maksimal secara berkelanjutan.",
+    metric: "300%",
+    label: "ROI Increase",
+    color: "from-cyan-400 to-blue-500",
+    icon: "M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"
   },
   {
-    title: "Buzzer & Influencer",
-    shortDesc: "Viral Marketing dengan 100K+ Talent",
-    desc: "Akses langsung ke database 100,000+ verified influencers. AI-matching menemukan talent yang perfect-fit dengan brand. Campaign tracking real-time untuk ROI yang terukur.",
-    benefits: ["100K+ Talent Database", "AI Matching", "Real-time Analytics", "Viral Campaign Management"],
-    results: { metric: "10M+", label: "Reach Generated", timeframe: "per campaign" },
-    iconType: "buzzer",
-    featured: false,
-    image: "https://images.unsplash.com/photo-1611162617474-5b21e879e113?w=1200&q=80&auto=format&fit=crop"
+    title: "Buzzer Net",
+    desc: "100K+ talenta penggerak opini publik secara real-time.",
+    metric: "100K+",
+    label: "Active Talents",
+    color: "from-emerald-400 to-cyan-500",
+    icon: "M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7"
   },
   {
-    title: "Media Distribution",
-    shortDesc: "Jangkauan Nasional & Lokal Masif",
-    desc: "Jaringan 10,000+ media outlets mulai dari nasional hingga hyperlocal. Press release optimization untuk maximum pickup. Media monitoring comprehensive untuk brand sentiment analysis.",
-    benefits: ["10K+ Media Partners", "Press Distribution", "Media Monitoring", "Crisis Management"],
-    results: { metric: "95%", label: "Media Pickup Rate", timeframe: "average" },
-    iconType: "media",
-    featured: false,
-    image: "https://images.unsplash.com/photo-1495020686667-45e6878c8f89?w=1200&q=80&auto=format&fit=crop"
+    title: "Viral Clipper",
+    desc: "Dominasi FYP dengan konten yang terukur dan masif.",
+    metric: "24/7",
+    label: "Growth",
+    color: "from-blue-500 to-indigo-600",
+    icon: "M15 10l4.553-2.276A1 1 0 0121 8.618v6.764"
   },
   {
-    title: "Content Clipper",
-    shortDesc: "Viral di FYP dengan 500+ Pro Clippers",
-    desc: "500+ professional clippers mastered in TikTok & Reels algorithm. Content recycling strategy memaksimalkan ROI. FYP domination dengan engagement rate 5x above average.",
-    benefits: ["500+ Pro Clippers", "Algorithm Mastery", "Content Recycling", "FYP Domination"],
-    results: { metric: "5M+", label: "Views Generated", timeframe: "monthly avg" },
-    iconType: "clipper",
-    featured: false,
-    image: "https://images.unsplash.com/photo-1611162616305-c69b3fa7fbe0?w=1200&q=80&auto=format&fit=crop"
+    title: "Media Dist.",
+    desc: "Publikasi masif di 10K+ jaringan media nasional terpercaya.",
+    metric: "10K+",
+    label: "Portals",
+    color: "from-cyan-500 to-teal-400",
+    icon: "M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10"
   }
 ];
-
-// Minimalist icon SVG strings - hanya outline, tanpa gradient berlebihan
-const iconsvgs = {
-  seo: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-    <circle cx="11" cy="11" r="8"/>
-    <path d="m21 21-4.35-4.35"/>
-  </svg>`,
-  buzzer: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-    <path d="M12 20a8 8 0 1 0 0-16 8 8 0 0 0 0 16Z"/>
-    <path d="M12 14a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z"/>
-    <path d="M12 2v2"/><path d="M12 22v-2"/><path d="m17 20.66-1-1.73"/><path d="M11 10.27 7 3.34"/><path d="m20.66 17-1.73-1"/><path d="m6.34 17 1.73-1"/><path d="m20.66 7-1.73 1"/><path d="m6.34 7 1.73 1"/><path d="M3.34 7l1 1.73"/><path d="M17 10.27l4-6.93"/><path d="m3.34 17 1.73-1"/>
-  </svg>`,
-  media: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-    <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/>
-    <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
-  </svg>`,
-  clipper: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-    <path d="m21.174 6.812-1.523-5.759a.5.5 0 0 0-.625-.349l-5.758 1.524a.5.5 0 0 0-.349.625l1.524 5.758a.5.5 0 0 0 .625.349l5.758-1.524a.5.5 0 0 0 .349-.625Z"/>
-    <path d="M9.5 14.062 12 7.5l2.5 6.562-2.5 6.563L9.5 14.062Z"/>
-    <circle cx="12" cy="12" r="9"/>
-  </svg>`
-};
 ---
 
-<section class="relative py-32 bg-white dark:bg-gray-900 overflow-hidden">
-  {/* Subtle Background - Clean & Minimal */}
-  <div class="absolute inset-0 overflow-hidden pointer-events-none">
-    {/* Grid Pattern - consistent cyan/teal */}
-    <div class="absolute inset-0 opacity-[0.03] dark:opacity-[0.05]">
-      <div class="absolute inset-0 bg-[linear-gradient(to_right,#0891b2_1px,transparent_1px),linear-gradient(to_bottom,#0891b2_1px,transparent_1px)] bg-[size:50px_50px]"></div>
-    </div>
-
-    {/* Single Large Gradient Orb - cyan/teal only */}
-    <div class="absolute top-20 right-20 w-[600px] h-[600px] bg-gradient-to-br from-cyan-400/5 to-teal-400/5 rounded-full blur-3xl animate-float"></div>
-    <div class="absolute bottom-20 left-20 w-[500px] h-[500px] bg-gradient-to-tr from-teal-400/5 to-cyan-400/5 rounded-full blur-3xl animate-float" style="animation-delay: -3s"></div>
+<section class="relative py-24 bg-[#020617] overflow-hidden">
+  <div class="absolute inset-0 pointer-events-none">
+    <div class="absolute inset-0 bg-[linear-gradient(to_right,#ffffff03_1px,transparent_1px),linear-gradient(to_bottom,#ffffff03_1px,transparent_1px)] bg-[size:60px_60px]"></div>
+    <div class="absolute top-0 right-0 w-[500px] h-[500px] bg-cyan-500/5 blur-[120px] rounded-full"></div>
   </div>
 
-  <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    {/* Section Header */}
-    <AnimateOnScroll animation="fade-up" delay={0} duration={800}>
-      <div class="text-center mb-20">
-        <div class="inline-flex items-center gap-2 px-4 py-2 mb-8 bg-cyan-50 dark:bg-cyan-950/20 border border-cyan-200 dark:border-cyan-800 rounded-full backdrop-blur-sm">
-          <span class="w-2 h-2 rounded-full bg-cyan-500 animate-pulse"></span>
-          <span class="text-sm font-bold text-cyan-600 dark:text-cyan-400 uppercase tracking-wider">Specialized Services</span>
-        </div>
-
-        <h2 class="text-4xl md:text-5xl lg:text-6xl font-black text-gray-900 dark:text-white mb-6 leading-tight">
-          Services That
-          <span class="block mt-2 text-transparent bg-clip-text bg-gradient-to-r from-cyan-500 to-teal-500">
-            Deliver Real Results
+  <div class="container mx-auto px-6 relative z-10">
+    
+    <div class="flex flex-col lg:flex-row justify-between items-start lg:items-end mb-24 gap-12">
+      <AnimateOnScroll animation="fade-up" class="max-w-3xl">
+        <div class="inline-flex items-center gap-3 px-3 py-1.5 rounded-full border border-cyan-500/20 bg-cyan-500/5 text-[10px] font-black uppercase tracking-[0.3em] text-cyan-400 mb-8 shadow-sm">
+          <span class="relative flex h-2 w-2">
+            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75"></span>
+            <span class="relative inline-flex rounded-full h-2 w-2 bg-cyan-500"></span>
           </span>
+          Our Capabilities
+        </div>
+        <h2 class="text-3xl lg:text-6xl font-black text-white leading-[0.85] tracking-tighter">
+          Beyond <span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-blue-500 to-emerald-400">Marketing.</span><br/>
+          It's Dominance.
         </h2>
+      </AnimateOnScroll>
 
-        <p class="text-lg md:text-xl text-gray-600 dark:text-gray-400 max-w-3xl mx-auto leading-relaxed">
-          Layanan khusus dengan track record terbukti. Kami tidak hanya menjanjikan, kami membuktikan dengan data dan hasil nyata dari ratusan campaign.
+      <AnimateOnScroll animation="fade-up" delay={200} class="max-w-xs border-l border-white/10 pl-8">
+        <p class="text-slate-400 text-sm leading-relaxed mb-6">
+          Kami tidak hanya mengikuti tren, kami menciptakannya melalui ekosistem digital terintegrasi yang memastikan brand Anda menguasai pasar.
         </p>
-      </div>
-    </AnimateOnScroll>
-
-    {/* Featured Service - Large Card dengan Image */}
-    <AnimateOnScroll animation="fade-up" delay={200} duration={800}>
-      {specializedServices.filter(s => s.featured).map((service) => (
-        <div key={service.title} class="group relative bg-white dark:bg-gray-800 rounded-3xl overflow-hidden shadow-2xl hover:shadow-3xl transition-all duration-500 border border-gray-200 dark:border-gray-700">
-          <div class="grid lg:grid-cols-[1.2fr_1fr] gap-0">
-            {/* Left - Image */}
-            <div class="relative max-md:h-[500px] lg:h-full overflow-hidden bg-gradient-to-br from-cyan-50 to-teal-50 dark:from-cyan-950/20 dark:to-teal-950/20">
-              <img
-                src={service.image}
-                alt={service.title}
-                class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 mix-blend-multiply dark:mix-blend-normal"
-              />
-              {/* Clean Gradient Overlay - lebih subtle */}
-              <div class="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent"></div>
-
-              {/* Floating Badge */}
-              <div class="absolute top-6 left-6 inline-flex items-center gap-2 px-4 py-2 bg-white/90 dark:bg-gray-800/90 backdrop-blur-md text-cyan-600 dark:text-cyan-400 text-xs font-black uppercase tracking-wider rounded-full shadow-lg border border-cyan-200 dark:border-cyan-800">
-                <span class="relative flex h-2 w-2">
-                  <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-500 opacity-75"></span>
-                  <span class="relative inline-flex rounded-full h-2 w-2 bg-cyan-500"></span>
-                </span>
-                Most Popular
+        <div class="flex items-center gap-4">
+          <div class="flex -space-x-3">
+            {[1,2,3,4].map(i => (
+              <div class="w-8 h-8 rounded-full border-2 border-[#020617] bg-slate-800">
+                <img src={`https://i.pravatar.cc/100?img=${i+10}`} alt="client" class="rounded-full grayscale" />
               </div>
-
-              {/* Bottom Stats Overlay on Image */}
-              <div class="absolute bottom-6 left-6 right-6 flex justify-between">
-                <div class="px-4 py-2 bg-white/90 dark:bg-gray-800/90 backdrop-blur-md rounded-xl">
-                  <div class="text-2xl font-black text-cyan-600 dark:text-cyan-400">{service.results.metric}</div>
-                  <div class="text-[10px] font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider">{service.results.label}</div>
-                </div>
-                <div class="px-4 py-2 bg-white/90 dark:bg-gray-800/90 backdrop-blur-md rounded-xl">
-                  <div class="text-2xl font-black text-gray-900 dark:text-white">98%</div>
-                  <div class="text-[10px] font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Satisfaction</div>
-                </div>
-              </div>
-            </div>
-
-            {/* Right - Content */}
-            <div class="p-8 md:p-12 flex flex-col justify-center">
-              {/* Icon Badge */}
-              <div class="inline-flex items-center justify-center w-14 h-14 mb-6 bg-gradient-to-br from-cyan-50 to-teal-50 dark:from-cyan-900/30 dark:to-teal-900/30 rounded-2xl border border-cyan-200 dark:border-cyan-800">
-                <div class="w-7 h-7 text-cyan-600 dark:text-cyan-400" set:html={iconsvgs[service.iconType]} />
-              </div>
-
-              {/* Title */}
-              <h3 class="text-3xl md:text-4xl font-black text-gray-900 dark:text-white mb-3 leading-tight">
-                {service.title}
-              </h3>
-
-              {/* Short Description */}
-              <p class="text-base font-semibold text-cyan-600 dark:text-cyan-400 mb-6">
-                {service.shortDesc}
-              </p>
-
-              {/* Description */}
-              <p class="text-gray-600 dark:text-gray-400 leading-relaxed mb-8 text-base">
-                {service.desc}
-              </p>
-
-              {/* Benefits - Clean List */}
-              <div class="space-y-3 mb-8">
-                <div class="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-wider mb-3">Key Benefits</div>
-                {service.benefits.map((benefit, i) => (
-                  <div
-                    key={i}
-                    class="flex items-center gap-3 text-gray-700 dark:text-gray-300"
-                  >
-                    <div class="flex-shrink-0 w-6 h-6 rounded-lg bg-gradient-to-br from-cyan-500 to-teal-500 flex items-center justify-center shadow-md">
-                      <svg class="w-3.5 h-3.5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7" />
-                      </svg>
-                    </div>
-                    <span class="font-medium">{benefit}</span>
-                  </div>
-                ))}
-              </div>
-
-              {/* CTA Button */}
-              <a
-                href="#contact"
-                class="group/btn inline-flex items-center justify-center gap-3 px-8 py-4 bg-gradient-to-r from-cyan-500 to-teal-500 text-white font-bold rounded-2xl hover:shadow-xl hover:shadow-cyan-500/30 hover:scale-105 transition-all duration-300 relative overflow-hidden"
-              >
-                <span class="relative z-10">Get Started with SEO</span>
-                <svg class="w-5 h-5 relative z-10 transition-transform duration-300 group-hover/btn:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                </svg>
-                {/* Shimmer Effect */}
-                <div class="absolute inset-0 -translate-x-full group-hover/btn:animate-shimmer bg-gradient-to-r from-transparent via-white/20 to-transparent"></div>
-              </a>
-
-              {/* Trust Badges */}
-              <div class="mt-6 pt-6 border-t border-gray-200 dark:border-gray-700 flex items-center gap-6 text-sm">
-                <div class="flex items-center gap-2 text-gray-500 dark:text-gray-400">
-                  <svg class="w-5 h-5 text-cyan-500" fill="currentColor" viewBox="0 0 20 20">
-                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
-                  </svg>
-                  <span class="font-medium">500+ Clients</span>
-                </div>
-                <div class="flex items-center gap-2 text-gray-500 dark:text-gray-400">
-                  <svg class="w-5 h-5 text-cyan-500" fill="currentColor" viewBox="0 0 20 20">
-                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                  </svg>
-                  <span class="font-medium">Top Rated</span>
-                </div>
-              </div>
-            </div>
+            ))}
+          </div>
+          <div class="text-[10px] font-bold text-slate-500 uppercase leading-tight tracking-widest">
+            Trusted by<br/><span class="text-white">500+ Top Brands</span>
           </div>
         </div>
-      ))}
-    </AnimateOnScroll>
+      </AnimateOnScroll>
+    </div>
 
-    {/* Other Services Grid */}
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
-      {specializedServices.filter(s => !s.featured).map((service, index) => (
-        <AnimateOnScroll
-          key={service.title}
-          animation="fade-up"
-          delay={400 + index * 150}
-          duration={700}
-        >
-          <div class="group relative bg-white dark:bg-gray-800 rounded-3xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-200 dark:border-gray-700 h-full flex flex-col">
-            {/* Image Header */}
-            <div class="relative h-40 sm:h-48 overflow-hidden">
-              <img
-                src={service.image}
-                alt={service.title}
-                class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-              />
-              {/* Gradient Overlay */}
-              <div class="absolute inset-0 bg-gradient-to-t from-gray-900/60 to-transparent"></div>
-
-              {/* Icon Badge */}
-              <div class="absolute bottom-4 left-4 w-12 h-12 bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-xl flex items-center justify-center shadow-lg">
-                <div class="w-6 h-6 text-cyan-600 dark:text-cyan-400" set:html={iconsvgs[service.iconType]} />
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      {services.map((service, index) => (
+        <AnimateOnScroll animation="fade-up" delay={index * 100}>
+          <div class="group relative h-full bg-slate-900/20 backdrop-blur-md border border-white/[0.05] rounded-2xl p-7 transition-all duration-500 hover:bg-slate-900/50 hover:border-cyan-500/30 hover:-translate-y-1">
+            
+            <div class="flex justify-between items-start mb-10">
+              <div class={`p-2.5 rounded-xl bg-gradient-to-br ${service.color} shadow-lg shadow-cyan-500/10`}>
+                <svg class="w-5 h-5 text-[#020617]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d={service.icon}></path>
+                </svg>
+              </div>
+              <div class="text-right">
+                <div class="text-2xl font-black tracking-tighter text-white group-hover:text-cyan-400 transition-colors">
+                  {service.metric}
+                </div>
+                <div class="text-[8px] font-bold text-slate-500 uppercase tracking-widest">{service.label}</div>
               </div>
             </div>
 
-            {/* Content */}
-            <div class="p-4 sm:p-6 flex-1 flex flex-col">
-              <h3 class="text-xl font-black text-gray-900 dark:text-white mb-2">
+            <div class="space-y-3">
+              <h3 class="text-lg font-bold text-white tracking-tight">
                 {service.title}
               </h3>
-
-              <p class="text-xs font-bold text-cyan-600 dark:text-cyan-400 mb-3 uppercase tracking-wider">
-                {service.shortDesc}
-              </p>
-
-              <p class="text-gray-600 dark:text-gray-400 text-sm leading-relaxed mb-4 flex-1">
+              <p class="text-slate-400 text-xs leading-relaxed group-hover:text-slate-300 transition-colors">
                 {service.desc}
               </p>
-
-              {/* Results Badge */}
-              <div class="bg-cyan-50 dark:bg-cyan-950/20 rounded-xl p-4 border border-cyan-200 dark:border-cyan-800 mb-4">
-                <div class="flex items-center gap-3">
-                  <div class="flex-1">
-                    <div class="text-2xl font-black text-gray-900 dark:text-white">{service.results.metric}</div>
-                    <div class="text-xs text-gray-600 dark:text-gray-400">{service.results.label}</div>
-                  </div>
-                  <svg class="w-8 h-8 text-cyan-500" fill="currentColor" viewBox="0 0 20 20">
-                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
-                  </svg>
-                </div>
-              </div>
-
-              {/* Benefits Pills */}
-              <div class="flex flex-wrap gap-2 mb-4">
-                {service.benefits.slice(0, 3).map((benefit, i) => (
-                  <span
-                    key={i}
-                    class="px-3 py-1 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 text-xs font-semibold rounded-lg"
-                  >
-                    {benefit}
-                  </span>
-                ))}
-              </div>
-
-              {/* CTA */}
-              <a
-                href="#contact"
-                class="inline-flex items-center justify-center gap-2 text-sm font-bold text-cyan-600 dark:text-cyan-400 hover:text-cyan-700 dark:hover:text-cyan-300 transition-colors duration-300 mt-auto"
-              >
-                Learn More
-                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-                </svg>
-              </a>
             </div>
+
+            <div class={`absolute bottom-0 left-0 h-[2px] w-0 bg-gradient-to-r ${service.color} transition-all duration-500 group-hover:w-full opacity-60`}></div>
           </div>
         </AnimateOnScroll>
       ))}
@@ -300,26 +117,7 @@ const iconsvgs = {
 </section>
 
 <style>
-  @keyframes float {
-    0%, 100% {
-      transform: translateY(0px) scale(1);
-    }
-    50% {
-      transform: translateY(-30px) scale(1.1);
-    }
-  }
-
-  .animate-float {
-    animation: float 8s ease-in-out infinite;
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    *,
-    *::before,
-    *::after {
-      animation-duration: 0.01ms !important;
-      animation-iteration-count: 1 !important;
-      transition-duration: 0.01ms !important;
-    }
+  section {
+    font-family: 'Plus Jakarta Sans', sans-serif;
   }
 </style>
