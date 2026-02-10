@@ -1,0 +1,170 @@
+---
+// src/components/sections/CommunityHero.astro
+import AnimateOnScroll from '../ui/AnimateOnScroll.astro';
+
+const heroData = {
+  badge: "Indonesia's Digital Powerhouse",
+  title: "Gabung di Ekosistem Digital Terbesar",
+  subtitle: "Rumah bagi 100.000+ talent kreatif, buzzer, dan profesional media. Kami bukan sekadar komunitas, kami adalah penggerak opini publik.",
+  stats: [
+    { value: "100K+", label: "Talents", color: "from-cyan-500 to-blue-500" },
+    { value: "10K+", label: "Media", color: "from-emerald-500 to-teal-500" },
+    { value: "500+", label: "Brands", color: "from-purple-500 to-pink-500" }
+  ],
+  cta: { primary: "Daftar sebagai Talent", secondary: "Pelajari Benefit" }
+};
+
+// Data foto talent untuk visual kanan
+const talents = [
+  { img: "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=150&h=150&fit=crop", pos: "top-10 left-10", delay: "0s" },
+  { img: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop", pos: "top-40 right-10", delay: "-2s" },
+  { img: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150&h=150&fit=crop", pos: "bottom-20 left-20", delay: "-4s" },
+  { img: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&h=150&fit=crop", pos: "bottom-10 right-20", delay: "-1s" },
+  { img: "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=150&h=150&fit=crop", pos: "top-1/2 left-1/2", delay: "-3s" },
+];
+---
+
+<section class="relative min-h-screen flex items-center overflow-hidden bg-[#020617]" id="community-hero">
+  <div class="absolute inset-0 z-0">
+    <div class="absolute inset-0 opacity-[0.03] bg-[linear-gradient(to_right,#0891b2_1px,transparent_1px),linear-gradient(to_bottom,#0891b2_1px,transparent_1px)] bg-[size:60px_60px]"></div>
+    <div class="orb absolute top-0 right-0 w-[800px] h-[800px] bg-cyan-600/10 rounded-full blur-[150px] animate-pulse"></div>
+    <div class="orb absolute bottom-0 left-0 w-[600px] h-[600px] bg-blue-600/10 rounded-full blur-[150px]"></div>
+  </div>
+
+  <div class="container mx-auto px-6 lg:px-12 relative z-10 py-24">
+    <div class="grid lg:grid-cols-2 gap-16 items-center">
+      
+      <div class="text-left space-y-8">
+        <AnimateOnScroll animation="fade-right" delay={100}>
+          <div class="inline-flex items-center gap-3 px-4 py-2 bg-white/5 backdrop-blur-xl border border-white/10 rounded-full shadow-2xl">
+            <span class="flex h-2 w-2 rounded-full bg-cyan-400 animate-ping"></span>
+            <span class="text-[10px] font-black tracking-[0.3em] text-cyan-100 uppercase">{heroData.badge}</span>
+          </div>
+        </AnimateOnScroll>
+
+        <AnimateOnScroll animation="fade-right" delay={300}>
+          <h1 class="text-5xl lg:text-7xl font-black text-white leading-[1.1] tracking-tight">
+            {heroData.title.split(' ').map((word, i) => (
+              <span class={i >= 3 ? "text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-emerald-400" : ""}>
+                {word}{" "}
+              </span>
+            ))}
+          </h1>
+        </AnimateOnScroll>
+
+        <AnimateOnScroll animation="fade-right" delay={500}>
+          <p class="text-xl text-gray-400 max-w-xl leading-relaxed">
+            {heroData.subtitle}
+          </p>
+        </AnimateOnScroll>
+
+        <AnimateOnScroll animation="fade-right" delay={700}>
+          <div class="flex flex-wrap gap-6 pt-4">
+            <a href="#" class="group relative px-10 py-5 bg-cyan-600 text-white font-bold rounded-2xl shadow-xl shadow-cyan-900/20 hover:-translate-y-1 transition-all overflow-hidden">
+              <span class="relative z-10">{heroData.cta.primary}</span>
+              <div class="absolute inset-0 -translate-x-full group-hover:animate-shimmer bg-gradient-to-r from-transparent via-white/20 to-transparent"></div>
+            </a>
+            <a href="#" class="px-10 py-5 bg-white/5 border border-white/10 text-white font-bold rounded-2xl hover:bg-white/10 transition-all">
+              {heroData.cta.secondary}
+            </a>
+          </div>
+        </AnimateOnScroll>
+
+        <AnimateOnScroll animation="fade-up" delay={900}>
+          <div class="flex gap-10 pt-10 border-t border-white/5">
+            {heroData.stats.map(stat => (
+              <div>
+                <p class={`text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r ${stat.color}`}>{stat.value}</p>
+                <p class="text-[10px] font-bold text-gray-500 uppercase tracking-widest">{stat.label}</p>
+              </div>
+            ))}
+          </div>
+        </AnimateOnScroll>
+      </div>
+
+      <div class="relative h-[600px] hidden lg:flex items-center justify-center">
+        <div class="relative z-20 w-48 h-48 rounded-[3rem] bg-gradient-to-br from-cyan-500 to-blue-600 p-[2px] shadow-[0_0_50px_rgba(8,145,178,0.3)] animate-float">
+          <div class="w-full h-full bg-[#020617] rounded-[2.9rem] flex items-center justify-center overflow-hidden">
+             <img src="https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?w=300&h=300&fit=crop" class="w-full h-full object-cover opacity-80" alt="Center" />
+          </div>
+        </div>
+
+        <div class="absolute inset-0 flex items-center justify-center">
+          <div class="w-[450px] h-[450px] border border-white/5 rounded-full animate-[spin_20s_linear_infinite]"></div>
+          <div class="absolute w-[300px] h-[300px] border border-cyan-500/10 rounded-full animate-[spin_15s_linear_infinite_reverse]"></div>
+        </div>
+
+        {talents.map((t) => (
+          <div 
+            class={`absolute ${t.pos} z-30 group animate-float`}
+            style={`animation-delay: ${t.delay}`}
+          >
+            <div class="relative">
+              <div class="absolute inset-0 bg-cyan-500 rounded-2xl blur-xl opacity-0 group-hover:opacity-40 transition-opacity"></div>
+              <img 
+                src={t.img} 
+                class="relative w-16 h-16 lg:w-20 lg:h-20 rounded-2xl object-cover border border-white/10 grayscale hover:grayscale-0 transition-all duration-500 cursor-pointer shadow-2xl" 
+                alt="Talent" 
+              />
+              <div class="absolute -bottom-2 -right-2 w-6 h-6 bg-cyan-500 rounded-full flex items-center justify-center border-2 border-[#020617]">
+                <svg class="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+              </div>
+            </div>
+          </div>
+        ))}
+
+        <div class="absolute top-[20%] right-0 z-40 bg-white/95 backdrop-blur-xl py-3 px-5 rounded-2xl shadow-2xl animate-bounce-slow">
+          <div class="flex items-center gap-3">
+             <div class="text-cyan-600 font-black text-xl">120+</div>
+             <div class="text-[9px] font-bold text-gray-500 uppercase leading-none">New Talents<br/>This Week</div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<style>
+  @keyframes float {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    50% { transform: translateY(-20px) rotate(2deg); }
+  }
+  @keyframes bounce-slow {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-15px); }
+  }
+  @keyframes shimmer {
+    100% { transform: translateX(100%); }
+  }
+
+  .animate-float { animation: float 6s ease-in-out infinite; }
+  .animate-bounce-slow { animation: bounce-slow 4s ease-in-out infinite; }
+  .animate-shimmer { animation: shimmer 2s infinite; }
+
+  /* Smooth Entrance for Content */
+  :global([data-aos="fade-right"]) {
+    opacity: 0;
+    transform: translateX(-30px);
+    transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  :global([data-aos="fade-right"].aos-animate) {
+    opacity: 1;
+    transform: translateX(0);
+  }
+</style>
+
+<script>
+  // Parallax for Talent Avatars
+  document.addEventListener('mousemove', (e) => {
+    const talents = document.querySelectorAll('.group.animate-float');
+    const x = (e.clientX / window.innerWidth - 0.5) * 40;
+    const y = (e.clientY / window.innerHeight - 0.5) * 40;
+    
+    talents.forEach((el, index) => {
+      const speed = (index + 1) * 0.4;
+      (el as HTMLElement).style.transform = `translate(${x * speed}px, ${y * speed}px)`;
+    });
+  });
+</script>

@@ -1,6 +1,5 @@
 ---
 // src/components/sections/HeroSection.astro
-// Enhanced Hero dengan lebih banyak animasi dan efek visual
 import AnimateOnScroll from '../ui/AnimateOnScroll.astro';
 
 interface Props {
@@ -9,584 +8,196 @@ interface Props {
 
 const { currentLang: lang } = Astro.props;
 
-// Data dari PDF Posthinks
 const heroData = {
   id: {
-    badge: "Agency of the Future",
-    title: "Powering Game-Changing Digital Solutions",
-    description: "360° Media Agency yang menghubungkan brand dengan audiens melalui Big Data, real-time buzz, 500+ Clippers, dan jaringan 100.000+ talenta.",
-    cta: {
-      primary: "Konsultasi Strategi",
-      secondary: "Lihat Portofolio"
-    },
-    stats: [
-      { value: "500+", label: "Content Clippers" },
-      { value: "10.000+", label: "Media Outlets" },
-      { value: "100K+", label: "Talented Members" }
-    ]
+    badge: "Social Commerce Solution",
+    title: "Ubah Interaksi Menjadi Transaksi",
+    description: "Platform all-in-one untuk mengelola, mengukur, dan mengoptimalkan strategi social commerce Anda di seluruh jaringan media sosial global.",
+    cta: { primary: "Mulai Sekarang", secondary: "Lihat Demo" }
   },
   en: {
-    badge: "Future-Ready Agency",
-    title: "Powering Game-Changing Digital Solutions",
-    description: "360° Media Agency connecting brands with audiences through Big Data, real-time buzz, 500+ Clippers, and 100,000+ talent network.",
-    cta: {
-      primary: "Strategy Consultation",
-      secondary: "View Portfolio"
-    },
-    stats: [
-      { value: "500+", label: "Content Clippers" },
-      { value: "10K+", label: "Media Outlets" },
-      { value: "100K+", label: "Talented Members" }
-    ]
+    badge: "Social Commerce Solution",
+    title: "Turn Social Connections into Commerce",
+    description: "An all-in-one platform to manage, measure, and optimize your social commerce strategy across global social networks.",
+    cta: { primary: "Get Started", secondary: "View Demo" }
   }
 };
 
 const data = heroData[lang];
-const contactUrl = lang === 'en' ? '/en/contact' : '/kontak';
-const portfolioUrl = lang === 'en' ? '/en/portfolio' : '/portofolio';
+
+// Gambar Placeholder Berkualitas (Ganti dengan aset lokal Anda nanti)
+const productImg = "https://images.unsplash.com/photo-1583511655857-d19b40a7a54e?q=80&w=1000&auto=format&fit=crop";
+const userAvatar = "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?q=80&w=100&auto=format&fit=crop";
 ---
 
-<section class="relative min-h-[100dvh] flex items-center overflow-hidden bg-gradient-to-br from-cyan-50 via-teal-50 to-blue-50 dark:from-gray-900 dark:via-cyan-950 dark:to-blue-950">
-  <!-- Enhanced Background Elements dengan Banyak Animasi -->
+<section class="relative min-h-[90dvh] lg:min-h-screen flex items-center overflow-hidden bg-[#f8f9fb] dark:bg-slate-950">
+  
   <div class="absolute inset-0 overflow-hidden pointer-events-none">
-    <!-- 1. Large Gradient Orbs - Pulsing -->
-    <div class="absolute top-20 right-20 w-[700px] h-[700px] bg-gradient-to-br from-cyan-400/20 via-teal-400/15 to-blue-400/20 rounded-full blur-3xl animate-pulse-slow"></div>
-    <div class="absolute bottom-20 left-20 w-[600px] h-[600px] bg-gradient-to-tr from-teal-400/20 via-cyan-400/15 to-blue-400/20 rounded-full blur-3xl animate-pulse-slow" style="animation-delay: -3s"></div>
-    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[900px] h-[900px] bg-gradient-to-br from-cyan-500/10 to-teal-500/10 rounded-full blur-3xl animate-float"></div>
-
-    <!-- 2. Grid Pattern dengan Movement -->
-    <div class="absolute inset-0 opacity-[0.08] dark:opacity-[0.05]">
-      <div class="absolute inset-0 bg-[linear-gradient(to_right,#0891b2_1px,transparent_1px),linear-gradient(to_bottom,#0891b2_1px,transparent_1px)] bg-[size:50px_50px] animate-grid-move"></div>
-    </div>
-
-    <!-- 3. Floating Particles - Banyak dan Berwarna -->
-    <div class="absolute top-1/4 left-1/4 w-3 h-3 bg-cyan-500/40 rounded-full animate-float-particle" style="animation-delay: 0s"></div>
-    <div class="absolute top-1/3 right-1/4 w-2 h-2 bg-teal-500/30 rounded-full animate-float-particle" style="animation-delay: -2s"></div>
-    <div class="absolute bottom-1/4 left-1/3 w-2.5 h-2.5 bg-blue-500/35 rounded-full animate-float-particle" style="animation-delay: -4s"></div>
-    <div class="absolute top-1/2 right-1/3 w-2 h-2 bg-cyan-400/30 rounded-full animate-float-particle" style="animation-delay: -1s"></div>
-    <div class="absolute bottom-1/3 left-1/5 w-3 h-3 bg-teal-400/35 rounded-full animate-float-particle" style="animation-delay: -3s"></div>
-    <div class="absolute top-2/3 right-1/5 w-2 h-2 bg-blue-400/30 rounded-full animate-float-particle" style="animation-delay: -5s"></div>
-    <div class="absolute top-1/5 left-1/2 w-2.5 h-2.5 bg-cyan-300/30 rounded-full animate-float-particle" style="animation-delay: -2.5s"></div>
-    <div class="absolute bottom-1/5 right-1/2 w-2 h-2 bg-teal-300/35 rounded-full animate-float-particle" style="animation-delay: -4.5s"></div>
-
-    <!-- 4. Blinking Shadows (Glowing Dots) -->
-    <div class="absolute top-[20%] left-[15%] w-4 h-4 bg-cyan-500/60 rounded-full animate-blink-glow"></div>
-    <div class="absolute top-[30%] right-[20%] w-3 h-3 bg-teal-500/50 rounded-full animate-blink-glow" style="animation-delay: -1s"></div>
-    <div class="absolute bottom-[25%] left-[25%] w-3.5 h-3.5 bg-blue-500/55 rounded-full animate-blink-glow" style="animation-delay: -2s"></div>
-    <div class="absolute bottom-[35%] right-[30%] w-4 h-4 bg-cyan-400/50 rounded-full animate-blink-glow" style="animation-delay: -0.5s"></div>
-    <div class="absolute top-[45%] left-[10%] w-3 h-3 bg-teal-400/60 rounded-full animate-blink-glow" style="animation-delay: -1.5s"></div>
-    <div class="absolute top-[55%] right-[15%] w-3.5 h-3.5 bg-blue-400/55 rounded-full animate-blink-glow" style="animation-delay: -2.5s"></div>
-    <div class="absolute bottom-[15%] left-[40%] w-3 h-3 bg-cyan-300/50 rounded-full animate-blink-glow" style="animation-delay: -3s"></div>
-    <div class="absolute top-[65%] right-[40%] w-4 h-4 bg-teal-300/60 rounded-full animate-blink-glow" style="animation-delay: -0.8s"></div>
-
-    <!-- 5. Animated Gradient Lines -->
-    <div class="absolute top-[10%] left-0 w-full h-0.5 bg-gradient-to-r from-transparent via-cyan-400/30 to-transparent animate-shimmer-line"></div>
-    <div class="absolute bottom-[10%] left-0 w-full h-0.5 bg-gradient-to-r from-transparent via-teal-400/30 to-transparent animate-shimmer-line" style="animation-delay: -2s"></div>
+    <div class="absolute -right-[10%] top-[10%] w-[700px] h-[700px] bg-emerald-100/50 dark:bg-emerald-900/20 rounded-full blur-[100px]"></div>
+    <div class="absolute left-[5%] bottom-[10%] w-[400px] h-[400px] bg-blue-100/40 dark:bg-blue-900/10 rounded-full blur-[80px]"></div>
+    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] border border-slate-200/50 dark:border-slate-800/30 rounded-full animate-[spin_60s_linear_infinite]"></div>
   </div>
 
-  <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-    {/* Split Screen Layout */}
-    <div class="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+  <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10 py-20">
+    <div class="grid lg:grid-cols-2 gap-16 items-center">
 
-      {/* Left Column - Content */}
-      <div class="space-y-8">
-        {/* Badge dengan Entrance Animation */}
-        <AnimateOnScroll animation="fade-in" delay={0} duration={600}>
-          <span class="inline-flex items-center gap-2 rounded-full bg-white/80 dark:bg-gray-800/80 border border-cyan-200 dark:border-cyan-800 px-4 py-2 text-sm font-bold text-cyan-600 dark:text-cyan-400 shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300 backdrop-blur-sm">
-            <span class="relative flex h-2 w-2">
-              <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-500 opacity-75"></span>
-              <span class="relative inline-flex rounded-full h-2 w-2 bg-cyan-500"></span>
-            </span>
+      <div class="max-w-2xl space-y-8">
+        <AnimateOnScroll animation="fade-up" delay={0}>
+          <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-emerald-50 dark:bg-emerald-900/20 border border-emerald-100 dark:border-emerald-800/50 text-emerald-700 dark:text-emerald-400 text-sm font-bold shadow-sm">
+            <span class="flex h-2 w-2 rounded-full bg-emerald-500 animate-pulse"></span>
             {data.badge}
-          </span>
+          </div>
         </AnimateOnScroll>
 
-        {/* Title dengan Staggered Animation */}
-        <div class="space-y-4">
-          <h1 class="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight">
-            <AnimateOnScroll animation="fade-up" delay={100} duration={700}>
-              <span class="block text-gray-900 dark:text-white">
-                Powering Game-Changing
-              </span>
-            </AnimateOnScroll>
-            <AnimateOnScroll animation="fade-up" delay={200} duration={700}>
-              <span class="block text-transparent bg-clip-text bg-gradient-to-r from-cyan-500 via-teal-500 to-blue-600 bg-[length:200%_auto] animate-gradient-shift">
-                Digital Solutions
-              </span>
-            </AnimateOnScroll>
+        <AnimateOnScroll animation="fade-up" delay={100}>
+          <h1 class="text-5xl lg:text-7xl font-black text-slate-900 dark:text-white leading-[1.1] tracking-tight">
+            {data.title.split(' ').map((word, i) => 
+              i === 2 ? <span class="text-emerald-600 dark:text-emerald-500 block lg:inline">{word} </span> : word + ' '
+            )}
           </h1>
+        </AnimateOnScroll>
 
-          {/* Description */}
-          <div class="relative">
-            <AnimateOnScroll animation="fade-up" delay={300} duration={700}>
-              <p class="text-lg sm:text-xl text-gray-600 dark:text-gray-300 leading-relaxed max-w-xl">
-                {data.description}
-              </p>
-            </AnimateOnScroll>
-            <div class="absolute -right-2 top-0 h-full w-0.5 bg-gradient-to-b from-cyan-500 to-transparent animate-pulse hidden lg:block"></div>
-          </div>
-        </div>
+        <AnimateOnScroll animation="fade-up" delay={200}>
+          <p class="text-xl text-slate-600 dark:text-slate-400 leading-relaxed max-w-lg">
+            {data.description}
+          </p>
+        </AnimateOnScroll>
 
-        {/* CTA Buttons dengan Hover Animations */}
-        <AnimateOnScroll animation="fade-up" delay={400} duration={700}>
-          <div class="flex flex-col sm:flex-row gap-4 pt-4">
-            {/* Primary Button */}
-            <a
-              href={contactUrl}
-              class="group relative inline-flex items-center justify-center rounded-xl bg-gradient-to-r from-cyan-500 to-teal-600 px-8 py-4 text-base font-bold text-white shadow-lg shadow-cyan-500/25 hover:shadow-xl hover:shadow-cyan-500/40 transition-all duration-500 hover:scale-105 active:scale-95 overflow-hidden"
-            >
-              {/* Shimmer Effect */}
-              <span class="absolute inset-0 -translate-x-full animate-shimmer bg-gradient-to-r from-transparent via-white/20 to-transparent"></span>
-
-              <span class="relative z-10">{data.cta.primary}</span>
-              <svg class="ml-3 h-5 w-5 transition-transform duration-300 group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
-              </svg>
-
-              {/* Hover Rings */}
-              <span class="absolute inset-0 rounded-xl border-2 border-transparent group-hover:border-white/30 transition-all duration-500"></span>
+        <AnimateOnScroll animation="fade-up" delay={300}>
+          <div class="flex flex-wrap gap-4">
+            <a href="#" class="px-8 py-4 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-2xl transition-all shadow-xl shadow-emerald-200 dark:shadow-none hover:-translate-y-1 active:scale-95">
+              {data.cta.primary}
             </a>
-
-            {/* Secondary Button */}
-            <a
-              href={portfolioUrl}
-              class="inline-flex items-center justify-center rounded-xl border-2 border-gray-300 dark:border-gray-700 bg-white/80 dark:bg-gray-800/80 px-8 py-4 text-base font-bold text-gray-700 dark:text-gray-300 backdrop-blur-sm transition-all duration-500 hover:border-cyan-500 hover:text-cyan-600 dark:hover:text-cyan-400 hover:shadow-lg hover:scale-105 active:scale-95"
-            >
+            <a href="#" class="px-8 py-4 bg-white dark:bg-slate-900 border-2 border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-200 font-bold rounded-2xl hover:bg-slate-50 dark:hover:bg-slate-800 transition-all">
               {data.cta.secondary}
-              <svg class="ml-3 h-5 w-5 transition-transform duration-300 group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-              </svg>
             </a>
           </div>
         </AnimateOnScroll>
-
-        {/* Stats Grid dengan Staggered Animation */}
-        <AnimateOnScroll animation="fade-up" delay={500} duration={700}>
-          <div class="pt-8 border-t border-gray-200 dark:border-gray-800">
-            <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
-              {data.stats.map((stat, index) => (
-                <div key={stat.label} class="text-center">
-                  <div class="text-3xl sm:text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-500 to-teal-600 mb-2 relative">
-                    {/* Animated Counter */}
-                    <span
-                      class="inline-block counter-animation"
-                      data-value={stat.value.replace(/[^0-9K]/g, '')}
-                    >
-                      0
-                    </span>
-                    {stat.value.includes('+') ? '+' : ''}
-                    {stat.value.includes('K') ? 'K' : ''}
-
-                    {/* Animated Underline */}
-                    <span class="absolute -bottom-1 left-1/2 transform -translate-x-1/2 w-8 h-0.5 bg-gradient-to-r from-cyan-500 to-teal-600 rounded-full animate-pulse"></span>
-                  </div>
-                  <div class="text-xs sm:text-sm font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                    {stat.label}
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </AnimateOnScroll>
       </div>
 
-      {/* Right Column - Bento Grid Visualization */}
-      <AnimateOnScroll animation="fade-in" delay={600} duration={800} class="relative w-full max-w-2xl mx-auto">
-
-        <div class="bento-grid-container">
-
-          {/* 1. MEDIA COVERAGE (Left Tall Card) */}
-          <div class="col-span-7 row-span-4 glass-panel rounded-3xl p-6 shadow-xl flex flex-col justify-between bg-white/60 dark:bg-gray-800/60 backdrop-blur-sm">
-            <div>
-              <div class="flex justify-between items-start mb-6">
-                <h3 class="text-sm font-bold text-gray-900 dark:text-white">Media Coverage</h3>
-                <span class="text-[10px] font-bold px-2 py-1 bg-green-500/10 text-green-500 rounded-lg border border-green-500/20">+42%</span>
-              </div>
-
-              <div class="space-y-4">
-                {[
-                  { label: 'National', val: 85, color: 'bg-cyan-400' },
-                  { label: 'Local', val: 70, color: 'bg-teal-500' },
-                  { label: 'Digital', val: 92, color: 'bg-blue-400' },
-                  { label: 'Social', val: 65, color: 'bg-cyan-600' },
-                  { label: 'TV Ads', val: 45, color: 'bg-teal-600' }
-                ].map(item => (
-                  <div class="group/bar">
-                    <div class="flex justify-between text-[10px] font-bold text-gray-400 mb-1 tracking-tight">
-                      <span>{item.label.toUpperCase()}</span>
-                      <span class="text-gray-900 dark:text-white">{item.val}%</span>
-                    </div>
-                    <div class="h-1.5 w-full bg-gray-100 dark:bg-gray-700 rounded-full overflow-hidden">
-                      <div class={`h-full rounded-full transition-all duration-1000 ${item.color}`} style={`width: ${item.val}%`}></div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-            <p class="text-[10px] text-gray-400 italic font-medium mt-4">Performance Analytics 2024</p>
-          </div>
-
-          {/* 2. LIVE CLIPPERS (Top Right Card) */}
-          <div class="col-span-5 row-span-3 glass-panel rounded-3xl overflow-hidden flex flex-col bg-white/60 dark:bg-gray-800/60 backdrop-blur-sm">
-            <div class="p-4 flex justify-between items-center border-b border-gray-100 dark:border-gray-700">
-              <span class="text-[10px] font-black text-cyan-500 uppercase tracking-widest">Live Clippers</span>
-              <div class="flex gap-1">
-                <div class="h-1 w-1 rounded-full bg-red-500 animate-ping"></div>
-                <div class="h-1 w-1 rounded-full bg-red-500"></div>
-              </div>
-            </div>
-
-            <div class="flex-1 relative flex items-center overflow-hidden bg-gray-50 dark:bg-gray-900/50">
-              <div class="marquee-content">
-                {[1,2,3].map(i => (
-                  <div class="w-20 h-28 rounded-xl bg-gradient-to-br from-cyan-100 to-teal-100 dark:from-cyan-900 dark:to-teal-900 border border-white/20 shadow-sm relative flex-shrink-0 overflow-hidden group-hover:scale-105 transition-transform">
-                     <div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
-                     <span class="absolute bottom-1 left-1 text-[8px] text-white font-bold tracking-tighter">▶ 1.2M</span>
-                  </div>
-                ))}
-                {/* Duplicate for loop */}
-                {[1,2,3].map(i => (
-                  <div class="w-20 h-28 rounded-xl bg-gradient-to-br from-teal-100 to-blue-100 dark:from-teal-900 dark:to-blue-900 border border-white/20 shadow-sm relative flex-shrink-0 overflow-hidden">
-                     <div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
-                     <span class="absolute bottom-1 left-1 text-[8px] text-white font-bold tracking-tighter">▶ 800K</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <div class="p-4 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm">
-              <div class="text-2xl font-black text-gray-900 dark:text-white leading-none">500+</div>
-              <p class="text-[9px] text-gray-500 font-bold uppercase mt-1 tracking-tight">Content Clippers</p>
-            </div>
-          </div>
-
-          {/* 3. LIVE ACTIVITY (Bottom Right - Dark) */}
-          <div class="col-span-5 row-span-3 bg-gradient-to-br from-cyan-900 to-teal-900 dark:from-cyan-950 dark:to-teal-950 rounded-3xl p-5 border border-cyan-500/20 relative flex flex-col justify-between overflow-hidden group">
-            <div class="flex items-center gap-2 relative z-10">
-              <div class="h-1.5 w-1.5 rounded-full bg-green-400 animate-pulse"></div>
-              <span class="text-[9px] font-bold text-gray-300 uppercase tracking-[0.2em]">Live Activity</span>
-            </div>
-
-            <div class="relative z-10">
-              <div class="flex -space-x-2 mb-3">
-                {[1,2,3,4].map(i => (
-                  <div class="h-8 w-8 rounded-full border-2 border-cyan-900 bg-cyan-500/20 flex items-center justify-center overflow-hidden">
-                     <div class="w-full h-full bg-gradient-to-tr from-cyan-500 to-teal-400 opacity-80"></div>
-                  </div>
-                ))}
-                <div class="h-8 w-8 rounded-full border-2 border-cyan-900 bg-cyan-500 text-[8px] font-black text-white flex items-center justify-center">+96K</div>
-              </div>
-              <div class="text-xl font-black text-white">100K<span class="text-cyan-400">+</span></div>
-              <p class="text-[9px] text-gray-300 leading-tight">Talented members ready to buzz</p>
-            </div>
-
-            {/* Decorative pulse background */}
-            <div class="absolute -bottom-4 -right-4 w-24 h-24 bg-cyan-500/20 rounded-full blur-2xl group-hover:bg-cyan-500/30 transition-all animate-pulse-slow"></div>
-          </div>
-
-          {/* 4. SEO AUTHORITY (Bottom Left Small) */}
-          <div class="col-span-4 row-span-2 glass-panel rounded-3xl p-4 flex items-center gap-3 shadow-lg bg-white/60 dark:bg-gray-800/60 backdrop-blur-sm">
-            <div class="h-10 w-10 min-w-[40px] rounded-2xl bg-gradient-to-br from-cyan-500/20 to-teal-500/20 flex items-center justify-center text-cyan-600 dark:text-cyan-400 font-black text-xs">#1</div>
-            <div class="leading-tight">
-              <div class="text-xs font-black text-gray-900 dark:text-white">SEO Authority</div>
-              <div class="text-[8px] text-gray-400 font-bold uppercase">Top 3 Search Results</div>
-            </div>
-          </div>
-
-          {/* 5. BIG DATA (Bottom Bottom Small) */}
-          <div class="col-span-3 row-span-2 bg-gradient-to-br from-cyan-500 to-teal-600 rounded-3xl p-4 text-white flex flex-col justify-between overflow-hidden relative group">
-            <div class="relative z-10 leading-tight">
-              <div class="text-[8px] font-black uppercase opacity-70">Insights</div>
-              <div class="text-xs font-bold">Big Data</div>
-            </div>
-            <div class="flex items-end gap-0.5 h-6 relative z-10">
-              {[4,7,5,9,6].map(h => (
-                <div class="flex-1 bg-white/30 rounded-t-[1px] group-hover:bg-white/80 transition-all" style={`height: ${h*10}%`}></div>
-              ))}
-            </div>
-            {/* Glow effect */}
-            <div class="absolute -bottom-2 -right-2 w-12 h-12 bg-white/20 rounded-full blur-xl group-hover:bg-white/30 transition-all"></div>
-          </div>
-
-        </div>
-
-        {/* Monthly Visitors Floating Badge */}
-        <div class="absolute -right-4 top-1/2 transform translate-y-12 glass-panel px-4 py-2 rounded-2xl shadow-2xl border border-cyan-200 dark:border-cyan-800 z-30 scale-90 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm hidden lg:block">
-            <div class="flex items-center gap-2">
-                <div class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-500 to-teal-600 font-black text-lg leading-none">3M+</div>
-                <div class="text-[8px] text-gray-500 font-black uppercase leading-tight">Monthly<br/>Visitors</div>
-            </div>
-        </div>
-
-      </div>
-    </div>
-  </div>
-
-  {/* Scroll Indicator */}
-  <AnimateOnScroll animation="fade-up" delay={1000} duration={600} class="absolute bottom-8 left-1/2 transform -translate-x-1/2">
-    <div class="animate-bounce-slow">
-      <div class="relative">
-        <svg class="h-8 w-8 text-cyan-500 animate-spin-slow" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+      <div class="relative h-[650px] w-full flex items-center justify-center">
+        
+        <svg class="absolute inset-0 w-full h-full opacity-30 dark:opacity-20" viewBox="0 0 600 600">
+          <path class="animate-draw" d="M150 300 Q 300 100 450 300 T 300 500" stroke="#10b981" stroke-width="1.5" fill="none" stroke-dasharray="8 8" />
+          <circle cx="300" cy="300" r="220" stroke="#cbd5e1" stroke-width="1" fill="none" stroke-dasharray="4 4" />
         </svg>
-        <div class="absolute inset-0 bg-cyan-500/10 rounded-full animate-ping"></div>
+
+        <div class="relative z-30 w-[320px] bg-white dark:bg-slate-900 rounded-[2.5rem] shadow-[0_50px_100px_-20px_rgba(0,0,0,0.15)] border border-slate-100 dark:border-slate-800 p-4 animate-float">
+          <div class="flex items-center justify-between mb-4 px-2">
+            <div class="flex items-center gap-2">
+              <img src={userAvatar} alt="User" class="w-8 h-8 rounded-full border border-emerald-500 p-0.5" />
+              <div class="flex flex-col">
+                <span class="text-[11px] font-black dark:text-white leading-none">paws_studio</span>
+                <span class="text-[9px] text-slate-400 font-bold">New York, USA</span>
+              </div>
+            </div>
+            <svg class="w-5 h-5 text-slate-300" fill="currentColor" viewBox="0 0 20 20"><path d="M6 10a2 2 0 11-4 0 2 2 0 014 0zM12 10a2 2 0 11-4 0 2 2 0 014 0zM16 12a2 2 0 100-4 2 2 0 000 4z"/></svg>
+          </div>
+          
+          <div class="aspect-square rounded-3xl mb-4 overflow-hidden relative group">
+            <img src={productImg} alt="Product" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
+            <div class="absolute bottom-4 left-4 right-4 py-2.5 bg-white/90 backdrop-blur shadow-xl rounded-xl flex items-center justify-center gap-2 border border-emerald-500/20">
+              <span class="text-emerald-600 text-[10px] font-black uppercase tracking-wider">Shop Product</span>
+              <svg class="w-3 h-3 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+            </div>
+          </div>
+          
+          <div class="px-2 flex items-center justify-between">
+            <div class="flex gap-4">
+               <svg class="w-6 h-6 text-slate-700 dark:text-slate-300 hover:text-red-500 cursor-pointer transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path></svg>
+               <svg class="w-6 h-6 text-slate-700 dark:text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path></svg>
+            </div>
+            <div class="flex -space-x-2">
+               {[1,2,3].map(() => <div class="w-5 h-5 rounded-full border-2 border-white dark:border-slate-900 bg-slate-200"></div>)}
+            </div>
+          </div>
+        </div>
+
+        <div class="absolute top-[8%] right-0 z-40 bg-white/95 dark:bg-slate-800/95 backdrop-blur-xl p-4 rounded-2xl shadow-2xl border border-emerald-100 dark:border-emerald-500/20 animate-float [animation-delay:1s]">
+          <div class="flex items-center gap-3">
+             <div class="w-10 h-10 rounded-full bg-emerald-100 dark:bg-emerald-500/20 flex items-center justify-center">
+                <svg class="w-5 h-5 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path></svg>
+             </div>
+             <div>
+                <p class="text-[9px] font-black text-slate-400 uppercase tracking-widest leading-none mb-1">Engagements</p>
+                <p class="text-base font-black dark:text-white leading-none">+124.5%</p>
+             </div>
+          </div>
+        </div>
+
+        <div class="absolute bottom-[8%] right-[5%] z-40 bg-white dark:bg-slate-900 p-5 rounded-3xl shadow-2xl border border-slate-100 dark:border-slate-800 w-52 animate-bounce-slow">
+           <div class="flex justify-between items-center mb-4">
+              <span class="text-[10px] font-black uppercase dark:text-white">Conversions</span>
+              <span class="text-[10px] font-bold text-emerald-500">Weekly</span>
+           </div>
+           <div class="flex items-end gap-2 h-20">
+              <div class="flex-1 bg-slate-100 dark:bg-slate-800 rounded-lg h-[40%] transition-all hover:bg-emerald-500"></div>
+              <div class="flex-1 bg-slate-100 dark:bg-slate-800 rounded-lg h-[70%] transition-all hover:bg-emerald-500"></div>
+              <div class="flex-1 bg-emerald-500 rounded-lg h-[100%]"></div>
+              <div class="flex-1 bg-slate-100 dark:bg-slate-800 rounded-lg h-[60%] transition-all hover:bg-emerald-500"></div>
+              <div class="flex-1 bg-slate-100 dark:bg-slate-800 rounded-lg h-[85%] transition-all hover:bg-emerald-500"></div>
+           </div>
+        </div>
+
+        <div class="absolute bottom-[15%] left-[-2%] z-40 bg-slate-900 dark:bg-emerald-600 text-white p-4 rounded-2xl shadow-2xl animate-float [animation-delay:1.5s]">
+           <div class="flex items-center gap-3">
+              <div class="w-8 h-8 rounded-lg bg-white/20 flex items-center justify-center">
+                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg>
+              </div>
+              <div>
+                 <p class="text-[8px] font-bold opacity-80 uppercase leading-none mb-1">Recent Sale</p>
+                 <p class="text-sm font-black">$285.00</p>
+              </div>
+           </div>
+        </div>
+
+        <div class="absolute top-[20%] left-[5%] z-40 bg-white dark:bg-slate-800 py-2.5 px-4 rounded-full shadow-xl border border-slate-100 dark:border-slate-700 flex items-center gap-2 animate-bounce-slow">
+           <div class="w-2 h-2 rounded-full bg-purple-500 animate-ping"></div>
+           <span class="text-[10px] font-black dark:text-white uppercase tracking-tighter">Live Campaign</span>
+        </div>
+
       </div>
+
     </div>
   </div>
 </section>
 
 <style>
-  /* Float Animation */
+  /* KEYFRAMES */
   @keyframes float {
-    0%, 100% {
-      transform: translateY(0px) scale(1);
-    }
-    50% {
-      transform: translateY(-30px) scale(1.1);
-    }
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    50% { transform: translateY(-20px) rotate(1deg); }
+  }
+
+  @keyframes bounce-slow {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-15px); }
   }
 
   .animate-float {
-    animation: float 8s ease-in-out infinite;
-  }
-
-  /* Pulse Slow */
-  @keyframes pulse-slow {
-    0%, 100% {
-      opacity: 0.2;
-      transform: scale(1);
-    }
-    50% {
-      opacity: 0.4;
-      transform: scale(1.05);
-    }
-  }
-
-  .animate-pulse-slow {
-    animation: pulse-slow 4s ease-in-out infinite;
-  }
-
-  /* Float Particle - Complex Movement */
-  @keyframes float-particle {
-    0%, 100% {
-      transform: translate(0, 0) scale(1);
-      opacity: 0.3;
-    }
-    25% {
-      transform: translate(30px, -40px) scale(1.2);
-      opacity: 0.5;
-    }
-    50% {
-      transform: translate(-20px, -60px) scale(0.9);
-      opacity: 0.35;
-    }
-    75% {
-      transform: translate(40px, -30px) scale(1.1);
-      opacity: 0.45;
-    }
-  }
-
-  .animate-float-particle {
-    animation: float-particle 15s ease-in-out infinite;
-  }
-
-  /* Blink Glow - Kelap Kelip */
-  @keyframes blink-glow {
-    0%, 100% {
-      opacity: 0.2;
-      transform: scale(0.8);
-      filter: blur(0px);
-    }
-    50% {
-      opacity: 0.8;
-      transform: scale(1.2);
-      filter: blur(2px);
-    }
-  }
-
-  .animate-blink-glow {
-    animation: blink-glow 3s ease-in-out infinite;
-  }
-
-  /* Shimmer Line */
-  @keyframes shimmer-line {
-    0% {
-      transform: translateX(-100%);
-      opacity: 0;
-    }
-    50% {
-      opacity: 1;
-    }
-    100% {
-      transform: translateX(100%);
-      opacity: 0;
-    }
-  }
-
-  .animate-shimmer-line {
-    animation: shimmer-line 4s ease-in-out infinite;
-  }
-
-  /* Grid Move */
-  @keyframes grid-move {
-    0% {
-      background-position: 0 0;
-    }
-    100% {
-      background-position: 50px 50px;
-    }
-  }
-
-  .animate-grid-move {
-    animation: grid-move 20s linear infinite;
-  }
-
-  /* Gradient Shift */
-  @keyframes gradient-shift {
-    0%, 100% {
-      background-position: 0% 50%;
-    }
-    50% {
-      background-position: 100% 50%;
-    }
-  }
-
-  .animate-gradient-shift {
-    animation: gradient-shift 3s ease infinite;
-  }
-
-  /* Shimmer */
-  @keyframes shimmer {
-    100% {
-      transform: translateX(100%);
-    }
-  }
-
-  .animate-shimmer {
-    animation: shimmer 2s infinite;
-  }
-
-  /* Bounce Slow */
-  @keyframes bounce-slow {
-    0%, 100% {
-      transform: translateY(0);
-    }
-    50% {
-      transform: translateY(10px);
-    }
+    animation: float 6s ease-in-out infinite;
   }
 
   .animate-bounce-slow {
-    animation: bounce-slow 2s ease-in-out infinite;
+    animation: bounce-slow 5s ease-in-out infinite;
   }
 
-  /* Spin Slow */
-  @keyframes spin-slow {
-    from {
-      transform: rotate(0deg);
-    }
-    to {
-      transform: rotate(360deg);
-    }
+  .animate-draw {
+    stroke-dasharray: 1000;
+    stroke-dashoffset: 1000;
+    animation: draw 4s ease-out forwards infinite;
   }
 
-  .animate-spin-slow {
-    animation: spin-slow 8s linear infinite;
+  @keyframes draw {
+    0% { stroke-dashoffset: 1000; }
+    50% { stroke-dashoffset: 0; }
+    100% { stroke-dashoffset: -1000; }
   }
 
-  /* Bento Grid Layout */
-  .bento-grid-container {
-    display: grid;
-    grid-template-columns: repeat(12, 1fr);
-    grid-template-rows: repeat(6, minmax(0, 1fr));
-    gap: 1rem;
-    height: 500px;
-  }
-
-  /* Glass Panel */
-  .glass-panel {
-    background: rgba(255, 255, 255, 0.7);
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.3);
-  }
-
-  @media (prefers-color-scheme: dark) {
-    .glass-panel {
-      background: rgba(31, 41, 55, 0.7);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-    }
-  }
-
-  /* Marquee Animation for Clippers */
-  .marquee-content {
-    display: flex;
-    gap: 0.75rem;
-    animation: marquee 15s linear infinite;
-  }
-
-  @keyframes marquee {
-    0% {
-      transform: translateX(0);
-    }
-    100% {
-      transform: translateX(-50%);
-    }
-  }
-
-  /* Responsive */
   @media (max-width: 1024px) {
-    .bento-grid-container {
-      height: auto;
-      grid-template-columns: 1fr;
-      grid-template-rows: auto;
-    }
-
-    [class*="col-span"], [class*="row-span"] {
-      grid-column: span 1 !important;
-      grid-row: span 1 !important;
-    }
-  }
-
-  /* Reduced Motion */
-  @media (prefers-reduced-motion: reduce) {
-    *,
-    *::before,
-    *::after {
-      animation-duration: 0.01ms !important;
-      animation-iteration-count: 1 !important;
-      transition-duration: 0.01ms !important;
-    }
+    .grid { grid-template-columns: 1fr; text-align: center; }
+    .max-w-2xl { margin: 0 auto; }
+    .flex-wrap { justify-content: center; }
+    .h-\[650px\] { height: 500px; transform: scale(0.8); }
   }
 </style>
-
-<script>
-  // Animate counters
-  const counters = document.querySelectorAll('.counter-animation');
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        const counter = entry.target;
-        const target = parseInt(counter.getAttribute('data-value'));
-        const duration = 2000;
-        const steps = 60;
-        const step = target / steps;
-        let current = 0;
-
-        const updateCounter = () => {
-          if (current < target) {
-            current += step;
-            counter.textContent = Math.floor(current);
-            setTimeout(updateCounter, duration / steps);
-          } else {
-            counter.textContent = target;
-          }
-        };
-
-        updateCounter();
-        observer.unobserve(counter);
-      }
-    });
-  }, { threshold: 0.5 });
-
-  counters.forEach(counter => observer.observe(counter));
-</script>
