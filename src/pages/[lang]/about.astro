@@ -137,7 +137,7 @@ const description = locale === 'id' ? '360° Media Agency yang menghubungkan bra
               locale === 'id' ? 'Continuous Innovation' : 'Continuous Innovation',
               locale === 'id' ? 'Client Success First' : 'Client Success First'
             ].map((value, i) => (
-              <li key={i} class="flex items-center gap-3 text-gray-700 dark:text-gray-300 font-medium">
+              <li class="flex items-center gap-3 text-gray-700 dark:text-gray-300 font-medium">
                 <svg class="w-5 h-5 text-green-500 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                   <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
                 </svg>
@@ -179,7 +179,7 @@ const description = locale === 'id' ? '360° Media Agency yang menghubungkan bra
               { year: '2022', title: { id: 'Innovation', en: 'Innovation' }, desc: { id: 'Meluncurkan Big Data analytics dan AI-matching system', en: 'Launched Big Data analytics and AI-matching system' } },
               { year: '2024', title: { id: 'Leadership', en: 'Leadership' }, desc: { id: 'Menjadi 360° Media-Agency dengan 100K+ talent network', en: 'Became a 360° Media-Agency with 100K+ talent network' } }
             ].map((milestone, index) => (
-              <div key={index} class={`flex gap-6 scroll-reveal ${index % 2 === 0 ? '' : 'flex-row-reverse'}`} style={`animation-delay: ${index * 100}ms`}>
+              <div class={`flex gap-6 scroll-reveal ${index % 2 === 0 ? '' : 'flex-row-reverse'}`} style={`animation-delay: ${index * 100}ms`}>
                 <div class="flex-shrink-0 w-24 text-center">
                   <div class="text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-primary to-cyan-500">{milestone.year}</div>
                 </div>
@@ -308,7 +308,7 @@ const description = locale === 'id' ? '360° Media Agency yang menghubungkan bra
             desc: { id: 'Jaringan media nasional hingga hyperlocal', en: 'National to hyperlocal media network' }
           }
         ].map((item, index) => (
-          <div key={index} class="bg-white dark:bg-gray-800 rounded-[2.5rem] p-8 shadow-xl hover:shadow-2xl transition-all duration-500 scroll-reveal" style={`animation-delay: ${(index + 1) * 100}ms`}>
+          <div class="bg-white dark:bg-gray-800 rounded-[2.5rem] p-8 shadow-xl hover:shadow-2xl transition-all duration-500 scroll-reveal" style={`animation-delay: ${(index + 1) * 100}ms`}>
             <div class="text-5xl mb-6">{item.icon}</div>
             <h4 class="text-xl font-black text-gray-900 dark:text-white mb-3">{item.title[locale]}</h4>
             <p class="text-gray-600 dark:text-gray-400 leading-relaxed">{item.desc[locale]}</p>
@@ -334,13 +334,13 @@ const description = locale === 'id' ? '360° Media Agency yang menghubungkan bra
 
       <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
         {['Strategy', 'Creative', 'Analytics', 'Media'].map((team, i) => (
-          <div key={i} class="group relative bg-gray-50 dark:bg-gray-800 rounded-3xl overflow-hidden hover:shadow-xl transition-all duration-500 scroll-reveal" style={`animation-delay: ${i * 100}ms`}>
+          <div  class="group relative bg-gray-50 dark:bg-gray-800 rounded-3xl overflow-hidden hover:shadow-xl transition-all duration-500 scroll-reveal" style={`animation-delay: ${i * 100}ms`}>
             <div class="aspect-square relative">
               <img
-                src={`https://images.unsplash.com/photo-${[1556761175,1557800,1573437046,1522071820081][5973dc0f,1552519507,151662804,1460925895][fcd25c85cd64,da3b142c6e3d,5f3d01088bbd,afdab827c52f]?w=400&q=80&q=80`}
-                alt={team}
-                class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-              />
+  src={`https://images.unsplash.com/photo-1556761175-b413da4baf72?w=400&q=80`}
+  alt={team}
+  class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+/>
               <div class="absolute inset-0 bg-gradient-to-br from-primary/80 via-purple-500/80 to-pink-500/80 opacity-0 group-hover:opacity-90 transition-opacity duration-300"></div>
               <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                 <div class="text-center text-white">
