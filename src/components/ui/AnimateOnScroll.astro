@@ -1,6 +1,6 @@
 ---
 // src/components/ui/AnimateOnScroll.astro
-// Global Animation Helper - Accessible & Performant
+// Global Animation Helper - Accessible & Performant (Mobile Optimized)
 // Usage: <AnimateOnScroll animation="fade-up" delay={100}>content</AnimateOnScroll>
 
 interface Props {
@@ -18,9 +18,9 @@ interface Props {
 const {
   animation = 'fade-up',
   delay = 0,
-  duration = 800,
-  threshold = 0.1,
-  once = true,
+  duration = 700, // Slightly faster for mobile
+  threshold = 0.05, // Lower threshold = earlier trigger
+  once = true, // Always run once by default
   as: Tag = 'div',
   class: className = '',
   id,
@@ -30,10 +30,10 @@ const {
 // Generate unique ID if not provided
 const elementId = id || `animate-${Math.random().toString(36).substr(2, 9)}`;
 
-// Animation configurations
+// Animation configurations - Optimized for mobile
 const animations = {
   'fade-up': {
-    from: 'opacity-0 transform translateY(40px)',
+    from: 'opacity-0 transform translateY(30px)',
     to: 'opacity-1 transform translateY(0)'
   },
   'fade-in': {
@@ -41,11 +41,11 @@ const animations = {
     to: 'opacity-1 transform scale(1)'
   },
   'fade-left': {
-    from: 'opacity-0 transform translateX(-40px)',
+    from: 'opacity-0 transform translateX(-30px)',
     to: 'opacity-1 transform translateX(0)'
   },
   'fade-right': {
-    from: 'opacity-0 transform translateX(40px)',
+    from: 'opacity-0 transform translateX(30px)',
     to: 'opacity-1 transform translateX(0)'
   },
   'scale-up': {
@@ -53,11 +53,11 @@ const animations = {
     to: 'opacity-1 transform scale(1)'
   },
   'slide-up': {
-    from: 'opacity-0 transform translateY(20px)',
+    from: 'opacity-0 transform translateY(15px)',
     to: 'opacity-1 transform translateY(0)'
   },
   'slide-down': {
-    from: 'opacity-0 transform translateY(-20px)',
+    from: 'opacity-0 transform translateY(-15px)',
     to: 'opacity-1 transform translateY(0)'
   },
   'none': {
@@ -83,16 +83,16 @@ const selectedAnimation = animations[animation] || animations['fade-up'];
   <slot />
 </Tag>
 
-<!-- Accessibility & Performance Script -->
+<!-- Accessibility & Performance Script - Mobile Optimized -->
 <script>
-  // Global Animation Manager - Accessible & Performant
+  // Global Animation Manager - Accessible, Performant & Mobile Smooth
   (function() {
     'use strict';
 
     // Check for reduced motion preference
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     let animationObserver = null;
-    const animationTimings = new Map(); // Store cleanup functions
+    const animationTimings = new Map();
 
     // Skip animations if user prefers reduced motion
     function handleReducedMotion() {
@@ -108,12 +108,12 @@ const selectedAnimation = animations[animation] || animations['fade-up'];
       return;
     }
 
-    // Animation trigger function
+    // Animation trigger function with smoother easing
     function triggerAnimation(element, type, duration) {
       const configs = {
         'fade-up': {
           keyframes: [
-            { opacity: 0, transform: 'translateY(40px)' },
+            { opacity: 0, transform: 'translateY(30px)' },
             { opacity: 1, transform: 'translateY(0)' }
           ]
         },
@@ -125,13 +125,13 @@ const selectedAnimation = animations[animation] || animations['fade-up'];
         },
         'fade-left': {
           keyframes: [
-            { opacity: 0, transform: 'translateX(-40px)' },
+            { opacity: 0, transform: 'translateX(-30px)' },
             { opacity: 1, transform: 'translateX(0)' }
           ]
         },
         'fade-right': {
           keyframes: [
-            { opacity: 0, transform: 'translateX(40px)' },
+            { opacity: 0, transform: 'translateX(30px)' },
             { opacity: 1, transform: 'translateX(0)' }
           ]
         },
@@ -143,13 +143,13 @@ const selectedAnimation = animations[animation] || animations['fade-up'];
         },
         'slide-up': {
           keyframes: [
-            { opacity: 0, transform: 'translateY(20px)' },
+            { opacity: 0, transform: 'translateY(15px)' },
             { opacity: 1, transform: 'translateY(0)' }
           ]
         },
         'slide-down': {
           keyframes: [
-            { opacity: 0, transform: 'translateY(-20px)' },
+            { opacity: 0, transform: 'translateY(-15px)' },
             { opacity: 1, transform: 'translateY(0)' }
           ]
         }
@@ -157,10 +157,10 @@ const selectedAnimation = animations[animation] || animations['fade-up'];
 
       const config = configs[type] || configs['fade-up'];
 
-      // Apply animation with Web Animations API (more performant than CSS)
+      // Apply animation with optimized easing for smoother feel
       const animation = element.animate(config.keyframes, {
         duration: duration,
-        easing: 'cubic-bezier(0.16, 1, 0.3, 1)',
+        easing: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)', // Smoother easing curve
         fill: 'forwards'
       });
 
@@ -177,11 +177,11 @@ const selectedAnimation = animations[animation] || animations['fade-up'];
         el.style.transform = '';
       });
 
-      // IntersectionObserver for scroll-triggered animations
+      // IntersectionObserver with mobile-optimized settings
       const observerOptions = {
         root: null,
-        rootMargin: '0px 0px -50px 0px', // Trigger slightly before visible
-        threshold: 0.1
+        rootMargin: '0px 0px -100px 0px', // Trigger earlier for smoother experience
+        threshold: 0.05 // Lower threshold = earlier trigger
       };
 
       animationObserver = new IntersectionObserver((entries) => {
@@ -189,16 +189,18 @@ const selectedAnimation = animations[animation] || animations['fade-up'];
           const el = entry.target;
           const animType = el.dataset.animate;
           const delay = parseInt(el.dataset.delay) || 0;
-          const duration = parseInt(el.dataset.duration) || 800;
+          const duration = parseInt(el.dataset.duration) || 700;
           const once = el.dataset.once === 'true';
 
           if (entry.isIntersecting) {
-            // Trigger animation
+            // Double RAF for smoother mobile rendering
             requestAnimationFrame(() => {
-              setTimeout(() => {
-                triggerAnimation(el, animType, duration);
-                el.classList.add('animated');
-              }, delay);
+              requestAnimationFrame(() => {
+                setTimeout(() => {
+                  triggerAnimation(el, animType, duration);
+                  el.classList.add('animated');
+                }, delay);
+              });
             });
 
             // Unobserve if animation should only run once
@@ -263,6 +265,9 @@ const selectedAnimation = animations[animation] || animations['fade-up'];
   [data-animate]:not(.animated) {
     opacity: 0;
     will-change: opacity, transform;
+    /* Better performance on mobile */
+    backface-visibility: hidden;
+    -webkit-font-smoothing: antialiased;
   }
 
   /* Improved performance - only animate when needed */
@@ -273,6 +278,14 @@ const selectedAnimation = animations[animation] || animations['fade-up'];
   [data-animate].animated {
     opacity: 1;
     will-change: auto;
+  }
+
+  /* Mobile optimization */
+  @media (max-width: 768px) {
+    [data-animate]:not(.animated) {
+      /* Reduce transform distance on mobile */
+      transform: scale(0.98) !important;
+    }
   }
 
   /* Reduced motion support */

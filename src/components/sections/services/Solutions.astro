@@ -1,0 +1,205 @@
+---
+// src/components/sections/Solutions.astro
+import AnimateOnScroll from '@/components/ui/AnimateOnScroll.astro';
+
+interface Props {
+  locale: 'id' | 'en';
+  contactUrl: string;
+}
+
+const { locale, contactUrl } = Astro.props;
+
+// Hardcoded Data dengan Icon Elegant (SVG) - CYAN/TEAL BRAND CONSISTENT
+const solutions = [
+  {
+    id: 'buzz-marketing',
+    title: 'Buzz Marketing & Influencer',
+    subtitle: 'Gerakkan 100.000+ Talent untuk Memicu Diskusi Organik',
+    description: 'First Hand Buzzer - Menggerakkan lebih dari 100.000 talent pilihan untuk memicu diskusi organik yang membangun opini publik dan brand awareness.',
+    features: ['100K+ Active Talents', 'Tier System: Micro, Macro, Mega', 'Real-time Buzz Monitoring', 'Sentiment Management', 'Viral Content Strategy', 'KOL & Celebrity Management'],
+    benefits: [
+      { label: 'Awareness', value: '85%', color: 'from-cyan-500 to-teal-500' },
+      { label: 'Engagement', value: '12x', color: 'from-teal-500 to-cyan-600' },
+      { label: 'Volume', value: '500%', color: 'from-cyan-600 to-blue-600' }
+    ],
+    // Icon: Users/People
+    icon: `<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>`,
+    color: 'from-cyan-600 via-teal-600 to-cyan-700',
+    bgClass: 'bg-cyan-600',
+  },
+  {
+    id: 'media-relations',
+    title: 'Media Relations & PR',
+    subtitle: 'Akses 10.000+ Jaringan Media Nasional dan Lokal',
+    description: 'National Media Network - Akses ke 10.000+ jaringan media nasional dan lokal untuk kredibilitas dan jangkauan luas di seluruh Indonesia.',
+    features: ['10K+ Media Outlets', 'Press Release Distribution', 'Media Analytics', 'Crisis Communication', 'Editorial Coverage', 'Media Event Management'],
+    benefits: [
+      { label: 'Coverage', value: '92%', color: 'from-blue-500 to-cyan-500' },
+      { label: 'Credibility', value: '78%', color: 'from-cyan-500 to-teal-500' },
+      { label: 'Reach', value: '10K+', color: 'from-teal-500 to-emerald-600' }
+    ],
+    // Icon: Newspaper/Broadcast
+    icon: `<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11a9 9 0 0 1 9 9"/><path d="M4 4a16 16 0 0 1 16 16"/><circle cx="5" cy="19" r="1"/></svg>`,
+    color: 'from-blue-600 via-cyan-500 to-teal-600',
+    bgClass: 'bg-blue-600',
+  },
+  {
+    id: 'seo-performance',
+    title: 'SEO & Performance',
+    subtitle: 'Top 3 Search Authority dengan Technical SEO & CRO',
+    description: 'High Impact SEO - Strategi Technical SEO dan CRO untuk menempatkan brand di Top 3 hasil pencarian dan mengubah trafik menjadi konversi.',
+    features: ['Technical SEO Audit', 'Content Optimization', 'CRO Strategy', 'Performance Tracking', 'Local & Global SEO', 'E-commerce SEO'],
+    benefits: [
+      { label: 'Ranking', value: 'Top 3', color: 'from-teal-500 to-cyan-500' },
+      { label: 'Traffic', value: '340%', color: 'from-cyan-500 to-blue-500' },
+      { label: 'Conversion', value: '156%', color: 'from-teal-600 to-emerald-600' }
+    ],
+    // Icon: Search/Target
+    icon: `<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/><path d="M11 8a3 3 0 0 0-3 3"/></svg>`,
+    color: 'from-teal-600 via-emerald-500 to-cyan-600',
+    bgClass: 'bg-teal-600',
+  },
+  {
+    id: 'viral-content',
+    title: 'Viral Content Strategy',
+    subtitle: '500+ Akun Clipper untuk Video Singkat Viral',
+    description: 'Viral Clipper Strategy - 500+ akun clipper profesional yang ahli dalam algoritma video singkat untuk memastikan konten viral secara organik.',
+    features: ['500+ Clipper Accounts', 'Algorithm Optimization', 'Trend Analysis', 'Content Repurposing', 'Multi-Platform Blast', 'Performance Analytics'],
+    benefits: [
+      { label: 'Viral Rate', value: '67%', color: 'from-cyan-600 to-blue-600' },
+      { label: 'Views', value: '50M+', color: 'from-blue-600 to-cyan-600' },
+      { label: 'Engagement', value: '8.5%', color: 'from-teal-600 to-cyan-600' }
+    ],
+    // Icon: Play/Video
+    icon: `<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>`,
+    color: 'from-cyan-700 via-blue-600 to-teal-700',
+    bgClass: 'bg-cyan-700',
+  }
+];
+
+const t = {
+  id: {
+    sectionTitle: 'Solusi Kami',
+    sectionSubtitle: 'Layanan Komprehensif untuk Dominasi Digital',
+    features: 'Fitur Utama',
+    cta: 'Pelajari Selengkapnya'
+  },
+  en: {
+    sectionTitle: 'Our Solutions',
+    sectionSubtitle: 'Comprehensive Services for Digital Dominance',
+    features: 'Key Features',
+    cta: 'Learn More'
+  }
+};
+
+const data = t[locale];
+---
+
+<section class="relative py-24 lg:py-32 bg-slate-950 overflow-hidden" id="solutions">
+  <!-- Dot Grid Pattern -->
+  <div class="absolute inset-0 bg-dot-grid opacity-[0.03]"></div>
+
+  <!-- Gradient Orbs -->
+  <div class="absolute inset-0 overflow-hidden pointer-events-none">
+    <div class="absolute top-40 right-20 w-[500px] h-[500px] bg-gradient-to-br from-cyan-500/10 to-teal-500/8 rounded-full blur-3xl animate-orb-drift"></div>
+    <div class="absolute bottom-40 left-20 w-[400px] h-[400px] bg-gradient-to-tr from-teal-500/8 to-cyan-500/6 rounded-full blur-3xl animate-orb-drift" style="animation-delay: -3s"></div>
+  </div>
+
+  <div class="relative z-10 max-w-7xl mx-auto px-6 lg:px-8">
+    <div class="text-center mb-24 lg:mb-32">
+      <AnimateOnScroll animation="fade-up">
+        <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-cyan-500/10 border border-cyan-500/20 mb-6">
+          <span class="w-2 h-2 rounded-full bg-cyan-400 animate-pulse"></span>
+          <span class="text-xs font-bold text-cyan-400 uppercase tracking-widest">{data.sectionTitle}</span>
+        </div>
+        <h2 class="text-4xl md:text-6xl font-black text-white leading-tight">
+          {data.sectionSubtitle}
+        </h2>
+      </AnimateOnScroll>
+    </div>
+
+    <div class="space-y-32 lg:space-y-48">
+      {solutions.map((item, index) => (
+        <div class={`flex flex-col lg:flex-row gap-12 lg:gap-20 items-center ${index % 2 !== 0 ? 'lg:flex-row-reverse' : ''}`}>
+          
+          <div class="flex-1 w-full">
+            <AnimateOnScroll animation={index % 2 === 0 ? "fade-right" : "fade-left"}>
+              <div class="flex items-center gap-5 mb-8">
+                <div class={`w-16 h-16 lg:w-20 lg:h-20 rounded-2xl bg-gradient-to-br ${item.color} flex items-center justify-center text-white shadow-xl shadow-gray-200 dark:shadow-none`}>
+                  <Fragment set:html={item.icon} />
+                </div>
+                <div>
+                  <h3 class="text-3xl lg:text-4xl font-black text-gray-900 dark:text-white leading-tight">{item.title}</h3>
+                  <div class={`h-1.5 w-20 mt-2 rounded-full bg-gradient-to-r ${item.color}`}></div>
+                </div>
+              </div>
+
+              <p class="text-xl font-bold text-gray-200 mb-4">{item.subtitle}</p>
+              <p class="text-lg text-gray-400 leading-relaxed mb-10">{item.description}</p>
+
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-10">
+                {item.features.map((feat) => (
+                  <div class="flex items-center gap-3 p-3 rounded-xl bg-slate-900/60 border border-white/10">
+                    <div class={`w-6 h-6 rounded-lg bg-gradient-to-br ${item.color} flex items-center justify-center flex-shrink-0`}>
+                      <svg class="w-3.5 h-3.5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="4">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                      </svg>
+                    </div>
+                    <span class="text-sm font-bold text-gray-300">{feat}</span>
+                  </div>
+                ))}
+              </div>
+
+              <div class="flex flex-wrap gap-4 mb-10">
+                {item.benefits.map((benefit) => (
+                  <div class="flex-1 min-w-[120px] p-4 rounded-2xl bg-slate-900/60 border border-white/10 shadow-sm">
+                    <div class={`text-2xl lg:text-3xl font-black bg-gradient-to-r ${item.color} bg-clip-text text-transparent`}>
+                      {benefit.value}
+                    </div>
+                    <div class="text-[10px] uppercase tracking-widest font-bold text-gray-500 mt-1">{benefit.label}</div>
+                  </div>
+                ))}
+              </div>
+
+              <a href={contactUrl} class={`inline-flex items-center gap-3 px-8 py-4 rounded-2xl bg-gradient-to-r ${item.color} text-white font-bold text-lg shadow-xl hover:scale-105 transition-transform`}>
+                {data.cta}
+                <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                </svg>
+              </a>
+            </AnimateOnScroll>
+          </div>
+
+          <div class="flex-1 w-full lg:max-w-[500px]">
+            <AnimateOnScroll animation="zoom-in" delay={200}>
+              <div class="relative group">
+                <div class={`absolute -inset-4 bg-gradient-to-br ${item.color} opacity-20 blur-3xl group-hover:opacity-30 transition-opacity`}></div>
+                
+                <div class="relative aspect-square rounded-[3rem] overflow-hidden border-8 border-slate-900 shadow-2xl">
+                  <div class={`absolute inset-0 bg-gradient-to-br ${item.color} mix-blend-multiply opacity-40 group-hover:opacity-20 transition-opacity`}></div>
+                  <img
+                    src={`/images/solutions/${item.id}.jpg`}
+                    alt={item.title}
+                    class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                  />
+
+                  <div class="absolute bottom-8 right-8 w-20 h-20 rounded-3xl bg-slate-900/80 backdrop-blur-xl border border-white/20 flex items-center justify-center text-cyan-400 shadow-2xl">
+                    <Fragment set:html={item.icon} />
+                  </div>
+                </div>
+              </div>
+            </AnimateOnScroll>
+          </div>
+
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  /* Menghilangkan scrollbar pada grid jika diperlukan */
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+</style>

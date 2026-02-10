@@ -10,6 +10,11 @@ export default defineConfig({
   base: '/',
   trailingSlash: 'never',
 
+  // Redirects untuk handle root path
+  redirect: {
+    '/': '/id',
+  },
+
   // Integrations
   integrations: [
     tailwind({
@@ -23,9 +28,9 @@ export default defineConfig({
   i18n: {
     defaultLocale: 'id',
     locales: ['id', 'en'],
-    // Don't prefix default locale (id)
-    // / → id, /en → en
-    prefixDefaultLocale: false,
+    // Prefix default locale for consistent routing
+    // /id/ → id, /en/ → en
+    prefixDefaultLocale: true,
   },
 
   // Build configuration

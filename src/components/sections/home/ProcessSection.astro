@@ -1,0 +1,177 @@
+<!-- ---
+import AnimateOnScroll from '@/components/ui/AnimateOnScroll.astro';
+
+interface Props {
+  currentLang: 'id' | 'en';
+}
+
+const { currentLang: lang } = Astro.props;
+
+const processData = {
+  id: {
+    title: 'Cara Kami Bekerja',
+    subtitle: 'Proses 5 langkah yang sudah terbukti berhasil menghasilkan social media success.',
+    badge: 'Proses Kami',
+    steps: [
+      {
+        number: '01',
+        title: 'Discovery & Research',
+        description: 'Kami pelajari brand, audiens, dan kompetitor Anda untuk buat pondasi yang kuat.',
+        color: 'from-cyan-500 to-teal-600',
+        icon: 'search',
+        features: ['Analisis Brand', 'Riset Audiens', 'Benchmark Kompetitor', 'Setting Target']
+      },
+      {
+        number: '02',
+        title: 'Strategy Development',
+        description: 'Buat strategi social media yang tepat dengan objektif jelas dan rencana eksekusi.',
+        color: 'from-teal-500 to-cyan-600',
+        icon: 'clipboard',
+        features: ['Pilih Platform', 'Tentukan Konten', 'Rencana Campaign', 'Alokasi Resource']
+      },
+      {
+        number: '03',
+        title: 'Content Creation',
+        description: 'Produksi konten engaging yang sesuai dengan brand voice dan disukai audiens.',
+        color: 'from-cyan-600 to-teal-500',
+        icon: 'rocket',
+        features: ['Desain Grafis', 'Copywriting', 'Produksi Video', 'Jadwal Konten']
+      },
+      {
+        number: '04',
+        title: 'Execution & Launch',
+        description: 'Jalankan campaign dengan presisi dan pantau performa secara real-time.',
+        color: 'from-teal-600 to-cyan-500',
+        icon: 'chart',
+        features: ['Setup Campaign', 'Posting Multi-Channel', 'Engagement', 'Monitoring Live']
+      },
+      {
+        number: '05',
+        title: 'Analysis & Optimization',
+        description: 'Analisis hasil dan terus optimalkan strategi untuk growth yang berkelanjutan.',
+        color: 'from-cyan-500 to-teal-600',
+        icon: 'analytics',
+        features: ['Review Performance', 'Analisis Data', 'Refine Strategy', 'Scale Winning Tactic']
+      }
+    ]
+  },
+  en: {
+    title: 'How We Work',
+    subtitle: 'Our proven 5-step process for delivering social media success',
+    badge: 'Our Process',
+    steps: [
+      {
+        number: '01',
+        title: 'Discovery & Research',
+        description: 'We dive deep into understanding your brand, audience, and competitive landscape to create a solid foundation for success.',
+        color: 'from-cyan-500 to-teal-600',
+        icon: 'search',
+        features: ['Brand Analysis', 'Audience Research', 'Competitor Benchmarking', 'Goal Setting']
+      },
+      {
+        number: '02',
+        title: 'Strategy Development',
+        description: 'Based on insights, we craft a tailored social media strategy with clear objectives, KPIs, and execution roadmap.',
+        color: 'from-teal-500 to-cyan-600',
+        icon: 'clipboard',
+        features: ['Channel Selection', 'Content Pillars Definition', 'Campaign Planning', 'Resource Allocation']
+      },
+      {
+        number: '03',
+        title: 'Content Creation',
+        description: 'Our creative team produces engaging content that aligns with your brand voice and resonates with your audience.',
+        color: 'from-cyan-600 to-teal-500',
+        icon: 'rocket',
+        features: ['Graphic Design', 'Copywriting', 'Video Production', 'Content Scheduling']
+      },
+      {
+        number: '04',
+        title: 'Execution & Launch',
+        description: 'We execute campaigns with precision, monitoring performance in real-time and optimizing for maximum impact.',
+        color: 'from-teal-600 to-cyan-500',
+        icon: 'chart',
+        features: ['Campaign Setup', 'Multi-Channel Posting', 'Community Engagement', 'Live Monitoring']
+      },
+      {
+        number: '05',
+        title: 'Analysis & Optimization',
+        description: 'We analyze results, gather insights, and continuously optimize strategies to drive sustained growth.',
+        color: 'from-cyan-500 to-teal-600',
+        icon: 'analytics',
+        features: ['Performance Review', 'Data Analysis', 'Strategy Refinement', 'Scale Successful Tactics']
+      }
+    ]
+  }
+};
+
+const data = processData[lang] || processData.id;
+
+const icons = {
+  search: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>`,
+  clipboard: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="8" height="4" x="8" y="2" rx="1" ry="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/></svg>`,
+  rocket: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"/><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/></svg>`,
+  chart: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/></svg>`,
+  analytics: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-3"/></svg>`
+};
+---
+
+<section class="py-24 bg-slate-50 dark:bg-gray-950 overflow-hidden">
+  <div class="max-w-6xl mx-auto px-6">
+    
+    <div class="text-center max-w-3xl mx-auto mb-20">
+      <span class="text-cyan-600 dark:text-cyan-400 font-bold tracking-widest uppercase text-sm">{data.badge}</span>
+      <h2 class="text-4xl md:text-5xl font-bold mt-4 mb-6 text-gray-900 dark:text-white tracking-tight">
+        {data.title}
+      </h2>
+      <p class="text-lg text-gray-600 dark:text-gray-400">
+        {data.subtitle}
+      </p>
+    </div>
+
+    <div class="relative">
+      <div class="absolute left-1/2 top-0 bottom-0 w-px bg-gray-200 dark:bg-gray-800 hidden lg:block transform -translate-x-1/2"></div>
+
+      <div class="space-y-20 lg:space-y-32">
+        {data.steps.map((step, index) => (
+          <AnimateOnScroll 
+            animation={index % 2 === 0 ? "fade-up" : "fade-up"} 
+            class="relative z-10"
+          >
+            <div class={`flex flex-col ${index % 2 === 0 ? 'lg:flex-row' : 'lg:flex-row-reverse'} items-center gap-12`}>
+              
+              <div class="w-full lg:w-1/2">
+                <div class="group p-8 md:p-10 rounded-3xl bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800 shadow-sm hover:shadow-xl hover:shadow-cyan-500/5 transition-all duration-500">
+                  <div class={`w-14 h-14 rounded-2xl bg-gradient-to-br ${step.color} flex items-center justify-center text-white mb-6 shadow-lg transform group-hover:-rotate-6 transition-transform`}>
+                    <Fragment set:html={icons[step.icon as keyof typeof icons]} />
+                  </div>
+                  
+                  <span class="text-xs font-bold text-gray-400 uppercase tracking-widest">Step {step.number}</span>
+                  <h3 class="text-2xl font-bold mt-2 mb-4 text-gray-900 dark:text-white group-hover:text-cyan-600 dark:group-hover:text-cyan-400 transition-colors">
+                    {step.title}
+                  </h3>
+                  <p class="text-gray-600 dark:text-gray-400 leading-relaxed mb-8">
+                    {step.description}
+                  </p>
+
+                  <div class="flex flex-wrap gap-2">
+                    {step.features.map((feature) => (
+                      <span class="px-3 py-1 text-xs font-medium rounded-full bg-gray-50 dark:bg-gray-800 text-gray-500 dark:text-gray-400 border border-gray-100 dark:border-gray-700">
+                        {feature}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              </div>
+
+              <div class="absolute left-1/2 top-0 -translate-x-1/2 hidden lg:flex items-center justify-center">
+                <div class={`w-4 h-4 rounded-full bg-white dark:bg-gray-900 border-4 border-cyan-500 z-20`}></div>
+              </div>
+
+              <div class="hidden lg:block lg:w-1/2"></div>
+            </div>
+          </AnimateOnScroll>
+        ))}
+      </div>
+    </div>
+  </div>
+</section> -->

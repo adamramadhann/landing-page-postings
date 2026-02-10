@@ -1,0 +1,187 @@
+---
+// Import icons jika menggunakan library, atau gunakan SVG manual seperti di bawah
+const getIcon = (id: string) => {
+  const icons = {
+    talent: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>`,
+    media: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="15" x="2" y="7" rx="2" ry="2"/><polyline points="17 2 12 7 7 2"/></svg>`,
+    brand: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h12l4 6-10 13L2 9Z"/><path d="M11 3 8 9l4 13 4-13-3-6"/><path d="M2 9h20"/></svg>`
+  };
+  return icons[id as keyof typeof icons] || icons.talent;
+};
+
+const data = {
+  pillars: {
+    title: "Ekosistem Kolaboratif",
+    subtitle: "Kami menghubungkan tiga pilar utama industri digital untuk menciptakan kampanye yang tidak hanya viral, tapi juga berdampak jangka panjang.",
+    roles: [
+      {
+        id: "talent",
+        layout: "featured",
+        title: "Content Creator & Buzzer",
+        subtitle: "The Opinion Leaders",
+        description: "Wajah dari kampanye digital Anda. Kami mengelola jaringan talent yang terverifikasi untuk memastikan pesan brand tersampaikan dengan organik dan kredibel.",
+        color: "from-cyan-500 to-blue-600",
+        icon: "talent", // Id untuk icon SVG
+        bgImage: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=2071&auto=format&fit=crop",
+        benefits: [
+          "Akses Project Brand Nasional",
+          "Workshop Algoritma Viral",
+          "Sistem Reward Transparan",
+          "Community Networking"
+        ],
+        stats: [
+          { value: "100K+", label: "Total Talent" },
+          { value: "85%", label: "Engagement Rate" },
+          { value: "24/7", label: "Support" }
+        ]
+      },
+      {
+        id: "media",
+        layout: "split",
+        title: "Digital Media & Clippers",
+        subtitle: "The Amplifiers",
+        description: "Memastikan konten Anda menjangkau setiap sudut internet. Jaringan media dan clipper kami bekerja secara simultan untuk mendominasi algoritma platform.",
+        color: "from-teal-400 to-cyan-500",
+        icon: "media",
+        bgImage: "https://images.unsplash.com/photo-1551434678-e076c223a692?q=80&w=2070&auto=format&fit=crop",
+        benefits: [
+          "Multi-platform Distribution",
+          "Clipper Management System",
+          "High Retention Content",
+          "Viral Traffic Control"
+        ],
+        stats: [
+          { value: "500+", label: "Pro Clippers" },
+          { value: "10K+", label: "Media Network" },
+          { value: "1B+", label: "Monthly Views" }
+        ]
+      },
+      {
+        id: "brand",
+        layout: "card",
+        title: "Brands & Agencies",
+        subtitle: "The Visionaries",
+        description: "Partner strategis kami dalam menciptakan tren. Kami memberikan data real-time dan akses langsung ke komunitas terbesar untuk eksekusi kampanye yang presisi.",
+        color: "from-slate-800 to-slate-900",
+        icon: "brand",
+        bgImage: "https://images.unsplash.com/photo-1497215728101-856f4ea42174?q=80&w=2070&auto=format&fit=crop",
+        benefits: [
+          "Data-Driven Strategy",
+          "Direct Access to Talents",
+          "Real-time Analytics Dashboard",
+          "Scalable Campaign Model"
+        ],
+        stats: [
+          { value: "250+", label: "Trusted Brands" },
+          { value: "1.2K", label: "Campaigns Done" },
+          { value: "98%", label: "Satisfaction" }
+        ]
+      }
+    ]
+  }
+};
+---
+
+<section class="relative py-32 bg-slate-950 overflow-hidden">
+  <!-- Dot Grid Pattern -->
+  <div class="absolute inset-0 bg-dot-grid opacity-[0.03]"></div>
+
+  <!-- Gradient Orbs -->
+  <div class="absolute inset-0 overflow-hidden pointer-events-none">
+    <div class="absolute top-0 left-1/2 -translate-x-1/2 w-full h-[1000px] bg-gradient-to-br from-cyan-500/8 via-teal-500/5 to-transparent"></div>
+  </div>
+
+  <div class="relative z-10 max-w-7xl mx-auto px-6 lg:px-8">
+    <div class="text-center mb-24">
+      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/20 mb-6">
+        <span class="w-2 h-2 rounded-full bg-cyan-400 animate-pulse"></span>
+        <span class="text-[10px] font-bold text-cyan-400 uppercase tracking-[0.2em]">Our Ecosystem</span>
+      </div>
+      <h2 class="text-5xl md:text-7xl font-black text-white mb-6 tracking-tight italic">
+        {data.pillars.title}
+      </h2>
+      <p class="text-lg text-gray-400 max-w-2xl mx-auto leading-relaxed font-medium">
+        {data.pillars.subtitle}
+      </p>
+    </div>
+
+    <div class="space-y-40">
+      {data.pillars.roles.map((role, index) => (
+        <div class="group">
+          <div class={`flex flex-col lg:flex-row gap-16 items-center ${index % 2 !== 0 ? 'lg:flex-row-reverse' : ''}`}>
+            
+            <div class="w-full lg:w-1/2 relative group/img">
+  <div class="absolute -inset-6 bg-gradient-to-tr from-cyan-500/10 to-teal-500/10 blur-3xl rounded-[4rem] opacity-50"></div>
+
+  <div class="relative aspect-[4/5] md:aspect-video lg:aspect-square rounded-[3rem] overflow-hidden border border-white/10 shadow-2xl transition-all duration-700">
+
+    <img
+      src={role.bgImage}
+      alt={role.title}
+      class="w-full h-full object-cover grayscale-[0.3] contrast-[1.1] group-hover/img:grayscale-0 group-hover/img:scale-110 transition-all duration-1000 ease-out"
+    />
+
+    <div class="absolute inset-0 bg-gradient-to-t from-slate-900/95 via-slate-900/40 to-transparent opacity-90"></div>
+
+    <div class="absolute bottom-8 left-8 right-8">
+      <div class="backdrop-blur-xl bg-slate-900/90 border border-white/20 rounded-[2rem] p-5 shadow-2xl flex justify-between items-center group-hover/img:shadow-cyan-500/20 transition-all duration-500">
+        <div class="flex gap-8 pl-2">
+          {role.stats.slice(0, 2).map(stat => (
+            <div class="relative">
+              <div class="text-2xl font-black text-white tracking-tighter leading-none">{stat.value}</div>
+              <div class="text-[9px] font-bold text-gray-400 uppercase tracking-[0.15em] mt-1.5">{stat.label}</div>
+            </div>
+          ))}
+        </div>
+
+        <div class={`w-12 h-12 rounded-2xl bg-gradient-to-r from-cyan-600 to-teal-600 text-white flex items-center justify-center shadow-lg group-hover/img:from-cyan-500 group-hover/img:to-teal-500 transition-all duration-500`}>
+          <Fragment set:html={getIcon(role.id)} />
+        </div>
+      </div>
+    </div>
+
+    <div class="absolute top-8 left-8">
+      <div class="bg-cyan-500/20 backdrop-blur-md border border-cyan-500/30 px-4 py-2 rounded-full">
+        <span class="text-white text-[10px] font-black tracking-[0.2em] uppercase">Pillar 0{index + 1}</span>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+            <div class="w-full lg:w-1/2 space-y-8">
+              <div class="space-y-4">
+                <div class="text-cyan-400 font-bold tracking-widest uppercase text-xs">0{index + 1} — {role.subtitle}</div>
+                <h3 class="text-4xl md:text-5xl font-black text-white leading-none">
+                  {role.title}
+                </h3>
+                <p class="text-lg text-gray-400 leading-relaxed font-medium">
+                  {role.description}
+                </p>
+              </div>
+
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {role.benefits.map((benefit) => (
+                  <div class="flex items-center gap-3 p-4 rounded-2xl bg-slate-900/60 border border-white/10 group-hover:bg-slate-900/80 group-hover:border-cyan-500/30 transition-all duration-300">
+                    <div class="w-2 h-2 rounded-full bg-cyan-400"></div>
+                    <span class="text-sm font-bold text-gray-300">{benefit}</span>
+                  </div>
+                ))}
+              </div>
+
+              <div class="pt-4">
+                <a href={'/id/contact'} class="inline-flex items-center gap-4 group/btn">
+                  <span class="w-14 h-14 rounded-full bg-gradient-to-r from-cyan-600 to-teal-600 text-white flex items-center justify-center group-hover/btn:scale-110 group-hover/btn:from-cyan-700 group-hover/btn:to-teal-700 transition-all duration-300">
+                    <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg>
+                  </span>
+                  <span class="text-lg font-black text-white uppercase tracking-wider">Bergabung</span>
+                </a>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

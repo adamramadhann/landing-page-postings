@@ -144,10 +144,16 @@ export function getTranslations(locale: Locale): TranslationData {
 
 /**
  * Get current locale dari URL pathname
+ * Updated untuk prefixDefaultLocale: true
  * @param pathname - URL pathname
  * @returns Current locale
  */
 export function getLocaleFromPath(pathname: string): Locale {
+  // Handle root
+  if (pathname === '/' || pathname === '') {
+    return 'id'; // Default locale
+  }
+
   // Match /xx/ pattern untuk language prefix
   const match = pathname.match(/^\/([a-z]{2})(\/|$)/);
   if (match) {
@@ -161,14 +167,15 @@ export function getLocaleFromPath(pathname: string): Locale {
 
 /**
  * Get alternate URL untuk language switching
+ * Updated untuk prefixDefaultLocale: true
  * @param currentPath - Current URL pathname
  * @param targetLocale - Target locale
  * @returns Alternate URL
  */
 export function getAlternateUrl(currentPath: string, targetLocale: Locale): string {
-  // Handle root
-  if (currentPath === '/' || currentPath === '' || currentPath === '/en' || currentPath === '/id') {
-    return targetLocale === 'id' ? '/' : '/en';
+  // Handle root paths
+  if (currentPath === '/' || currentPath === '') {
+    return targetLocale === 'id' ? '/id' : '/en';
   }
 
   // Normalize path - remove trailing slash for consistency
@@ -176,7 +183,7 @@ export function getAlternateUrl(currentPath: string, targetLocale: Locale): stri
     ? currentPath.slice(0, -1)
     : currentPath;
 
-  // Check if current path has locale prefix
+  // Check if current path has locale prefix (/id/ or /en/)
   const localeMatch = normalizedPath.match(/^\/(en|id)(\/.*)?$/);
 
   if (localeMatch) {
@@ -189,17 +196,16 @@ export function getAlternateUrl(currentPath: string, targetLocale: Locale): stri
       return normalizedPath;
     }
 
-    // Switch to target locale
+    // Switch to target locale with prefix
     return targetLocale === 'id'
-      ? pathWithoutLocale
+      ? `/id${pathWithoutLocale === '/' ? '' : pathWithoutLocale}`
       : `/en${pathWithoutLocale === '/' ? '' : pathWithoutLocale}`;
   }
 
-  // Path has no locale prefix - assume it's ID (default locale)
-  // Add target locale prefix
+  // Path has no locale prefix - add target locale prefix
   return targetLocale === 'id'
-    ? normalizedPath
-    : `/en${normalizedPath}`;
+    ? `/id${normalizedPath === '/' ? '' : normalizedPath}`
+    : `/en${normalizedPath === '/' ? '' : normalizedPath}`;
 }
 
 /**
