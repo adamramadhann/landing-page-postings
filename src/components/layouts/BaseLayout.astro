@@ -1,7 +1,7 @@
 ---
 // src/components/layouts/BaseLayout.astro
-import Header from '../layout/Header.astro';
-import Footer from '../layout/Footer.astro';
+import Header from './Header.astro';
+import Footer from './Footer.astro';
 import { getCollection } from 'astro:content';
 import { ViewTransitions } from 'astro:transitions';
 import { getLocaleFromPath, type Locale } from '../../lib/i18n-data';
@@ -28,11 +28,11 @@ const currentPath = Astro.url.pathname;
 const currentLang = getLocaleFromPath(currentPath);
 
 // Get posts for language switcher
-const allPosts = await getCollection('blog');
-const postsByLang = {
-  id: allPosts.filter(post => post.data.lang === 'id'),
-  en: allPosts.filter(post => post.data.lang === 'en'),
-};
+// const allPosts = await getCollection('blog');
+// const postsByLang = {
+//   id: allPosts.filter(post => post.data.lang === 'id'),
+//   en: allPosts.filter(post => post.data.lang === 'en'),
+// };
 ---
 
 <!doctype html>
@@ -40,7 +40,20 @@ const postsByLang = {
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Favicon & App Icons -->
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/svg+xml" href="/icon.svg" sizes="any" />
+    <link rel="apple-touch-icon" href="/icon.svg" />
+    <meta name="theme-color" content="#00D1D1" />
+
+    <!-- Web App Manifest -->
+    <link rel="manifest" href="/manifest.json" />
+
+    <!-- PWA Theme -->
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="Posthinks" />
 
     <!-- SEO Meta Tags -->
     <title>{title}</title>

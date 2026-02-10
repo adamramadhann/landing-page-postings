@@ -1,0 +1,38 @@
+{
+  "name": "Posthinks - Digital Transformation Partner",
+  "short_name": "Posthinks",
+  "description": "Mitra transformasi digital terpercaya untuk bisnis Anda. Social commerce, digital marketing, dan technology solutions.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0F172A",
+  "theme_color": "#00D1D1",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["business", "productivity", "technology"],
+  "lang": "id",
+  "dir": "ltr",
+  "scope": "/",
+  "shortcuts": [
+    {
+      "name": "Hubungi Kami",
+      "short_name": "Kontak",
+      "description": "Hubungi tim Posthinks",
+      "url": "/contact",
+      "icons": [{ "src": "/icon.svg", "sizes": "any" }]
+    },
+    {
+      "name": "Layanan",
+      "short_name": "Services",
+      "description": "Lihat layanan kami",
+      "url": "/services",
+      "icons": [{ "src": "/icon.svg", "sizes": "any" }]
+    }
+  ]
+}

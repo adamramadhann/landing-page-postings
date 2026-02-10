@@ -3,12 +3,12 @@
 // Page Composer - Solutions Page
 import BaseLayout from '../../components/layouts/BaseLayout.astro';
 import { type Locale } from '../../lib/i18n-data';
-import Hero from '../../components/sections/Hero.astro';
-import Solutions from '../../components/sections/Solutions.astro';
-import Industries from '../../components/sections/Industries.astro';
-import Pricing from '../../components/sections/Pricing.astro';
-import FAQ from '../../components/sections/FAQ.astro';
-import CTA from '../../components/sections/CTA.astro';
+import Hero from '../../components/sections/shared/Hero.astro';
+import Solutions from '../../components/sections/services/Solutions.astro';
+import Industries from '../../components/sections/services/Industries.astro';
+import Pricing from '../../components/sections/services/Pricing.astro';
+import FAQ from '../../components/sections/shared/FAQ.astro';
+import CTA from '../../components/sections/home/CTA.astro';
 
 interface Props {
   lang: Locale;

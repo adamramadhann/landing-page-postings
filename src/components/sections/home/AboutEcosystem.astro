@@ -1,0 +1,121 @@
+---
+import AnimateOnScroll from '@/components/ui/AnimateOnScroll.astro';
+
+const ecosystem = [
+  {
+    title: "First Hand Buzzer",
+    desc: "Posthinks menggerakkan lebih dari 100.000 talent pilihan untuk memicu diskusi organik yang membangun opini publik.",
+    stats: "100K+ Active Talents",
+    icon: "💬"
+  },
+  {
+    title: "National Media Network",
+    desc: "Akses ke 10.000+ jaringan media nasional dan lokal untuk kredibilitas dan jangkauan luas di seluruh Indonesia.",
+    stats: "10K+ Media Outlets",
+    icon: "📡"
+  },
+  {
+    title: "High Impact SEO",
+    desc: "Strategi Technical SEO dan CRO untuk menempatkan brand di Top 3 hasil pencarian dan mengubah trafik menjadi konversi.",
+    stats: "Top 3 Search Authority",
+    icon: "🚀"
+  },
+  {
+    title: "Viral Clipper Strategy",
+    desc: "500+ akun clipper profesional yang ahli dalam algoritma video singkat untuk memastikan konten viral secara organik.",
+    stats: "500+ Specialized Accounts",
+    icon: "🎬"
+  }
+];
+---
+
+<section class="relative py-32 bg-slate-950">
+  <!-- Elegant dot grid pattern -->
+  <div class="absolute inset-0 bg-dot-grid opacity-[0.03]"></div>
+
+  <!-- Gradient orbs -->
+  <div class="absolute inset-0 overflow-hidden pointer-events-none">
+    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-gradient-to-br from-cyan-500/10 to-teal-500/8 rounded-full blur-3xl animate-orb-drift"></div>
+    <div class="absolute top-[10%] right-[10%] w-[400px] h-[400px] bg-teal-500/8 rounded-full blur-3xl animate-orb-pulse-slow"></div>
+  </div>
+
+  <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex flex-col lg:flex-row gap-12 lg:gap-16 items-start">
+
+      {/* LEFT SIDE: Content */}
+      <div class="lg:w-1/2 lg:sticky lg:top-32">
+        <div class="inline-flex items-center gap-2 px-4 py-2 mb-6 bg-cyan-500/10 border border-cyan-500/20 rounded-full">
+          <span class="w-2 h-2 rounded-full bg-cyan-400 animate-pulse"></span>
+          <span class="text-sm font-semibold text-cyan-400">Our Ecosystem</span>
+        </div>
+
+        <h2 class="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight">
+          A 360° Digital
+          <span class="block mt-2 text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-teal-400">
+            Powerhouse
+          </span>
+        </h2>
+
+        <p class="text-base md:text-lg text-gray-400 leading-relaxed mb-8">
+          Posthinks menyatukan data, pengaruh, dan jaringan masif untuk memastikan brand Anda mendominasi pasar.
+        </p>
+
+        <div class="flex items-center gap-4 sm:gap-6">
+          <div class="text-center">
+            <div class="text-2xl sm:text-3xl font-bold text-white">4</div>
+            <div class="text-xs sm:text-sm text-gray-500">Core Pillars</div>
+          </div>
+          <div class="w-px h-8 sm:h-12 bg-gray-800"></div>
+          <div class="text-center">
+            <div class="text-2xl sm:text-3xl font-bold text-white">100K+</div>
+            <div class="text-xs sm:text-sm text-gray-500">Active Talents</div>
+          </div>
+          <div class="w-px h-8 sm:h-12 bg-gray-800"></div>
+          <div class="text-center">
+            <div class="text-2xl sm:text-3xl font-bold text-white">10K+</div>
+            <div class="text-xs sm:text-sm text-gray-500">Media Partners</div>
+          </div>
+        </div>
+      </div>
+
+      {/* RIGHT SIDE: Ecosystem Items */}
+      <div class="lg:w-1/2 space-y-6 md:space-y-8">
+        {ecosystem.map((item, index) => (
+          <AnimateOnScroll
+            key={item.title}
+            animation="fade-up"
+            delay={index * 100}
+            duration={700}
+            class="group relative bg-slate-900/60 backdrop-blur-md rounded-2xl p-6 md:p-8 border border-white/10 hover:border-cyan-500/30 transition-all duration-300 hover:shadow-lg hover:shadow-cyan-500/10"
+          >
+            <div class="flex items-start gap-4 md:gap-6">
+              {/* Icon - Cyan/Teal Only */}
+              <div class="flex-shrink-0 w-12 h-12 sm:w-16 sm:h-16 rounded-2xl bg-gradient-to-br from-cyan-500/20 to-teal-500/20 flex items-center justify-center text-2xl sm:text-3xl group-hover:scale-110 transition-transform duration-300">
+                {item.icon}
+              </div>
+
+              {/* Content */}
+              <div class="flex-1">
+                <h3 class="text-lg md:text-xl font-bold text-white mb-3 group-hover:text-cyan-400 transition-colors duration-300">
+                  {item.title}
+                </h3>
+
+                <p class="text-sm md:text-base text-gray-400 leading-relaxed mb-4">
+                  {item.desc}
+                </p>
+
+                {/* Stats Badge - Cyan/Teal Only */}
+                <div class="inline-flex items-center gap-2 px-4 py-2 bg-cyan-500/10 rounded-xl border border-cyan-500/20">
+                  <div class="w-2 h-2 rounded-full bg-gradient-to-br from-cyan-400 to-teal-400"></div>
+                  <span class="text-sm font-semibold text-gray-300">{item.stats}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        // </AnimateOnScroll>
+        ))}
+      </div>
+
+    </div>
+  </div>
+</section>

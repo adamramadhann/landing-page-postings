@@ -10,6 +10,7 @@
     "services": "Layanan",
     "community": "Community",
     "caseStudies": "Studi Kasus",
+    "clients": "Klien",
     "blog": "Blog",
     "contact": "Kontak",
     "consultation": "Konsultasi"
@@ -27,11 +28,11 @@
   },
   "hero": {
     "badge": "Social Media Specialist",
-    "title": "Social Media Specialist",
-    "description": "Boost Your Brand's Social Media Presence with Data-Driven Strategies that Engage, Convert, and Deliver Real Results",
+    "title": "Tingkatkan Presence Brand Anda di Media Sosial",
+    "description": "Kami bantu brand Anda berkembang di media sosial dengan strategi berbasis data yang terbukti menghasilkan engagement, konversi, dan hasil nyata.",
     "cta": {
-      "primary": "Get Started",
-      "secondary": "View Our Work"
+      "primary": "Mulai Sekarang",
+      "secondary": "Lihat Hasil Karya Kami"
     },
     "stats": [
       { "label": "Projects Completed", "value": "500+" },

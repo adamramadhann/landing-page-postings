@@ -1,0 +1,93 @@
+---
+// PartnersSection.astro
+const partners = [
+  { name: 'TikTok Partner', type: 'partner' },
+  { name: 'Meta Partner', type: 'partner' },
+  { name: 'Google Partner', type: 'partner' },
+  { name: 'Digivla', type: 'tool' },
+  { name: 'Similarweb', type: 'tool' },
+  { name: 'Ahrefs', type: 'tool' },
+];
+
+const doublePartners = [...partners, ...partners, ...partners];
+---
+
+<section class="relative bg-slate-950 overflow-hidden py-16">
+  <!-- Background with dots pattern -->
+  <div class="absolute inset-0 bg-dot-grid opacity-[0.02]"></div>
+
+  <!-- Gradient orbs -->
+  <div class="absolute inset-0 overflow-hidden pointer-events-none">
+    <div class="absolute -left-[5%] top-0 w-[400px] h-[400px] bg-cyan-500/10 rounded-full blur-[100px] animate-orb-drift"></div>
+    <div class="absolute -right-[5%] bottom-0 w-[400px] h-[400px] bg-teal-500/10 rounded-full blur-[100px] animate-orb-drift" style="animation-delay: -3s"></div>
+
+    <div class="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-cyan-500/20 to-transparent"></div>
+    <div class="absolute bottom-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-cyan-500/20 to-transparent"></div>
+  </div>
+
+  <div class="container mx-auto px-4 relative z-10">
+    <div class="flex justify-center mb-10">
+      <span class="text-[10px] font-black uppercase tracking-[0.2em] text-cyan-400 bg-slate-900/80 px-4 py-1 rounded-full border border-cyan-500/20 shadow-sm">
+        Integrated Ecosystem
+      </span>
+    </div>
+
+    <div class="logo-fade-mask">
+      <div class="flex animate-scroll whitespace-nowrap gap-8 md:gap-12 items-center">
+        {doublePartners.map((partner) => (
+          <div class="flex items-center justify-center group transition-all duration-500">
+            <div class="relative">
+              <div class="absolute -inset-1 bg-gradient-to-r from-cyan-500 to-teal-500 rounded-2xl blur opacity-0 group-hover:opacity-20 transition-opacity duration-500"></div>
+
+              <div class="relative flex items-center gap-4 px-6 py-4 bg-slate-900/80 backdrop-blur-md rounded-2xl border border-white/10 shadow-[0_8px_30px_rgb(0,0,0,0.04)] group-hover:shadow-[0_20px_40px_rgba(0,209,209,0.08)] group-hover:border-cyan-500/30 transition-all duration-500 group-hover:-translate-y-1">
+
+                <div class="w-10 h-10 rounded-xl bg-cyan-500/10 flex items-center justify-center group-hover:scale-110 transition-transform duration-500">
+                  {partner.type === 'partner' ? (
+                    <svg class="w-5 h-5 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                    </svg>
+                  ) : (
+                    <svg class="w-5 h-5 text-teal-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 3.055A9.003 9.003 0 003.055 11H11V3.055zM11 20.945V13H3.055A9.003 9.003 0 0011 20.945zM13 3.055V11h7.945A9.003 9.003 0 0013 3.055zM13 20.945a9.003 9.003 0 007.945-7.945H13v7.945z" />
+                    </svg>
+                  )}
+                </div>
+
+                <div class="flex flex-col">
+                  <span class="text-[10px] font-bold text-gray-500 uppercase tracking-tight leading-none mb-1 group-hover:text-cyan-400 transition-colors">
+                    {partner.type}
+                  </span>
+                  <span class="text-sm font-black text-gray-300">
+                    {partner.name}
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  @keyframes scroll {
+    from { transform: translateX(0); }
+    to { transform: translateX(-33.33%); }
+  }
+
+  .animate-scroll {
+    animation: scroll 35s linear infinite;
+  }
+
+  .animate-scroll:hover {
+    animation-play-state: paused;
+  }
+
+  .logo-fade-mask {
+    position: relative;
+    /* Masking yang lebih smooth di pinggir */
+    mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent);
+    -webkit-mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent);
+  }
+</style>

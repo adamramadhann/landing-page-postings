@@ -1,0 +1,267 @@
+---
+// src/pages/[lang]/clients.astro
+// Dedicated Clients Page - Full Client Portfolio
+import BaseLayout from '../../components/layouts/BaseLayout.astro';
+import { getTranslations } from '../../lib/i18n-data';
+import AnimateOnScroll from '../../components/ui/AnimateOnScroll.astro';
+import type { Locale } from '../../lib/i18n-data';
+
+// Generate static paths untuk ID dan EN
+export function getStaticPaths() {
+  return [
+    { params: { lang: 'id' } },
+    { params: { lang: 'en' } },
+  ];
+}
+
+const { lang } = Astro.params;
+const locale = lang as Locale;
+
+// Load translations
+const t = await getTranslations(locale);
+
+const contactUrl = locale === 'id' ? '/kontak' : '/contact';
+
+// Page content
+const pageData = {
+  id: {
+    title: "Klien Kami",
+    description: "Brand yang telah mempercayakan social media mereka kepada Posthinks",
+    heroTitle: "500+ Brand",
+    heroHighlight: "Sudah Percaya pada Kami",
+    heroSubtitle: "Dari berbagai industri, kami membantu brand mencapai social media success dengan strategi berbasis data dan execution yang profesional",
+    filterAll: "Semua",
+    viewCaseStudy: "Lihat Case Study",
+    contactUs: "Hubungi Kami",
+    becomeClient: "Jadi Klien Kami"
+  },
+  en: {
+    title: "Our Clients",
+    description: "Brands that have trusted their social media to Posthinks",
+    heroTitle: "500+ Brands",
+    heroHighlight: "Trust Us",
+    heroSubtitle: "Across various industries, we help brands achieve social media success with data-driven strategies and professional execution",
+    filterAll: "All",
+    viewCaseStudy: "View Case Study",
+    contactUs: "Contact Us",
+    becomeClient: "Become a Client"
+  }
+};
+
+const content = pageData[locale];
+
+// Clients data - comprehensive list
+const clientsData = {
+  fmcg: [
+    { name: "Unilever", logo: "🛒", result: "500K+ Engagement", timeframe: "3 Months", category: "FMCG", featured: true },
+    { name: "Indomie", logo: "🍜", result: "300K+ Reach", timeframe: "2 Months", category: "FMCG", featured: false },
+    { name: "Indofood", logo: "🥜", result: "150K+ Followers", timeframe: "4 Months", category: "FMCG", featured: false }
+  ],
+  automotive: [
+    { name: "Suzuki", logo: "🚗", result: "300K+ Reach", timeframe: "2 Months", category: "Automotive", featured: true },
+    { name: "Honda", logo: "🏍️", result: "200K+ Engagement", timeframe: "3 Months", category: "Automotive", featured: false }
+  ],
+  banking: [
+    { name: "Bank BRI", logo: "🏦", result: "150K+ Followers", timeframe: "4 Months", category: "Banking", featured: true },
+    { name: "Bank Mandiri", logo: "🏛️", result: "100K+ Engagement", timeframe: "3 Months", category: "Banking", featured: false }
+  ],
+  technology: [
+    { name: "Gojek", logo: "🛵", result: "2M+ Reach", timeframe: "6 Months", category: "Technology", featured: true },
+    { name: "Tokopedia", logo: "🛍️", result: "1M+ Engagement", timeframe: "5 Months", category: "E-commerce", featured: false },
+    { name: "Traveloka", logo: "✈️", result: "500K+ Followers", timeframe: "4 Months", category: "Technology", featured: false }
+  ],
+  telecommunications: [
+    { name: "Telkom", logo: "📡", result: "1M+ Reach", timeframe: "3 Months", category: "Telecommunications", featured: true },
+    { name: "Indosat", logo: "📶", result: "500K+ Engagement", timeframe: "4 Months", category: "Telecommunications", featured: false }
+  ],
+  energy: [
+    { name: "Pertamina", logo: "⚡", result: "2M+ Reach", timeframe: "6 Months", category: "Energy", featured: true },
+    { name: "PLN", logo: "💡", result: "800K+ Engagement", timeframe: "5 Months", category: "Energy", featured: false }
+  ]
+};
+
+// SEO
+const title = `${content.title} - ${t.common.siteName}`;
+const description = content.description;
+---
+
+<BaseLayout title={title} description={description} lang={locale}>
+  <!-- Hero Section -->
+  <section class="relative py-20 md:py-32 bg-slate-950 overflow-hidden">
+    <!-- Background -->
+    <div class="absolute inset-0 overflow-hidden pointer-events-none">
+      <div class="absolute top-[-15%] right-[-10%] w-[700px] h-[700px] bg-gradient-to-br from-cyan-500/20 to-teal-500/15 rounded-full blur-[150px] animate-orb-drift"></div>
+      <div class="absolute bottom-[-20%] left-[-5%] w-[500px] h-[500px] bg-gradient-to-tr from-teal-500/15 to-emerald-500/10 rounded-full blur-[120px] animate-orb-drift" style="animation-delay: -5s;"></div>
+    </div>
+
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      <div class="max-w-4xl mx-auto text-center">
+        <AnimateOnScroll animation="fade-up" delay={0} duration={700}>
+          <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 text-sm font-bold mb-8">
+            <span class="flex h-2 w-2 rounded-full bg-cyan-400 animate-pulse"></span>
+            {content.title}
+          </div>
+        </AnimateOnScroll>
+
+        <AnimateOnScroll animation="fade-up" delay={100} duration={700}>
+          <h1 class="text-5xl md:text-6xl lg:text-7xl font-black text-white leading-[1.1] mb-6">
+            {content.heroTitle} <span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-teal-400">{content.heroHighlight}</span>
+          </h1>
+        </AnimateOnScroll>
+
+        <AnimateOnScroll animation="fade-up" delay={200} duration={700}>
+          <p class="text-xl md:text-2xl text-gray-300 max-w-3xl mx-auto">
+            {content.heroSubtitle}
+          </p>
+        </AnimateOnScroll>
+
+        <AnimateOnScroll animation="fade-up" delay={300} duration={700}>
+          <div class="mt-10 flex flex-wrap justify-center gap-4">
+            <a href={contactUrl} class="inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-cyan-600 to-teal-600 text-white font-bold rounded-2xl shadow-xl hover:shadow-cyan-500/40 hover:scale-105 transition-all">
+              <span>{content.contactUs}</span>
+              <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+              </svg>
+            </a>
+          </div>
+        </AnimateOnScroll>
+      </div>
+    </div>
+  </section>
+
+  <!-- Stats Bar -->
+  <section class="relative py-12 bg-gradient-to-r from-cyan-600/20 to-teal-600/20 border-y border-cyan-500/20">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+        {[
+          { value: "500+", label: locale === 'id' ? "Brand Terlayani" : "Brands Served" },
+          { value: "98%", label: locale === 'id' ? "Kepuasan Klien" : "Client Satisfaction" },
+          { value: "150M+", label: locale === 'id' ? "Total Reach" : "Total Reach" },
+          { value: "12M+", label: locale === 'id' ? "Engagements" : "Engagements" }
+        ].map((stat, index) => (
+          <div key={index} class="text-center">
+            <div class="text-4xl md:text-5xl font-black text-white mb-2">{stat.value}</div>
+            <div class="text-sm font-semibold text-gray-300 uppercase tracking-wider">{stat.label}</div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Clients by Category -->
+  <section class="relative py-20 bg-slate-950">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+      {Object.entries(clientsData).map(([category, clients], categoryIndex) => (
+        <div key={category} class="mb-20 last:mb-0">
+          <!-- Category Header -->
+          <AnimateOnScroll animation="fade-up" delay={categoryIndex * 100} duration={700}>
+            <div class="mb-8">
+              <h2 class="text-3xl md:text-4xl font-black text-white mb-2 capitalize">
+                {category}
+              </h2>
+              <div class="w-20 h-1 bg-gradient-to-r from-cyan-500 to-teal-500 rounded-full"></div>
+            </div>
+          </AnimateOnScroll>
+
+          <!-- Clients Grid -->
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {clients.map((client, clientIndex) => (
+              <AnimateOnScroll
+                key={client.name}
+                animation="fade-up"
+                delay={(categoryIndex * 100) + (clientIndex * 50)}
+                duration={700}
+              >
+                <div class={`group relative bg-slate-900/60 border ${client.featured ? 'border-cyan-500/30' : 'border-white/10'} rounded-3xl p-8 hover:border-cyan-500/50 transition-all duration-500 hover:shadow-2xl ${client.featured ? 'hover:shadow-cyan-500/20' : ''}`}>
+                  {client.featured && (
+                    <div class="absolute top-4 right-4 px-3 py-1 bg-gradient-to-r from-cyan-500 to-teal-500 text-white text-[10px] font-bold uppercase tracking-wider rounded-full">
+                      Featured
+                    </div>
+                  )}
+
+                  <!-- Logo/Icon -->
+                  <div class="text-6xl mb-4">{client.logo}</div>
+
+                  <!-- Client Name -->
+                  <h3 class="text-2xl font-black text-white mb-2 group-hover:text-cyan-400 transition-colors">
+                    {client.name}
+                  </h3>
+
+                  <!-- Category -->
+                  <p class="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-4">
+                    {client.category}
+                  </p>
+
+                  <!-- Result -->
+                  <div class="mb-6">
+                    <div class="text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-teal-400 mb-1">
+                      {client.result}
+                    </div>
+                    <div class="text-xs font-semibold text-gray-500 uppercase">
+                      {locale === 'id' ? 'Dalam' : 'In'} {client.timeframe}
+                    </div>
+                  </div>
+
+                  {client.featured && (
+                    <a
+                      href={`#${client.name.toLowerCase().replace(/\s+/g, '-')}`}
+                      class="inline-flex items-center gap-2 text-sm font-semibold text-cyan-400 hover:text-cyan-300 transition-colors group/link"
+                    >
+                      <span>{content.viewCaseStudy}</span>
+                      <svg class="w-4 h-4 transform group-hover/link:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                      </svg>
+                    </a>
+                  )}
+                </div>
+              </AnimateOnScroll>
+            ))}
+          </div>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="relative py-20 bg-slate-950">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="max-w-4xl mx-auto text-center">
+        <AnimateOnScroll animation="fade-up" delay={0} duration={700}>
+          <h2 class="text-3xl md:text-4xl lg:text-5xl font-black text-white mb-6">
+            {locale === 'id' ? 'Siap Jadi Bagian dari' : 'Ready to be Part of'} <span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-teal-400">{locale === 'id' ? 'Success Story Kami?' : 'Our Success Story?'}</span>
+          </h2>
+          <p class="text-lg md:text-xl text-gray-400 mb-8 max-w-2xl mx-auto">
+            {locale === 'id' ? 'Mari diskusikan bagaimana kami bisa membantu brand Anda mencapai social media success.' : 'Let\'s discuss how we can help your brand achieve social media success.'}
+          </p>
+        </AnimateOnScroll>
+
+        <AnimateOnScroll animation="fade-up" delay={200} duration={700}>
+          <a href={contactUrl} class="inline-flex items-center gap-3 px-10 py-5 bg-gradient-to-r from-cyan-600 to-teal-600 text-white font-bold text-lg rounded-2xl shadow-xl hover:shadow-cyan-500/40 hover:scale-105 transition-all">
+            <span>{content.becomeClient}</span>
+            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+            </svg>
+          </a>
+        </AnimateOnScroll>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  @keyframes fade-up {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .animate-fade-up {
+    animation: fade-up 0.6s ease-out forwards;
+    opacity: 0;
+  }
+</style>

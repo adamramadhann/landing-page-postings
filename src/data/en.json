@@ -10,6 +10,7 @@
     "services": "Services",
     "community": "Community",
     "caseStudies": "Case Studies",
+    "clients": "Clients",
     "blog": "Blog",
     "contact": "Contact",
     "consultation": "Consultation"
@@ -27,8 +28,8 @@
   },
   "hero": {
     "badge": "Social Media Specialist",
-    "title": "Social Media Specialist",
-    "description": "Boost Your Brand's Social Media Presence with Data-Driven Strategies that Engage, Convert, and Deliver Real Results",
+    "title": "Boost Your Brand's Social Media Presence",
+    "description": "We help brands grow on social media with data-driven strategies that drive engagement, conversions, and deliver real results you can see.",
     "cta": {
       "primary": "Get Started",
       "secondary": "View Our Work"
