@@ -1,10 +1,10 @@
 ---
 // src/components/ui/AnimateOnScroll.astro
-// Global Animation Helper - Accessible & Performant (Mobile Optimized)
+// Pure CSS Animations with Minimal JS Trigger - Ultra Smooth
 // Usage: <AnimateOnScroll animation="fade-up" delay={100}>content</AnimateOnScroll>
 
 interface Props {
-  animation?: 'fade-up' | 'fade-in' | 'fade-left' | 'fade-right' | 'scale-up' | 'slide-up' | 'slide-down' | 'none';
+  animation?: 'fade-up' | 'fade-in' | 'fade-left' | 'fade-right' | 'scale-up' | 'slide-up' | 'slide-down' | 'zoom-in' | 'none';
   delay?: number;
   duration?: number;
   threshold?: number;
@@ -18,9 +18,9 @@ interface Props {
 const {
   animation = 'fade-up',
   delay = 0,
-  duration = 700, // Slightly faster for mobile
-  threshold = 0.05, // Lower threshold = earlier trigger
-  once = true, // Always run once by default
+  duration = 800,
+  threshold = 0.1,
+  once = true,
   as: Tag = 'div',
   class: className = '',
   id,
@@ -29,285 +29,262 @@ const {
 
 // Generate unique ID if not provided
 const elementId = id || `animate-${Math.random().toString(36).substr(2, 9)}`;
-
-// Animation configurations - Optimized for mobile
-const animations = {
-  'fade-up': {
-    from: 'opacity-0 transform translateY(30px)',
-    to: 'opacity-1 transform translateY(0)'
-  },
-  'fade-in': {
-    from: 'opacity-0 transform scale(0.95)',
-    to: 'opacity-1 transform scale(1)'
-  },
-  'fade-left': {
-    from: 'opacity-0 transform translateX(-30px)',
-    to: 'opacity-1 transform translateX(0)'
-  },
-  'fade-right': {
-    from: 'opacity-0 transform translateX(30px)',
-    to: 'opacity-1 transform translateX(0)'
-  },
-  'scale-up': {
-    from: 'opacity-0 transform scale(0.8)',
-    to: 'opacity-1 transform scale(1)'
-  },
-  'slide-up': {
-    from: 'opacity-0 transform translateY(15px)',
-    to: 'opacity-1 transform translateY(0)'
-  },
-  'slide-down': {
-    from: 'opacity-0 transform translateY(-15px)',
-    to: 'opacity-1 transform translateY(0)'
-  },
-  'none': {
-    from: '',
-    to: ''
-  }
-};
-
-const selectedAnimation = animations[animation] || animations['fade-up'];
 ---
 
 <Tag
   id={elementId}
-  class={className}
+  class={`animate-scroll ${className}`}
   data-animate={animation}
   data-delay={delay}
   data-duration={duration}
   data-threshold={threshold}
   data-once={once}
-  data-astro-transition-scope={elementId}
+  style={`--delay: ${delay}ms; --duration: ${duration}ms`}
   {...rest}
 >
   <slot />
 </Tag>
 
-<!-- Accessibility & Performance Script - Mobile Optimized -->
+<!-- Minimal JS - Only for trigger -->
 <script>
-  // Global Animation Manager - Accessible, Performant & Mobile Smooth
-  (function() {
+  // Pure CSS Animation Trigger - Ultra Lightweight
+  (() => {
     'use strict';
 
-    // Check for reduced motion preference
-    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    let animationObserver = null;
-    const animationTimings = new Map();
-
-    // Skip animations if user prefers reduced motion
-    function handleReducedMotion() {
-      document.querySelectorAll('[data-animate]').forEach(el => {
-        el.style.opacity = '1';
-        el.style.transform = 'none';
-        el.style.transition = 'opacity 0.3s ease';
+    // Respect reduced motion preference
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      document.querySelectorAll('.animate-scroll').forEach(el => {
+        el.classList.add('animate-visible');
       });
-    }
-
-    if (prefersReducedMotion) {
-      handleReducedMotion();
       return;
     }
 
-    // Animation trigger function with smoother easing
-    function triggerAnimation(element, type, duration) {
-      const configs = {
-        'fade-up': {
-          keyframes: [
-            { opacity: 0, transform: 'translateY(30px)' },
-            { opacity: 1, transform: 'translateY(0)' }
-          ]
-        },
-        'fade-in': {
-          keyframes: [
-            { opacity: 0, transform: 'scale(0.95)' },
-            { opacity: 1, transform: 'scale(1)' }
-          ]
-        },
-        'fade-left': {
-          keyframes: [
-            { opacity: 0, transform: 'translateX(-30px)' },
-            { opacity: 1, transform: 'translateX(0)' }
-          ]
-        },
-        'fade-right': {
-          keyframes: [
-            { opacity: 0, transform: 'translateX(30px)' },
-            { opacity: 1, transform: 'translateX(0)' }
-          ]
-        },
-        'scale-up': {
-          keyframes: [
-            { opacity: 0, transform: 'scale(0.8)' },
-            { opacity: 1, transform: 'scale(1)' }
-          ]
-        },
-        'slide-up': {
-          keyframes: [
-            { opacity: 0, transform: 'translateY(15px)' },
-            { opacity: 1, transform: 'translateY(0)' }
-          ]
-        },
-        'slide-down': {
-          keyframes: [
-            { opacity: 0, transform: 'translateY(-15px)' },
-            { opacity: 1, transform: 'translateY(0)' }
-          ]
-        }
-      };
-
-      const config = configs[type] || configs['fade-up'];
-
-      // Apply animation with optimized easing for smoother feel
-      const animation = element.animate(config.keyframes, {
-        duration: duration,
-        easing: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)', // Smoother easing curve
-        fill: 'forwards'
-      });
-
-      // Store animation for cleanup
-      animationTimings.set(element, animation);
-    }
-
-    // Initialize animations
-    function initAnimations() {
-      // Reset any previously animated elements
-      document.querySelectorAll('[data-animate]').forEach(el => {
-        el.classList.remove('animated');
-        el.style.opacity = '';
-        el.style.transform = '';
-      });
-
-      // IntersectionObserver with mobile-optimized settings
-      const observerOptions = {
-        root: null,
-        rootMargin: '0px 0px -100px 0px', // Trigger earlier for smoother experience
-        threshold: 0.05 // Lower threshold = earlier trigger
-      };
-
-      animationObserver = new IntersectionObserver((entries) => {
+    // Minimal IntersectionObserver - only add/remove class
+    const observer = new IntersectionObserver(
+      (entries) => {
         entries.forEach(entry => {
-          const el = entry.target;
-          const animType = el.dataset.animate;
-          const delay = parseInt(el.dataset.delay) || 0;
-          const duration = parseInt(el.dataset.duration) || 700;
-          const once = el.dataset.once === 'true';
-
           if (entry.isIntersecting) {
-            // Double RAF for smoother mobile rendering
-            requestAnimationFrame(() => {
-              requestAnimationFrame(() => {
-                setTimeout(() => {
-                  triggerAnimation(el, animType, duration);
-                  el.classList.add('animated');
-                }, delay);
-              });
-            });
-
-            // Unobserve if animation should only run once
-            if (once) {
-              animationObserver.unobserve(el);
+            entry.target.classList.add('animate-visible');
+            if (entry.target.dataset.once === 'true') {
+              observer.unobserve(entry.target);
             }
+          } else if (entry.target.dataset.once === 'false') {
+            entry.target.classList.remove('animate-visible');
           }
         });
-      }, observerOptions);
-
-      // Observe all animated elements
-      const animatedElements = document.querySelectorAll('[data-animate]');
-      animatedElements.forEach(el => {
-        animationObserver.observe(el);
-      });
-    }
-
-    // Run on initial load
-    initAnimations();
-
-    // Cleanup function
-    function cleanup() {
-      if (animationObserver) {
-        animationObserver.disconnect();
+      },
+      {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
       }
-      animationTimings.forEach((animation) => {
-        animation.cancel();
-      });
-      animationTimings.clear();
-    }
+    );
 
-    // Re-initialize after Astro view transitions
+    // Observe all animated elements
+    document.querySelectorAll('.animate-scroll').forEach(el => {
+      observer.observe(el);
+    });
+
+    // Re-init after Astro transitions
     document.addEventListener('astro:after-swap', () => {
-      cleanup();
-      // Small delay to ensure DOM is ready
-      setTimeout(initAnimations, 50);
+      setTimeout(() => {
+        document.querySelectorAll('.animate-scroll').forEach(el => {
+          observer.observe(el);
+        });
+      }, 50);
     });
-
-    // Also listen for page load for full refreshes
-    document.addEventListener('astro:page-load', () => {
-      initAnimations();
-    });
-
-    // Cleanup on page navigation
-    window.addEventListener('beforeunload', cleanup);
-
-    // Listen for reduced motion changes
-    const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
-    mediaQuery.addEventListener('change', () => {
-      if (mediaQuery.matches) {
-        handleReducedMotion();
-      } else {
-        initAnimations();
-      }
-    });
-
   })();
 </script>
 
 <style>
-  /* Initial state - hidden */
-  [data-animate]:not(.animated) {
+  /* Base State - Hidden */
+  .animate-scroll {
     opacity: 0;
     will-change: opacity, transform;
-    /* Better performance on mobile */
     backface-visibility: hidden;
     -webkit-font-smoothing: antialiased;
+    transform: translateZ(0);
   }
 
-  /* Improved performance - only animate when needed */
-  [data-animate].animating {
-    /* Animation in progress */
-  }
+  /* Animation Definitions - Pure CSS Keyframes */
 
-  [data-animate].animated {
-    opacity: 1;
-    will-change: auto;
-  }
-
-  /* Mobile optimization */
-  @media (max-width: 768px) {
-    [data-animate]:not(.animated) {
-      /* Reduce transform distance on mobile */
-      transform: scale(0.98) !important;
+  /* Fade Up */
+  @keyframes fade-up {
+    from {
+      opacity: 0;
+      transform: translateY(40px) translateZ(0);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0) translateZ(0);
     }
   }
 
-  /* Reduced motion support */
+  /* Fade In */
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+      transform: scale(0.92) translateZ(0);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1) translateZ(0);
+    }
+  }
+
+  /* Fade Left */
+  @keyframes fade-left {
+    from {
+      opacity: 0;
+      transform: translateX(-40px) translateZ(0);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0) translateZ(0);
+    }
+  }
+
+  /* Fade Right */
+  @keyframes fade-right {
+    from {
+      opacity: 0;
+      transform: translateX(40px) translateZ(0);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0) translateZ(0);
+    }
+  }
+
+  /* Scale Up */
+  @keyframes scale-up {
+    from {
+      opacity: 0;
+      transform: scale(0.75) translateZ(0);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1) translateZ(0);
+    }
+  }
+
+  /* Slide Up */
+  @keyframes slide-up {
+    from {
+      opacity: 0;
+      transform: translateY(20px) translateZ(0);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0) translateZ(0);
+    }
+  }
+
+  /* Slide Down */
+  @keyframes slide-down {
+    from {
+      opacity: 0;
+      transform: translateY(-20px) translateZ(0);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0) translateZ(0);
+    }
+  }
+
+  /* Zoom In */
+  @keyframes zoom-in {
+    from {
+      opacity: 0;
+      transform: scale(0.5) translateZ(0);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1) translateZ(0);
+    }
+  }
+
+  /* Animation Application */
+  .animate-scroll.animate-visible {
+    animation-fill-mode: forwards;
+    animation-timing-function: cubic-bezier(
+      0.22,
+      1,
+      0.36,
+      1
+    ); /* Ultra smooth easing */
+    animation-delay: var(--delay, 0ms);
+    animation-duration: var(--duration, 800ms);
+  }
+
+  /* Map data-animate to specific animations */
+  .animate-scroll[data-animate='fade-up'].animate-visible {
+    animation-name: fade-up;
+  }
+
+  .animate-scroll[data-animate='fade-in'].animate-visible {
+    animation-name: fade-in;
+  }
+
+  .animate-scroll[data-animate='fade-left'].animate-visible {
+    animation-name: fade-left;
+  }
+
+  .animate-scroll[data-animate='fade-right'].animate-visible {
+    animation-name: fade-right;
+  }
+
+  .animate-scroll[data-animate='scale-up'].animate-visible {
+    animation-name: scale-up;
+  }
+
+  .animate-scroll[data-animate='slide-up'].animate-visible {
+    animation-name: slide-up;
+  }
+
+  .animate-scroll[data-animate='slide-down'].animate-visible {
+    animation-name: slide-down;
+  }
+
+  .animate-scroll[data-animate='zoom-in'].animate-visible {
+    animation-name: zoom-in;
+  }
+
+  .animate-scroll[data-animate='none'].animate-visible {
+    animation: none;
+    opacity: 1;
+  }
+
+  /* After Animation Complete */
+  .animate-scroll.animate-visible {
+    /* Clean up will-change after animation */
+    animation-iteration-count: 1;
+  }
+
+  /* Mobile Optimizations */
+  @media (max-width: 768px) {
+    .animate-scroll {
+      /* Smaller transform values for mobile */
+    }
+
+    .animate-scroll.animate-visible {
+      /* Faster animations on mobile */
+      animation-duration: calc(var(--duration, 800ms) * 0.85);
+    }
+  }
+
+  /* Reduced Motion Support */
   @media (prefers-reduced-motion: reduce) {
-    [data-animate] {
+    .animate-scroll,
+    .animate-scroll.animate-visible {
+      animation: none !important;
       opacity: 1 !important;
       transform: none !important;
       transition: opacity 0.3s ease !important;
     }
-
-    *,
-    *::before,
-    *::after {
-      animation-duration: 0.01ms !important;
-      animation-iteration-count: 1 !important;
-      transition-duration: 0.01ms !important;
-    }
   }
 
-  /* Focus visible for accessibility */
-  [data-animate]:focus-visible {
-    outline: 2px solid currentColor;
-    outline-offset: 2px;
+  /* GPU Acceleration Hint */
+  .animate-scroll {
+    transform-style: preserve-3d;
   }
 </style>

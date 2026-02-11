@@ -26,6 +26,7 @@ const solutions = [
     icon: `<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>`,
     color: 'from-cyan-600 via-teal-600 to-cyan-700',
     bgClass: 'bg-cyan-600',
+    bgImage: 'https://images.unsplash.com/photo-1611162617474-5b21e879e113?w=1200&q=80',
   },
   {
     id: 'media-relations',
@@ -42,6 +43,7 @@ const solutions = [
     icon: `<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11a9 9 0 0 1 9 9"/><path d="M4 4a16 16 0 0 1 16 16"/><circle cx="5" cy="19" r="1"/></svg>`,
     color: 'from-blue-600 via-cyan-500 to-teal-600',
     bgClass: 'bg-blue-600',
+    bgImage: 'https://images.unsplash.com/photo-1497366216548-37526070297c?w=1200&q=80',
   },
   {
     id: 'seo-performance',
@@ -58,6 +60,7 @@ const solutions = [
     icon: `<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/><path d="M11 8a3 3 0 0 0-3 3"/></svg>`,
     color: 'from-teal-600 via-emerald-500 to-cyan-600',
     bgClass: 'bg-teal-600',
+    bgImage: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=1200&q=80',
   },
   {
     id: 'viral-content',
@@ -74,6 +77,7 @@ const solutions = [
     icon: `<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>`,
     color: 'from-cyan-700 via-blue-600 to-teal-700',
     bgClass: 'bg-cyan-700',
+    bgImage: 'https://images.unsplash.com/photo-1611162616305-c69b3fa7fbe0?w=1200&q=80',
   }
 ];
 
@@ -125,11 +129,11 @@ const data = t[locale];
           <div class="flex-1 w-full">
             <AnimateOnScroll animation={index % 2 === 0 ? "fade-right" : "fade-left"}>
               <div class="flex items-center gap-5 mb-8">
-                <div class={`w-16 h-16 lg:w-20 lg:h-20 rounded-2xl bg-gradient-to-br ${item.color} flex items-center justify-center text-white shadow-xl shadow-gray-200 dark:shadow-none`}>
+                <div class={`w-16 h-16 lg:w-20 lg:h-20 rounded-2xl bg-gradient-to-br ${item.color} flex items-center justify-center text-white`}>
                   <Fragment set:html={item.icon} />
                 </div>
                 <div>
-                  <h3 class="text-3xl lg:text-4xl font-black text-gray-900 dark:text-white leading-tight">{item.title}</h3>
+                  <h3 class="text-3xl lg:text-4xl font-black text-white leading-tight">{item.title}</h3>
                   <div class={`h-1.5 w-20 mt-2 rounded-full bg-gradient-to-r ${item.color}`}></div>
                 </div>
               </div>
@@ -170,22 +174,37 @@ const data = t[locale];
             </AnimateOnScroll>
           </div>
 
-          <div class="flex-1 w-full lg:max-w-[500px]">
+          <div class="flex-1 w-full">
             <AnimateOnScroll animation="zoom-in" delay={200}>
-              <div class="relative group">
-                <div class={`absolute -inset-4 bg-gradient-to-br ${item.color} opacity-20 blur-3xl group-hover:opacity-30 transition-opacity`}></div>
-                
-                <div class="relative aspect-square rounded-[3rem] overflow-hidden border-8 border-slate-900 shadow-2xl">
-                  <div class={`absolute inset-0 bg-gradient-to-br ${item.color} mix-blend-multiply opacity-40 group-hover:opacity-20 transition-opacity`}></div>
+              <div class="relative perspective-container">
+                <!-- Animated Glow Effect -->
+                <div class={`absolute -inset-8 bg-gradient-to-br ${item.color} opacity-20 blur-3xl animate-pulse-slow`}></div>
+
+                <!-- 3D Image Container with Parallax -->
+                <div class="relative aspect-[4/3] lg:aspect-square rounded-[2.5rem] overflow-hidden border-4 border-white/10 shadow-2xl parallax-card" data-speed="15">
+                  <!-- Animated Gradient Overlay -->
+                  <div class={`absolute inset-0 bg-gradient-to-br ${item.color} mix-blend-multiply opacity-30 z-10 animate-gradient-shift`}></div>
+
+                  <!-- Image -->
                   <img
-                    src={`/images/solutions/${item.id}.jpg`}
+                    src={item.bgImage}
                     alt={item.title}
-                    class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                    class="w-full h-full object-cover"
+                    loading="lazy"
                   />
 
-                  <div class="absolute bottom-8 right-8 w-20 h-20 rounded-3xl bg-slate-900/80 backdrop-blur-xl border border-white/20 flex items-center justify-center text-cyan-400 shadow-2xl">
+                  <!-- 3D Floating Icon Badge -->
+                  <div class="absolute bottom-6 right-6 w-16 h-16 lg:w-20 lg:h-20 rounded-2xl bg-slate-900/90 backdrop-blur-xl border border-white/20 flex items-center justify-center text-cyan-400 shadow-2xl z-30 parallax-icon" data-speed="-20">
                     <Fragment set:html={item.icon} />
                   </div>
+
+                  <!-- Gradient Border Bottom -->
+                  <div class={`absolute bottom-0 left-0 right-0 h-1.5 bg-gradient-to-r ${item.color} opacity-60 z-20`}></div>
+
+                  <!-- Floating Particles -->
+                  <div class="absolute top-1/4 left-1/4 w-2 h-2 bg-white/30 rounded-full animate-float-particle-1 z-20"></div>
+                  <div class="absolute bottom-1/3 right-1/4 w-1.5 h-1.5 bg-white/20 rounded-full animate-float-particle-2 z-20"></div>
+                  <div class="absolute top-1/2 right-1/3 w-1 h-1 bg-white/25 rounded-full animate-float-particle-3 z-20"></div>
                 </div>
               </div>
             </AnimateOnScroll>
@@ -202,4 +221,209 @@ const data = t[locale];
   .no-scrollbar::-webkit-scrollbar {
     display: none;
   }
+
+  /* Perspective Container */
+  .perspective-container {
+    perspective: 1200px;
+    transform-style: preserve-3d;
+  }
+
+  /* 3D Card with Continuous Animation */
+  .parallax-card {
+    transform-style: preserve-3d;
+    transition: transform 0.15s cubic-bezier(0.2, 0, 0.2, 1),
+                box-shadow 0.3s ease;
+    box-shadow:
+      0 25px 50px -12px rgba(0, 0, 0, 0.3),
+      0 0 0 1px rgba(255, 255, 255, 0.05);
+    animation: float-card 6s ease-in-out infinite;
+  }
+
+  /* Icon with Counter Parallax */
+  .parallax-icon {
+    transform-style: preserve-3d;
+    transition: transform 0.15s cubic-bezier(0.2, 0, 0.2, 1);
+    animation: float-icon 6s ease-in-out infinite;
+    animation-delay: -1s;
+  }
+
+  /* Slow Pulse Animation for Glow */
+  @keyframes pulse-slow {
+    0%, 100% {
+      opacity: 0.2;
+      transform: scale(1);
+    }
+    50% {
+      opacity: 0.35;
+      transform: scale(1.05);
+    }
+  }
+
+  .animate-pulse-slow {
+    animation: pulse-slow 4s ease-in-out infinite;
+  }
+
+  /* Gradient Shift Animation */
+  @keyframes gradient-shift {
+    0%, 100% {
+      opacity: 0.3;
+      background-position: 0% 50%;
+    }
+    50% {
+      opacity: 0.4;
+      background-position: 100% 50%;
+    }
+  }
+
+  .animate-gradient-shift {
+    background-size: 200% 200%;
+    animation: gradient-shift 8s ease-in-out infinite;
+  }
+
+  /* Floating Card Animation */
+  @keyframes float-card {
+    0%, 100% {
+      transform: translateZ(0px) rotateX(0deg) rotateY(0deg);
+    }
+    25% {
+      transform: translateZ(10px) rotateX(2deg) rotateY(3deg);
+    }
+    50% {
+      transform: translateZ(15px) rotateX(-1deg) rotateY(-2deg);
+    }
+    75% {
+      transform: translateZ(8px) rotateX(1.5deg) rotateY(-3deg);
+    }
+  }
+
+  /* Floating Icon Animation */
+  @keyframes float-icon {
+    0%, 100% {
+      transform: translateZ(0px) scale(1);
+    }
+    50% {
+      transform: translateZ(25px) scale(1.05);
+    }
+  }
+
+  /* Floating Particles */
+  @keyframes float-particle-1 {
+    0%, 100% {
+      transform: translate(0, 0) scale(1);
+      opacity: 0.3;
+    }
+    25% {
+      transform: translate(15px, -25px) scale(1.2);
+      opacity: 0.5;
+    }
+    50% {
+      transform: translate(-10px, -40px) scale(0.8);
+      opacity: 0.2;
+    }
+    75% {
+      transform: translate(20px, -15px) scale(1.1);
+      opacity: 0.4;
+    }
+  }
+
+  @keyframes float-particle-2 {
+    0%, 100% {
+      transform: translate(0, 0) scale(1);
+      opacity: 0.2;
+    }
+    33% {
+      transform: translate(-20px, -30px) scale(1.3);
+      opacity: 0.4;
+    }
+    66% {
+      transform: translate(15px, -20px) scale(0.9);
+      opacity: 0.3;
+    }
+  }
+
+  @keyframes float-particle-3 {
+    0%, 100% {
+      transform: translate(0, 0) scale(1);
+      opacity: 0.25;
+    }
+    50% {
+      transform: translate(-25px, -35px) scale(1.4);
+      opacity: 0.45;
+    }
+  }
+
+  .animate-float-particle-1 {
+    animation: float-particle-1 8s ease-in-out infinite;
+  }
+
+  .animate-float-particle-2 {
+    animation: float-particle-2 10s ease-in-out infinite;
+    animation-delay: -2s;
+  }
+
+  .animate-float-particle-3 {
+    animation: float-particle-3 12s ease-in-out infinite;
+    animation-delay: -4s;
+  }
 </style>
+
+<script>
+  // 3D Parallax Effect - Mouse Tracking
+  document.addEventListener('mousemove', (e) => {
+    const { clientX, clientY } = e;
+    const centerX = window.innerWidth / 2;
+    const centerY = window.innerHeight / 2;
+
+    // Calculate mouse position relative to center
+    const mouseX = (centerX - clientX) / centerX; // -1 to 1
+    const mouseY = (centerY - clientY) / centerY; // -1 to 1
+
+    // Apply parallax to all solution cards
+    const cards = document.querySelectorAll('.parallax-card');
+    cards.forEach((card) => {
+      const speed = parseFloat(card.getAttribute('data-speed') || '15');
+      const x = mouseX * speed;
+      const y = mouseY * speed;
+
+      // Apply 3D transform with rotation
+      card.style.transform = `
+        perspective(1200px)
+        rotateY(${x * 0.5}deg)
+        rotateX(${-y * 0.5}deg)
+        translateZ(${Math.abs(x) + Math.abs(y) * 2}px)
+      `;
+    });
+
+    // Apply counter-parallax to icons
+    const icons = document.querySelectorAll('.parallax-icon');
+    icons.forEach((icon) => {
+      const speed = parseFloat(icon.getAttribute('data-speed') || '-20');
+      const x = mouseX * speed;
+      const y = mouseY * speed;
+
+      icon.style.transform = `
+        translate3d(${x * 0.5}px, ${y * 0.5}px, ${Math.abs(x) + Math.abs(y) * 3}px)
+        scale(${1 + Math.abs(mouseX + mouseY) * 0.05})
+      `;
+    });
+  });
+
+  // Add hover enhancement
+  const cards = document.querySelectorAll('.parallax-card');
+  cards.forEach((card) => {
+    card.addEventListener('mouseenter', () => {
+      card.style.boxShadow = `
+        -15px 15px 40px -10px rgba(0, 0, 0, 0.4),
+        0 0 0 1px rgba(255, 255, 255, 0.15),
+        0 0 60px rgba(0, 209, 209, 0.2)
+      `;
+    });
+
+    card.addEventListener('mouseleave', () => {
+      card.style.boxShadow = `
+        0 25px 50px -12px rgba(0, 0, 0, 0.3),
+        0 0 0 1px rgba(255, 255, 255, 0.05)
+      `;
+    });
+  });
+</script>

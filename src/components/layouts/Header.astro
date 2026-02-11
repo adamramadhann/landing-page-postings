@@ -26,7 +26,13 @@ const navLinks = [
 const currentPath = Astro.url.pathname;
 const idUrl = getAlternateUrl(currentPath, 'id');
 const enUrl = getAlternateUrl(currentPath, 'en');
-const contactUrl = `/${currentLang}/contact`;
+
+// WhatsApp URL for consultation
+const whatsappNumber = '6281234567890';
+const whatsappMessage = currentLang === 'id'
+  ? 'Halo Posthinks! Saya tertarik untuk konsultasi tentang layanan digital marketing.'
+  : 'Hello Posthinks! I am interested in consulting about digital marketing services.';
+const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`;
 
 // Determine active link
 const getIsActive = (href: string) => {
@@ -85,60 +91,114 @@ const getIsActive = (href: string) => {
           })
         }
 
-        <!-- Language Switcher -->
-        <div class="flex items-center space-x-1 border-l border-white/10 pl-6 ml-2">
-          <a
-            href={idUrl}
-            class={`relative px-3 py-1.5 text-sm font-semibold rounded-lg transition-all duration-300 flex items-center gap-1.5
-              ${currentLang === 'id'
-                ? 'bg-gradient-to-r from-cyan-500 to-teal-500 text-white shadow-md shadow-cyan-500/20'
-                : 'text-gray-400 hover:text-cyan-400 hover:bg-cyan-950/30'
-              }`}
-            aria-label="Switch to Indonesian"
-            title="Bahasa Indonesia"
+        <!-- Language Switcher - Hover Modal -->
+        <div class="relative border-l border-white/10 pl-6 ml-2 lang-switcher">
+          <!-- Trigger Button -->
+          <button
+            type="button"
+            class="flex items-center gap-2 px-4 py-2 bg-slate-900/80 border-2 border-white/10 rounded-xl text-sm font-bold text-white hover:border-cyan-500/50 transition-all duration-300"
+            aria-label="Change language"
           >
-            <span class="text-lg sm:text-base">🇮🇩</span>
-            <span class="text-sm sm:text-base">Indonesia</span>
-          </a>
-          <a
-            href={enUrl}
-            class={`relative px-3 py-1.5 text-sm font-semibold rounded-lg transition-all duration-300 flex items-center gap-1.5
-              ${currentLang === 'en'
-                ? 'bg-gradient-to-r from-cyan-500 to-teal-500 text-white shadow-md shadow-cyan-500/20'
-                : 'text-gray-400 hover:text-cyan-400 hover:bg-cyan-950/30'
-              }`}
-            aria-label="Switch to English"
-            title="English"
-          >
-            <span class="text-lg sm:text-base">🇬🇧</span>
-            <span class="text-sm sm:text-base">English</span>
-          </a>
+            <span class="text-base">{currentLang === 'id' ? '🇮🇩' : '🇬🇧'}</span>
+            <span class="font-black tracking-wide">{currentLang === 'id' ? 'ID' : 'EN'}</span>
+            <svg class="w-4 h-4 text-cyan-400 transition-transform duration-300 lang-arrow" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+            </svg>
+          </button>
+
+          <!-- Hover Modal -->
+          <div class="absolute right-0 top-full pt-3 w-48 opacity-0 invisible lang-modal transition-all duration-300 transform translate-y-2 z-50 pointer-events-none">
+            <!-- Modal Container -->
+            <div class="bg-slate-900/95 backdrop-blur-xl border-2 border-white/10 rounded-2xl shadow-2xl shadow-black/50 overflow-hidden pointer-events-auto">
+              <!-- Modal Header -->
+              <div class="px-4 py-3 border-b border-white/10">
+                <p class="text-xs font-semibold text-gray-400 uppercase tracking-wider">
+                  {currentLang === 'id' ? 'Pilih Bahasa' : 'Select Language'}
+                </p>
+              </div>
+
+              <!-- Language Options -->
+              <div class="p-2">
+                <!-- Indonesian Option -->
+                <a
+                  href={idUrl}
+                  class={`group/item flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-300 ${
+                    currentLang === 'id'
+                      ? 'bg-gradient-to-r from-cyan-500/20 to-teal-500/20 border border-cyan-500/30'
+                      : 'hover:bg-white/5 border border-transparent'
+                  }`}
+                >
+                  <span class="text-2xl">🇮🇩</span>
+                  <div class="flex-1">
+                    <p class={`text-sm font-bold ${currentLang === 'id' ? 'text-cyan-400' : 'text-white'}`}>
+                      Bahasa Indonesia
+                    </p>
+                    <p class="text-xs text-gray-400">ID</p>
+                  </div>
+                  {currentLang === 'id' && (
+                    <svg class="w-5 h-5 text-cyan-400" fill="currentColor" viewBox="0 0 20 20">
+                      <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                    </svg>
+                  )}
+                </a>
+
+                <!-- English Option -->
+                <a
+                  href={enUrl}
+                  class={`group/item flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-300 ${
+                    currentLang === 'en'
+                      ? 'bg-gradient-to-r from-cyan-500/20 to-teal-500/20 border border-cyan-500/30'
+                      : 'hover:bg-white/5 border border-transparent'
+                  }`}
+                >
+                  <span class="text-2xl">🇬🇧</span>
+                  <div class="flex-1">
+                    <p class={`text-sm font-bold ${currentLang === 'en' ? 'text-cyan-400' : 'text-white'}`}>
+                      English
+                    </p>
+                    <p class="text-xs text-gray-400">EN</p>
+                  </div>
+                  {currentLang === 'en' && (
+                    <svg class="w-5 h-5 text-cyan-400" fill="currentColor" viewBox="0 0 20 20">
+                      <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                    </svg>
+                  )}
+                </a>
+              </div>
+            </div>
+
+            <!-- Arrow Pointer -->
+            <div class="absolute -top-0 right-6 w-4 h-4 bg-slate-900 border-l-2 border-t-2 border-white/10 transform rotate-45 translate-y-2"></div>
+          </div>
         </div>
 
-        <!-- CTA Button -->
+        <!-- CTA Button - WhatsApp -->
         <a
-          href={contactUrl}
+          href={whatsappUrl}
+          target="_blank"
+          rel="noopener noreferrer"
           class="group relative inline-flex items-center justify-center rounded-xl
-                 px-6 py-2.5 text-sm font-bold
-                 bg-gradient-to-r from-cyan-500 via-teal-500 to-blue-500
-                 text-white shadow-lg shadow-cyan-500/25
+                 px-5 py-2.5 text-sm font-bold
+                 bg-gradient-to-r from-green-500 via-green-600 to-emerald-600
+                 text-white shadow-lg shadow-green-500/25
                  transition-all duration-300
-                 hover:shadow-xl hover:shadow-cyan-500/40 hover:scale-105
+                 hover:shadow-xl hover:shadow-green-500/40 hover:scale-105
                  overflow-hidden
                  animate-fade-in ml-4"
           style="animation-delay: 250ms"
         >
           <!-- Background Animation on Hover -->
-          <div class="absolute inset-0 bg-gradient-to-r from-cyan-600 via-teal-600 to-blue-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+          <div class="absolute inset-0 bg-gradient-to-r from-green-600 via-green-700 to-emerald-700 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
 
           <!-- Shimmer Effect -->
           <div class="absolute inset-0 -translate-x-full group-hover:animate-shimmer bg-gradient-to-r from-transparent via-white/20 to-transparent"></div>
 
           <span class="relative z-10 flex items-center gap-2">
-            {t.nav.consultation}
-            <svg class="w-4 h-4 transform group-hover:translate-x-0.5 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+            <!-- WhatsApp Icon -->
+            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
             </svg>
+            {t.nav.consultation}
           </span>
         </a>
       </div>
@@ -198,53 +258,111 @@ const getIsActive = (href: string) => {
           })
         }
 
-        <!-- Mobile Language Switcher -->
-        <div class="flex items-center space-x-3 border-t border-white/10 px-4 pt-6 mt-4">
-          <a
-            href={idUrl}
-            class={`flex-1 flex items-center justify-center gap-2 px-4 py-3 rounded-xl text-base font-semibold transition-all duration-300
-              ${currentLang === 'id'
-                ? 'bg-gradient-to-r from-cyan-500 to-teal-500 text-white shadow-md'
-                : 'text-gray-400 bg-white/5 border border-white/10 hover:bg-cyan-950/30 hover:text-cyan-400'
-              }`}
-            aria-label="Switch to Indonesian"
+        <!-- Mobile Language Switcher - Click Modal -->
+        <div class="px-4 pt-6 mt-4 border-t border-white/10">
+          <button
+            type="button"
+            id="mobile-language-button"
+            class="w-full flex items-center justify-between px-4 py-3 bg-slate-900/80 border-2 border-white/10 rounded-xl text-base font-bold text-white hover:border-cyan-500/50 transition-all duration-300"
+            aria-label="Change language"
+            aria-expanded="false"
           >
-            <span class="text-lg">🇮🇩</span>
-            <span>Indonesia</span>
-          </a>
-          <a
-            href={enUrl}
-            class={`flex-1 flex items-center justify-center gap-2 px-4 py-3 rounded-xl text-base font-semibold transition-all duration-300
-              ${currentLang === 'en'
-                ? 'bg-gradient-to-r from-cyan-500 to-teal-500 text-white shadow-md'
-                : 'text-gray-400 bg-white/5 border border-white/10 hover:bg-cyan-950/30 hover:text-cyan-400'
-              }`}
-            aria-label="Switch to English"
-          >
-            <span class="text-lg">🇬🇧</span>
-            <span>English</span>
-          </a>
+            <div class="flex items-center gap-3">
+              <span class="text-xl">{currentLang === 'id' ? '🇮🇩' : '🇬🇧'}</span>
+              <span>{currentLang === 'id' ? 'Bahasa Indonesia' : 'English'}</span>
+            </div>
+            <svg class="w-5 h-5 text-cyan-400 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+            </svg>
+          </button>
+
+          <!-- Mobile Language Modal -->
+          <div id="mobile-language-modal" class="hidden mt-3 w-full bg-slate-900/95 backdrop-blur-xl border-2 border-white/10 rounded-2xl shadow-2xl shadow-black/50 overflow-hidden transform transition-all duration-300">
+            <!-- Modal Header -->
+            <div class="px-4 py-3 border-b border-white/10 flex items-center justify-between">
+              <p class="text-xs font-semibold text-gray-400 uppercase tracking-wider">
+                {currentLang === 'id' ? 'Pilih Bahasa' : 'Select Language'}
+              </p>
+              <button type="button" class="text-gray-400 hover:text-white transition-colors" aria-label="Close">
+                <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            </div>
+
+            <!-- Language Options -->
+            <div class="p-2">
+              <!-- Indonesian Option -->
+              <a
+                href={idUrl}
+                class={`flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-300 ${
+                  currentLang === 'id'
+                    ? 'bg-gradient-to-r from-cyan-500/20 to-teal-500/20 border border-cyan-500/30'
+                    : 'hover:bg-white/5 border border-transparent'
+                }`}
+              >
+                <span class="text-2xl">🇮🇩</span>
+                <div class="flex-1">
+                  <p class={`text-sm font-bold ${currentLang === 'id' ? 'text-cyan-400' : 'text-white'}`}>
+                    Bahasa Indonesia
+                  </p>
+                  <p class="text-xs text-gray-400">ID</p>
+                </div>
+                {currentLang === 'id' && (
+                  <svg class="w-5 h-5 text-cyan-400" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                  </svg>
+                )}
+              </a>
+
+              <!-- English Option -->
+              <a
+                href={enUrl}
+                class={`flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-300 ${
+                  currentLang === 'en'
+                    ? 'bg-gradient-to-r from-cyan-500/20 to-teal-500/20 border border-cyan-500/30'
+                    : 'hover:bg-white/5 border border-transparent'
+                }`}
+              >
+                <span class="text-2xl">🇬🇧</span>
+                <div class="flex-1">
+                  <p class={`text-sm font-bold ${currentLang === 'en' ? 'text-cyan-400' : 'text-white'}`}>
+                    English
+                  </p>
+                  <p class="text-xs text-gray-400">EN</p>
+                </div>
+                {currentLang === 'en' && (
+                  <svg class="w-5 h-5 text-cyan-400" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                  </svg>
+                )}
+              </a>
+            </div>
+          </div>
         </div>
 
-        <!-- Mobile CTA -->
+        <!-- Mobile CTA - WhatsApp -->
         <div class="px-4 mt-4">
           <a
-            href={contactUrl}
+            href={whatsappUrl}
+            target="_blank"
+            rel="noopener noreferrer"
             class="group relative w-full inline-flex items-center justify-center rounded-xl
                    px-6 py-3 text-base font-bold
-                   bg-gradient-to-r from-cyan-500 via-teal-500 to-blue-500
-                   text-white shadow-lg shadow-cyan-500/25
+                   bg-gradient-to-r from-green-500 via-green-600 to-emerald-600
+                   text-white shadow-lg shadow-green-500/25
                    transition-all duration-300
                    hover:shadow-xl hover:scale-105
                    overflow-hidden"
           >
-            <div class="absolute inset-0 bg-gradient-to-r from-cyan-600 via-teal-600 to-blue-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+            <div class="absolute inset-0 bg-gradient-to-r from-green-600 via-green-700 to-emerald-700 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
 
             <span class="relative z-10 flex items-center justify-center gap-2">
-              {t.nav.consultation}
-              <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+              <!-- WhatsApp Icon -->
+              <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
               </svg>
+              {t.nav.consultation}
             </span>
           </a>
         </div>
@@ -300,6 +418,44 @@ const getIsActive = (href: string) => {
   #navbar.scrolled::after {
     background: linear-gradient(90deg, rgba(6, 182, 212, 0.5) 0%, rgba(20, 184, 166, 0.5) 50%, rgba(6, 182, 212, 0.5) 100%);
     box-shadow: 0 4px 30px rgba(6, 182, 212, 0.15);
+  }
+
+  /* Language Modal Hover Effect */
+  .lang-switcher:hover .lang-modal {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+    pointer-events: auto;
+  }
+
+  .lang-switcher:hover .lang-arrow {
+    transform: rotate(180deg);
+  }
+
+  /* Prevent modal from closing when hovering over it */
+  .lang-switcher .lang-modal {
+    pointer-events: none;
+  }
+
+  /* Mobile Language Modal Animation */
+  #mobile-language-modal {
+    animation: slideDown 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  @keyframes slideDown {
+    from {
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* Language option hover effects */
+  .group\/item:hover {
+    transform: translateX(4px);
   }
 </style>
 
@@ -367,5 +523,55 @@ const getIsActive = (href: string) => {
         svg.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />';
       }
     }
+  });
+
+  // Mobile Language Modal Toggle
+  const mobileLanguageButton = document.getElementById('mobile-language-button');
+  const mobileLanguageModal = document.getElementById('mobile-language-modal');
+
+  mobileLanguageButton?.addEventListener('click', () => {
+    const isExpanded = mobileLanguageButton.getAttribute('aria-expanded') === 'true';
+    mobileLanguageButton.setAttribute('aria-expanded', String(!isExpanded));
+    mobileLanguageModal?.classList.toggle('hidden');
+
+    // Rotate arrow
+    const arrow = mobileLanguageButton.querySelector('svg');
+    if (arrow) {
+      arrow.style.transform = isExpanded ? 'rotate(0deg)' : 'rotate(180deg)';
+    }
+  });
+
+  // Close mobile language modal when clicking outside
+  document.addEventListener('click', (e) => {
+    if (!mobileLanguageButton?.contains(e.target) && !mobileLanguageModal?.contains(e.target)) {
+      const isExpanded = mobileLanguageButton?.getAttribute('aria-expanded') === 'true';
+      if (isExpanded) {
+        mobileLanguageButton?.setAttribute('aria-expanded', 'false');
+        mobileLanguageModal?.classList.add('hidden');
+
+        const arrow = mobileLanguageButton?.querySelector('svg');
+        if (arrow) {
+          arrow.style.transform = 'rotate(0deg)';
+        }
+      }
+    }
+  });
+
+  // Add smooth transition on language switch
+  document.querySelectorAll('.lang-modal a, #mobile-language-modal a').forEach(link => {
+    link.addEventListener('click', (e) => {
+      e.preventDefault();
+      const href = link.getAttribute('href');
+
+      // Fade out animation
+      document.body.style.opacity = '0.7';
+      document.body.style.transition = 'opacity 0.2s ease';
+
+      setTimeout(() => {
+        if (href) {
+          window.location.href = href;
+        }
+      }, 200);
+    });
   });
 </script>
