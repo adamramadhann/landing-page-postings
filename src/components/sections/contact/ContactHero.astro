@@ -26,7 +26,7 @@ const { locale, badge, title, subtitle, description, cta } = Astro.props;
     <div class="absolute bottom-[-10%] right-[-10%] w-[40vw] h-[40vw] bg-teal-950/30 rounded-full blur-[120px]"></div>
   </div>
 
-  <div class="absolute inset-0 pointer-events-none overflow-hidden z-20">
+  <div class="absolute inset-0 pointer-events-none overflow-hidden z-20 hidden md:block">
     <div class="absolute top-[20%] left-[10%] w-32 h-32 rounded-3xl bg-white/5 border border-white/10 backdrop-blur-md shadow-2xl parallax-item" data-speed="40">
         <div class="absolute inset-0 bg-gradient-to-br from-cyan-500/10 to-transparent rounded-3xl"></div>
     </div>
@@ -50,7 +50,7 @@ const { locale, badge, title, subtitle, description, cta } = Astro.props;
       </AnimateOnScroll>
 
       <AnimateOnScroll animation="fade-up" delay={300}>
-        <h1 class="text-6xl md:text-8xl lg:text-9xl font-black text-white leading-[0.9] tracking-tighter mb-8 perspective-text">
+        <h1 class="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-black text-white leading-[0.9] tracking-tighter mb-6 sm:mb-8 perspective-text">
           {title} <br/>
           <span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-teal-300 to-cyan-500 italic">
             {subtitle}
@@ -59,20 +59,20 @@ const { locale, badge, title, subtitle, description, cta } = Astro.props;
       </AnimateOnScroll>
 
       <AnimateOnScroll animation="fade-up" delay={500}>
-        <p class="text-xl md:text-2xl text-slate-400 font-medium leading-relaxed max-w-2xl mx-auto mb-14">
+        <p class="text-lg sm:text-xl md:text-2xl text-slate-400 font-medium leading-relaxed max-w-2xl mx-auto mb-10 sm:mb-14 px-4 sm:px-0">
           {description}
         </p>
       </AnimateOnScroll>
 
       <AnimateOnScroll animation="fade-up" delay={700}>
-        <div class="flex flex-col sm:flex-row items-center justify-center gap-8">
+        <div class="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6 md:gap-8">
           <a
             href={cta.href}
-            class="magnetic-btn group relative inline-flex items-center gap-5 px-14 py-6 bg-white text-slate-950 font-black text-xl rounded-2xl transition-transform duration-300 hover:scale-105"
+            class="magnetic-btn group relative inline-flex items-center gap-3 sm:gap-4 md:gap-5 px-8 sm:px-12 md:px-14 py-4 sm:py-5 md:py-6 bg-white text-slate-950 font-black text-base sm:text-lg md:text-xl rounded-2xl transition-transform duration-300 hover:scale-105"
           >
             <span class="relative z-10 uppercase tracking-tighter">{cta.text}</span>
             <div class="p-1 bg-slate-950 rounded-full group-hover:bg-cyan-500 transition-colors duration-300">
-                <svg class="w-5 h-5 text-white transform -rotate-45 group-hover:rotate-0 transition-transform duration-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3">
+                <svg class="w-4 h-4 sm:w-5 sm:h-5 text-white transform -rotate-45 group-hover:rotate-0 transition-transform duration-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3">
                   <path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
                 </svg>
             </div>
@@ -80,15 +80,15 @@ const { locale, badge, title, subtitle, description, cta } = Astro.props;
         </div>
       </AnimateOnScroll>
 
-      <div class="grid grid-cols-3 gap-4 max-w-3xl mx-auto mt-24 pt-16 border-t border-white/5 opacity-80">
+      <div class="grid grid-cols-3 gap-3 sm:gap-4 max-w-3xl mx-auto mt-16 sm:mt-20 md:mt-24 pt-12 sm:pt-14 md:pt-16 border-t border-white/5 opacity-80">
         {[
           { val: '500+', label: locale === 'id' ? 'Proyek' : 'Projects' },
           { val: '98%', label: locale === 'id' ? 'Kepuasan' : 'Success' },
           { val: '24/7', label: 'Support' }
         ].map(stat => (
           <div class="group cursor-default">
-            <div class="text-3xl md:text-5xl font-black text-white group-hover:text-cyan-400 transition-colors duration-300">{stat.val}</div>
-            <div class="text-[9px] font-bold text-slate-600 uppercase tracking-[0.4em] mt-2">{stat.label}</div>
+            <div class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-black text-white group-hover:text-cyan-400 transition-colors duration-300">{stat.val}</div>
+            <div class="text-[8px] sm:text-[9px] font-bold text-slate-600 uppercase tracking-[0.3em] sm:tracking-[0.4em] mt-1 sm:mt-2">{stat.label}</div>
           </div>
         ))}
       </div>
@@ -136,41 +136,43 @@ const { locale, badge, title, subtitle, description, cta } = Astro.props;
 </style>
 
 <script>
-  // Advanced Parallax Effect
-  document.addEventListener('mousemove', (e) => {
-    const { clientX, clientY } = e;
-    const centerX = window.innerWidth / 2;
-    const centerY = window.innerHeight / 2;
+  // Advanced Parallax Effect - Only on Desktop
+  if (window.innerWidth >= 768) {
+    document.addEventListener('mousemove', (e) => {
+      const { clientX, clientY } = e;
+      const centerX = window.innerWidth / 2;
+      const centerY = window.innerHeight / 2;
 
-    // Move Parallax Items
-    const items = document.querySelectorAll('.parallax-item');
-    items.forEach((item) => {
-      const speed = parseFloat(item.getAttribute('data-speed') || '20');
-      const x = (centerX - clientX) / speed;
-      const y = (centerY - clientY) / speed;
-      (item as HTMLElement).style.transform = `translate3d(${x}px, ${y}px, 0) rotateX(${y * 0.1}deg) rotateY(${x * 0.1}deg)`;
+      // Move Parallax Items
+      const items = document.querySelectorAll('.parallax-item');
+      items.forEach((item) => {
+        const speed = parseFloat(item.getAttribute('data-speed') || '20');
+        const x = (centerX - clientX) / speed;
+        const y = (centerY - clientY) / speed;
+        (item as HTMLElement).style.transform = `translate3d(${x}px, ${y}px, 0) rotateX(${y * 0.1}deg) rotateY(${x * 0.1}deg)`;
+      });
+
+      // Suble Background Movement
+      const bg = document.querySelector('.layer-slow') as HTMLElement;
+      if (bg) {
+          const x = (centerX - clientX) / 100;
+          const y = (centerY - clientY) / 100;
+          bg.style.transform = `translate(${x}px, ${y}px)`;
+      }
     });
 
-    // Suble Background Movement
-    const bg = document.querySelector('.layer-slow') as HTMLElement;
-    if (bg) {
-        const x = (centerX - clientX) / 100;
-        const y = (centerY - clientY) / 100;
-        bg.style.transform = `translate(${x}px, ${y}px)`;
+    // Magnetic Button Logic - Only on Desktop
+    const btn = document.querySelector('.magnetic-btn');
+    if (btn) {
+      btn.addEventListener('mousemove', (e: any) => {
+        const rect = btn.getBoundingClientRect();
+        const x = e.clientX - rect.left - rect.width / 2;
+        const y = e.clientY - rect.top - rect.height / 2;
+        (btn as HTMLElement).style.transform = `translate(${x * 0.3}px, ${y * 0.5}px)`;
+      });
+      btn.addEventListener('mouseleave', () => {
+        (btn as HTMLElement).style.transform = `translate(0, 0)`;
+      });
     }
-  });
-
-  // Magnetic Button Logic
-  const btn = document.querySelector('.magnetic-btn');
-  if (btn) {
-    btn.addEventListener('mousemove', (e: any) => {
-      const rect = btn.getBoundingClientRect();
-      const x = e.clientX - rect.left - rect.width / 2;
-      const y = e.clientY - rect.top - rect.height / 2;
-      (btn as HTMLElement).style.transform = `translate(${x * 0.3}px, ${y * 0.5}px)`;
-    });
-    btn.addEventListener('mouseleave', () => {
-      (btn as HTMLElement).style.transform = `translate(0, 0)`;
-    });
   }
 </script>
