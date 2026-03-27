@@ -1,18 +1,18 @@
 // astro.config.mjs
-import { defineConfig } from 'astro/config';
-import tailwind from '@astrojs/tailwind';
-import sitemap from '@astrojs/sitemap';
+import { defineConfig } from "astro/config";
+import tailwind from "@astrojs/tailwind";
+import sitemap from "@astrojs/sitemap";
 
 // https://astro.build/config
 export default defineConfig({
   // Site configuration for SEO
-  site: 'https://posthinks.com',
-  base: '/',
-  trailingSlash: 'never',
+  site: "https://posthinks.com",
+  base: "/",
+  trailingSlash: "ignore",
 
   // Redirects untuk handle root path
   redirect: {
-    '/': '/id',
+    "/": "/id",
   },
 
   // Integrations
@@ -26,8 +26,8 @@ export default defineConfig({
 
   // Astro 5 Native i18n Configuration
   i18n: {
-    defaultLocale: 'id',
-    locales: ['id', 'en'],
+    defaultLocale: "id",
+    locales: ["id", "en"],
     // Prefix default locale for consistent routing
     // /id/ → id, /en/ → en
     prefixDefaultLocale: true,
@@ -35,16 +35,16 @@ export default defineConfig({
 
   // Build configuration
   build: {
-    format: 'directory',
-    assets: '_assets',
+    format: "directory",
+    assets: "_assets",
   },
 
   // Server configuration
-  output: 'static',
+  output: "static",
 
   // Prefetch configuration for better UX
   prefetch: {
-    default: 'hover',
+    default: "hover",
     prefetchAll: false,
   },
 
