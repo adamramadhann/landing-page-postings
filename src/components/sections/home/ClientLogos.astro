@@ -1,32 +1,45 @@
 ---
-// src/components/sections/ClientLogos.astro
+import { Image } from "astro:assets";
+import type { ImageMetadata } from "astro";
+
+// Import all logo images from assets folder using absolute path
+const logoModules = import.meta.glob<{ default: ImageMetadata }>("/src/assets/logos/*.png", {
+  eager: true,
+  import: "default",
+});
+
+// Helper function to get logo image by filename
+const getLogo = (filename: string) => {
+  const key = `/src/assets/logos/${filename}`;
+  return logoModules[key];
+};
 
 const clientsRow1 = [
-  { name: "Pertamina", src: "/src/assets/logos/pertamina.png" },
-  { name: "Samsung", src: "/src/assets/logos/samsung.png" },
-  { name: "Grab", src: "/src/assets/logos/grab.png" },
-  { name: "Prudential", src: "/src/assets/logos/prudential.png" },
-  { name: "Pegadaian", src: "/src/assets/logos/pegadaian.png" },
-  { name: "BCA", src: "/src/assets/logos/bca.png" },
-  { name: "BRI", src: "/src/assets/logos/bri.png" },
-  { name: "Viu", src: "/src/assets/logos/viu.png" },
-  { name: "OCBC", src: "/src/assets/logos/ocbc.png" },
-  { name: "Narasi", src: "/src/assets/logos/narasi.png" },
-  { name: "Ancol", src: "/src/assets/logos/ancol.png" },
+  { name: "Pertamina", src: getLogo("pertamina.png") },
+  { name: "Samsung", src: getLogo("samsung.png") },
+  { name: "Grab", src: getLogo("grab.png") },
+  { name: "Prudential", src: getLogo("prudential.png") },
+  { name: "Pegadaian", src: getLogo("pegadaian.png") },
+  { name: "BCA", src: getLogo("bca.png") },
+  { name: "BRI", src: getLogo("bri.png") },
+  { name: "Viu", src: getLogo("viu.png") },
+  { name: "OCBC", src: getLogo("ocbc.png") },
+  { name: "Narasi", src: getLogo("narasi.png") },
+  { name: "Ancol", src: getLogo("ancol.png") },
 ];
 
 const clientsRow2 = [
-  { name: "Jasa Marga", src: "/src/assets/logos/jasa-marga.png" },
-  { name: "KOMDIGI", src: "/src/assets/logos/komdigi.png" },
-  { name: "Telkom Indonesia", src: "/src/assets/logos/telkom.png" },
-  { name: "BNI", src: "/src/assets/logos/bni.png" },
-  { name: "Unilever", src: "/src/assets/logos/unilever.png" },
-  { name: "Vivo", src: "/src/assets/logos/vivo.png" },
-  { name: "Suzuki", src: "/src/assets/logos/suzuki.png" },
-  { name: "Shopee", src: "/src/assets/logos/shopee.png" },
-  { name: "Kemenkes", src: "/src/assets/logos/kemenkes.png" },
-  { name: "IM3", src: "/src/assets/logos/im3.png" },
-  { name: "Hello Sehat", src: "/src/assets/logos/hello-sehat.png" },
+  { name: "Jasa Marga", src: getLogo("jasa-marga.png") },
+  { name: "KOMDIGI", src: getLogo("komdigi.png") },
+  { name: "Telkom Indonesia", src: getLogo("telkom.png") },
+  { name: "BNI", src: getLogo("bni.png") },
+  { name: "Unilever", src: getLogo("unilever.png") },
+  { name: "Vivo", src: getLogo("vivo.png") },
+  { name: "Suzuki", src: getLogo("suzuki.png") },
+  { name: "Shopee", src: getLogo("shopee.png") },
+  { name: "Kemenkes", src: getLogo("kemenkes.png") },
+  { name: "IM3", src: getLogo("im3.png") },
+  { name: "Hello Sehat", src: getLogo("hello-sehat.png") },
 ];
 
 // Duplikasi untuk efek seamless infinite scroll
@@ -74,7 +87,7 @@ const row2 = [...clientsRow2, ...clientsRow2];
         {
           row1.map((client) => (
             <div class="w-32 md:w-48 flex-shrink-0 flex items-center justify-center grayscale opacity-30 hover:grayscale-0 hover:opacity-100 hover:scale-110 transition-all duration-500 ease-out cursor-pointer">
-              <img
+              <Image
                 src={client.src}
                 alt={client.name}
                 class="max-h-16 md:max-h-16 w-auto object-contain invert brightness-0 hover:invert-0 hover:brightness-100"
@@ -93,7 +106,7 @@ const row2 = [...clientsRow2, ...clientsRow2];
         {
           row2.map((client) => (
             <div class="w-32 md:w-48 flex-shrink-0 flex items-center justify-center grayscale opacity-30 hover:grayscale-0 hover:opacity-100 hover:scale-110 transition-all duration-500 ease-out cursor-pointer">
-              <img
+              <Image
                 src={client.src}
                 alt={client.name}
                 class="max-h-16 md:max-h-16 w-auto object-contain invert brightness-0 hover:invert-0 hover:brightness-100"

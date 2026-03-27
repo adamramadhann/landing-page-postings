@@ -2,6 +2,7 @@
 import { defineConfig } from "astro/config";
 import tailwind from "@astrojs/tailwind";
 import sitemap from "@astrojs/sitemap";
+import vercel from "@astrojs/vercel";
 
 // https://astro.build/config
 export default defineConfig({
@@ -52,5 +53,10 @@ export default defineConfig({
   // Animasi antar halaman tanpa JavaScript library
   viewTransitions: {
     enabled: true,
+  },
+  adapter: vercel(),
+  // Gunakan 'sharp' sebagai default image service untuk hasil terbaik di Vercel
+  image: {
+    service: { entrypoint: "astro/assets/services/sharp" },
   },
 });
