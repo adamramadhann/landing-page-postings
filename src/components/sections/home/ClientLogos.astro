@@ -3,10 +3,13 @@ import { Image } from "astro:assets";
 import type { ImageMetadata } from "astro";
 
 // Import all logo images from assets folder using absolute path
-const logoModules = import.meta.glob<{ default: ImageMetadata }>("/src/assets/logos/*.png", {
-  eager: true,
-  import: "default",
-});
+const logoModules = import.meta.glob<{ default: ImageMetadata }>(
+  "/src/assets/logos/*.png",
+  {
+    eager: true,
+    import: "default",
+  },
+);
 
 // Helper function to get logo image by filename
 const getLogo = (filename: string) => {
@@ -26,6 +29,10 @@ const clientsRow1 = [
   { name: "OCBC", src: getLogo("ocbc.png") },
   { name: "Narasi", src: getLogo("narasi.png") },
   { name: "Ancol", src: getLogo("ancol.png") },
+  { name: "ASDP", src: getLogo("asdp.png") },
+  { name: "Telkomsel", src: getLogo("telkomsel.png") },
+  { name: "Patra Jasa", src: getLogo("patra-jasa.png") },
+  { name: "Cargill", src: getLogo("cargill.png") },
 ];
 
 const clientsRow2 = [
@@ -40,6 +47,14 @@ const clientsRow2 = [
   { name: "Kemenkes", src: getLogo("kemenkes.png") },
   { name: "IM3", src: getLogo("im3.png") },
   { name: "Hello Sehat", src: getLogo("hello-sehat.png") },
+  { name: "BNN", src: getLogo("bnn.png") },
+  { name: "Shell", src: getLogo("shell.png") },
+  { name: "Indonesia Eximbank", src: getLogo("indonesia-eximbank.png") },
+  { name: "Kementrian Kehutanan", src: getLogo("kemenhut.png") },
+  {
+    name: "European Climate Foundation",
+    src: getLogo("european-climate-foundation.png"),
+  },
 ];
 
 // Duplikasi untuk efek seamless infinite scroll
@@ -91,6 +106,8 @@ const row2 = [...clientsRow2, ...clientsRow2];
                 src={client.src}
                 alt={client.name}
                 class="max-h-16 md:max-h-16 w-auto object-contain invert brightness-0 hover:invert-0 hover:brightness-100"
+                width={300}
+                height={300}
                 loading="lazy"
               />
             </div>
@@ -110,6 +127,8 @@ const row2 = [...clientsRow2, ...clientsRow2];
                 src={client.src}
                 alt={client.name}
                 class="max-h-16 md:max-h-16 w-auto object-contain invert brightness-0 hover:invert-0 hover:brightness-100"
+                width={300}
+                height={300}
                 loading="lazy"
               />
             </div>
