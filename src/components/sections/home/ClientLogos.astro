@@ -2,6 +2,22 @@
 import { Image } from "astro:assets";
 import type { ImageMetadata } from "astro";
 
+// Type definition for client logo
+type ClientSize = "default" | "large";
+
+type Client = {
+  name: string;
+  src: ImageMetadata;
+  size: ClientSize;
+};
+
+// Helper function to get logo dimensions based on size
+const getLogoDimensions = (size: ClientSize) => {
+  return size === "large"
+    ? { width: 1200, height: 1200 }
+    : { width: 300, height: 300 };
+};
+
 // Import all logo images from assets folder using absolute path
 const logoModules = import.meta.glob<{ default: ImageMetadata }>(
   "/src/assets/logos/*.png",
@@ -12,54 +28,67 @@ const logoModules = import.meta.glob<{ default: ImageMetadata }>(
 );
 
 // Helper function to get logo image by filename
-const getLogo = (filename: string) => {
+const getLogo = (filename: string): ImageMetadata => {
   const key = `/src/assets/logos/${filename}`;
-  return logoModules[key];
+  const logo = logoModules[key];
+  if (!logo) {
+    throw new Error(`Logo not found: ${filename}`);
+  }
+  return logo;
 };
 
-const clientsRow1 = [
-  { name: "Pertamina", src: getLogo("pertamina.png") },
-  { name: "Samsung", src: getLogo("samsung.png") },
-  { name: "Grab", src: getLogo("grab.png") },
-  { name: "Prudential", src: getLogo("prudential.png") },
-  { name: "Pegadaian", src: getLogo("pegadaian.png") },
-  { name: "BCA", src: getLogo("bca.png") },
-  { name: "BRI", src: getLogo("bri.png") },
-  { name: "Viu", src: getLogo("viu.png") },
-  { name: "OCBC", src: getLogo("ocbc.png") },
-  { name: "Narasi", src: getLogo("narasi.png") },
-  { name: "Ancol", src: getLogo("ancol.png") },
-  { name: "ASDP", src: getLogo("asdp.png") },
-  { name: "Telkomsel", src: getLogo("telkomsel.png") },
-  { name: "Patra Jasa", src: getLogo("patra-jasa.png") },
-  { name: "Cargill", src: getLogo("cargill.png") },
+const clientsRow1: Client[] = [
+  { name: "Pertamina", src: getLogo("pertamina.png"), size: "large" },
+  { name: "Samsung", src: getLogo("samsung.png"), size: "default" },
+  { name: "Grab", src: getLogo("grab.png"), size: "default" },
+  { name: "Prudential", src: getLogo("prudential.png"), size: "default" },
+  { name: "Pegadaian", src: getLogo("pegadaian.png"), size: "default" },
+  { name: "BCA", src: getLogo("bca.png"), size: "default" },
+  { name: "BRI", src: getLogo("bri.png"), size: "default" },
+  { name: "Viu", src: getLogo("viu.png"), size: "default" },
+  { name: "OCBC", src: getLogo("ocbc.png"), size: "large" },
+  { name: "Narasi", src: getLogo("narasi.png"), size: "large" },
+  { name: "Ancol", src: getLogo("ancol.png"), size: "default" },
+  { name: "ASDP", src: getLogo("asdp.png"), size: "default" },
+  { name: "Telkomsel", src: getLogo("telkomsel.png"), size: "large" },
+  { name: "Patra Jasa", src: getLogo("patra-jasa.png"), size: "large" },
+  { name: "Cargill", src: getLogo("cargill.png"), size: "default" },
 ];
 
-const clientsRow2 = [
-  { name: "Jasa Marga", src: getLogo("jasa-marga.png") },
-  { name: "KOMDIGI", src: getLogo("komdigi.png") },
-  { name: "Telkom Indonesia", src: getLogo("telkom.png") },
-  { name: "BNI", src: getLogo("bni.png") },
-  { name: "Unilever", src: getLogo("unilever.png") },
-  { name: "Vivo", src: getLogo("vivo.png") },
-  { name: "Suzuki", src: getLogo("suzuki.png") },
-  { name: "Shopee", src: getLogo("shopee.png") },
-  { name: "Kemenkes", src: getLogo("kemenkes.png") },
-  { name: "IM3", src: getLogo("im3.png") },
-  { name: "Hello Sehat", src: getLogo("hello-sehat.png") },
-  { name: "BNN", src: getLogo("bnn.png") },
-  { name: "Shell", src: getLogo("shell.png") },
-  { name: "Indonesia Eximbank", src: getLogo("indonesia-eximbank.png") },
-  { name: "Kementrian Kehutanan", src: getLogo("kemenhut.png") },
+const clientsRow2: Client[] = [
+  { name: "Jasa Marga", src: getLogo("jasa-marga.png"), size: "default" },
+  { name: "KOMDIGI", src: getLogo("komdigi.png"), size: "default" },
+  { name: "Telkom Indonesia", src: getLogo("telkom.png"), size: "default" },
+  { name: "BNI", src: getLogo("bni.png"), size: "default" },
+  { name: "Unilever", src: getLogo("unilever.png"), size: "default" },
+  { name: "Vivo", src: getLogo("vivo.png"), size: "default" },
+  { name: "Suzuki", src: getLogo("suzuki.png"), size: "default" },
+  { name: "Shopee", src: getLogo("shopee.png"), size: "default" },
+  { name: "Kemenkes", src: getLogo("kemenkes.png"), size: "large" },
+  { name: "IM3", src: getLogo("im3.png"), size: "default" },
+  { name: "Hello Sehat", src: getLogo("hello-sehat.png"), size: "large" },
+  { name: "BNN", src: getLogo("bnn.png"), size: "default" },
+  { name: "Shell", src: getLogo("shell.png"), size: "default" },
+  {
+    name: "Indonesia Eximbank",
+    src: getLogo("indonesia-eximbank.png"),
+    size: "large",
+  },
+  {
+    name: "Kementrian Kehutanan",
+    src: getLogo("kemenhut.png"),
+    size: "default",
+  },
   {
     name: "European Climate Foundation",
     src: getLogo("european-climate-foundation.png"),
+    size: "large",
   },
 ];
 
 // Duplikasi untuk efek seamless infinite scroll
-const row1 = [...clientsRow1, ...clientsRow1];
-const row2 = [...clientsRow2, ...clientsRow2];
+const row1: Client[] = [...clientsRow1, ...clientsRow1];
+const row2: Client[] = [...clientsRow2, ...clientsRow2];
 ---
 
 <section class="py-24 bg-slate-950 overflow-hidden relative">
@@ -100,18 +129,21 @@ const row2 = [...clientsRow2, ...clientsRow2];
         class="flex animate-marquee-left whitespace-nowrap gap-12 md:gap-20 items-center py-4"
       >
         {
-          row1.map((client) => (
-            <div class="w-32 md:w-48 flex-shrink-0 flex items-center justify-center grayscale opacity-30 hover:grayscale-0 hover:opacity-100 hover:scale-110 transition-all duration-500 ease-out cursor-pointer">
-              <Image
-                src={client.src}
-                alt={client.name}
-                class="max-h-16 md:max-h-16 w-auto object-contain invert brightness-0 hover:invert-0 hover:brightness-100"
-                width={300}
-                height={300}
-                loading="lazy"
-              />
-            </div>
-          ))
+          row1.map((client) => {
+            const { width, height } = getLogoDimensions(client.size);
+            return (
+              <div class="w-32 md:w-48 flex-shrink-0 flex items-center justify-center grayscale opacity-30 hover:grayscale-0 hover:opacity-100 hover:scale-110 transition-all duration-500 ease-out cursor-pointer">
+                <Image
+                  src={client.src}
+                  alt={client.name}
+                  class="max-h-16 md:max-h-16 w-auto object-contain invert brightness-0 hover:invert-0 hover:brightness-100"
+                  width={width}
+                  height={height}
+                  loading="lazy"
+                />
+              </div>
+            );
+          })
         }
       </div>
     </div>
@@ -121,18 +153,21 @@ const row2 = [...clientsRow2, ...clientsRow2];
         class="flex animate-marquee-right whitespace-nowrap gap-12 md:gap-20 items-center py-4"
       >
         {
-          row2.map((client) => (
-            <div class="w-32 md:w-48 flex-shrink-0 flex items-center justify-center grayscale opacity-30 hover:grayscale-0 hover:opacity-100 hover:scale-110 transition-all duration-500 ease-out cursor-pointer">
-              <Image
-                src={client.src}
-                alt={client.name}
-                class="max-h-16 md:max-h-16 w-auto object-contain invert brightness-0 hover:invert-0 hover:brightness-100"
-                width={300}
-                height={300}
-                loading="lazy"
-              />
-            </div>
-          ))
+          row2.map((client) => {
+            const { width, height } = getLogoDimensions(client.size);
+            return (
+              <div class="w-32 md:w-48 flex-shrink-0 flex items-center justify-center grayscale opacity-30 hover:grayscale-0 hover:opacity-100 hover:scale-110 transition-all duration-500 ease-out cursor-pointer">
+                <Image
+                  src={client.src}
+                  alt={client.name}
+                  class="max-h-16 md:max-h-16 w-auto object-contain invert brightness-0 hover:invert-0 hover:brightness-100"
+                  width={width}
+                  height={height}
+                  loading="lazy"
+                />
+              </div>
+            );
+          })
         }
       </div>
     </div>
